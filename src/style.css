@@ -601,6 +601,8 @@ video {
 
 .container {
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 @media (min-width: 540px) {
@@ -615,15 +617,9 @@ video {
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1124px) {
   .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1200px;
+    max-width: 1124px;
   }
 }
 
@@ -32235,6 +32231,8 @@ video {
 @media (min-width: 576px) {
   .sm\:container {
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   @media (min-width: 540px) {
@@ -32249,15 +32247,9 @@ video {
     }
   }
 
-  @media (min-width: 960px) {
+  @media (min-width: 1124px) {
     .sm\:container {
-      max-width: 960px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .sm\:container {
-      max-width: 1200px;
+      max-width: 1124px;
     }
   }
 
@@ -63443,6 +63435,8 @@ video {
 @media (min-width: 768px) {
   .md\:container {
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   @media (min-width: 540px) {
@@ -63457,15 +63451,9 @@ video {
     }
   }
 
-  @media (min-width: 960px) {
+  @media (min-width: 1124px) {
     .md\:container {
-      max-width: 960px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .md\:container {
-      max-width: 1200px;
+      max-width: 1124px;
     }
   }
 
@@ -94651,6 +94639,8 @@ video {
 @media (min-width: 992px) {
   .lg\:container {
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   @media (min-width: 540px) {
@@ -94665,15 +94655,9 @@ video {
     }
   }
 
-  @media (min-width: 960px) {
+  @media (min-width: 1124px) {
     .lg\:container {
-      max-width: 960px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .lg\:container {
-      max-width: 1200px;
+      max-width: 1124px;
     }
   }
 
@@ -125859,6 +125843,8 @@ video {
 @media (min-width: 1200px) {
   .xl\:container {
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   @media (min-width: 540px) {
@@ -125873,15 +125859,9 @@ video {
     }
   }
 
-  @media (min-width: 960px) {
+  @media (min-width: 1124px) {
     .xl\:container {
-      max-width: 960px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .xl\:container {
-      max-width: 1200px;
+      max-width: 1124px;
     }
   }
 

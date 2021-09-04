@@ -14,12 +14,13 @@ module.exports = {
       xl: "1200px",
     },
     container: {
+      center: true,
       screens: {
         sm: "540px",
         md: "720px",
-        lg: "960px",
-        xl: "1200px",
-        "2xl": "1200px",
+        lg: "1124px",
+        xl: "1124px",
+        "2xl": "1124px",
       },
     },
     extend: {},
