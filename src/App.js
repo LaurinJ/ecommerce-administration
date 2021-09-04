@@ -1,40 +1,122 @@
-import logo from "./logo.svg";
 import Header from "./components/Header";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Sitebar from "./components/Sitebar";
+// import moduleName from 'react'
 
 function App() {
   return (
-    <div className="">
-      {/* <Header /> */}
+    <div className="flex">
+      <Header />
       {/* <Navbar /> */}
       <Sitebar />
-      <div className="fixed top-0 w-full pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-200">
-        <ul className="flex space-x-4 items-center text-gray-800 text-sm font-light cursor-pointer">
-          <li>Web site</li>
-          <li className="relative">
-            <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
-            <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-4 h-4 rounded-full">
-              <spam className="text-white font-normal">3</spam>
+
+      <div className="mt-14 pt-5 px-5 w-full h-screen bg-gray-300 text-gray-700">
+        <h1 className="text-2xl">Add New Product</h1>
+        <div className="mt-5">
+          <form className="flex justify-between">
+            <div className="w-3/5">
+              <div class="">
+                {/* <label for="inputEmail4" className="mr-2">
+                Email
+              </label>
+              <hr />
+              <br /> */}
+                <input
+                  type="text"
+                  className="w-full p-3 bg-gray-100"
+                  placeholder="Nadpis produktu"
+                />
+              </div>
+
+              <div class="mt-4">
+                {/* <label for="inputAddress">Address</label> */}
+                <input
+                  type="text"
+                  className="w-full p-3 bg-gray-100"
+                  id="inputAddress"
+                  placeholder="URL adresa"
+                />
+              </div>
+              <div class="mt-4">
+                <label for="inputAddress2" className="mr-3">
+                  Cena:
+                </label>
+                <input
+                  type="number"
+                  class="w-20 mr-1 p-3 bg-gray-100"
+                  id="inputAddress2"
+                  placeholder="Cena"
+                />
+                Kč
+                <label for="inputAddress2" className="mx-3">
+                  Před:
+                </label>
+                <input
+                  type="number"
+                  class="w-20 p-3 mr-1 bg-gray-100"
+                  id="inputAddress2"
+                  placeholder="Cena"
+                />
+                Kč
+              </div>
+              {/* popis */}
+              <div class="mt-4">
+                {/* <label for="inputCity">City</label> */}
+                <textarea
+                  rows="2"
+                  cols="50"
+                  name="sm-popis"
+                  class="w-full p-3 bg-gray-100"
+                  placeholder="Krátký popis..."
+                />
+              </div>
             </div>
-          </li>
-          <li className="flex items-center relative">
-            <img src="profile.jpg" alt="Profile photo" className="w-8 h-8 mr-1 rounded-full" />
-            Josef Laurin
-            <i className="fa fa-sort-desc ml-1 pb-1" aria-hidden="true"></i>
-            <div className="absolute top-9 -right-4 w-28">
-              <ul className="bg-white border border-gray-300">
-                <li className="pl-3 py-1 hover:text-gray-500">Profile</li>
-                <li className="pl-3 py-1 hover:text-gray-500">Settings</li>
-                <li className="pl-3 py-1 hover:text-gray-500">
-                  Log Out <i className="fa fa-sign-out ml-3" aria-hidden="true"></i>
-                </li>
-              </ul>
+
+            <div className="w-96 h-80 bg-white">
+              <div class="mt-4 ml-4">
+                <label for="inputState">Kategorie:</label>
+                <select id="inputState" class="ml-2 w-56 p-3 bg-gray-100">
+                  <option selected>Akční</option>
+                  <option>Dobrodružné</option>
+                  <option>RPG</option>
+                  <option>Strategie</option>
+                </select>
+                <div class="mt-4 ">
+                  <label class="mr-3" for="gridCheck">
+                    Zobrazit:
+                  </label>
+                  <input class="w-5 h-5 bg-green-400 text-black" type="checkbox" id="gridCheck" />
+                </div>
+              </div>
             </div>
-          </li>
-        </ul>
+
+            {/* <div>
+              <div class="mt-20">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck" />
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Sign in
+            </button> */}
+          </form>
+        </div>
       </div>
-      <div className="ml-56 mt-10 w-full h-screen bg-red-800">Content</div>
     </div>
   );
 }
