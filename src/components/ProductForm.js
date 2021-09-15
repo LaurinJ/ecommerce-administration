@@ -33,7 +33,7 @@ function ProductForm() {
   });
   // const [product, setProduct] = useState(productFromLs());
 
-  const { error, success, title } = values;
+  const { error, success, title, description } = values;
 
   useEffect(() => {
     // setValues({ ...values });
@@ -50,7 +50,6 @@ function ProductForm() {
   };
 
   const handleBody = (e) => {
-    console.log(e);
     setValues({ ...values, description: e });
     if (typeof window !== "undefined") {
       localStorage.setItem("blog", JSON.stringify(e));
@@ -69,6 +68,7 @@ function ProductForm() {
             type="text"
             className="w-full p-3 bg-gray-100"
             placeholder="Nadpis produktu"
+            required
             value={title}
             onChange={handleChange("title")}
           />
@@ -79,6 +79,7 @@ function ProductForm() {
             type="text"
             className="w-full p-3 bg-gray-100"
             placeholder="URL adresa"
+            required
             value={slugify(title)}
             onChange={handleChange("slug")}
           />
@@ -92,6 +93,7 @@ function ProductForm() {
             className="w-20 mr-1 p-3 bg-gray-100"
             id="price"
             placeholder="Cena"
+            required
             onChange={handleChange("price")}
           />
           Kč
@@ -115,6 +117,7 @@ function ProductForm() {
             name="sm-popis"
             className="w-full p-3 bg-gray-100"
             placeholder="Krátký popis..."
+            required
             onChange={handleChange("short_description")}
           />
         </div>
@@ -122,7 +125,7 @@ function ProductForm() {
           modules={QuillModules}
           formats={QuillFormats}
           theme="snow"
-          value=""
+          value={description}
           placeholder="Dlouhý popis produktu..."
           className="mt-4 bg-gray-100"
           onChange={handleBody}
@@ -152,6 +155,7 @@ function ProductForm() {
               className="w-32 p-3 bg-gray-100"
               id="code"
               placeholder="Kod"
+              required
               onChange={handleChange("code")}
             />
           </div>

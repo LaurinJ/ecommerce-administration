@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Sitebar() {
+  const [menu, setMenu] = useState(false);
+
   return (
     <div className="w-56 p-0 relative z-50 text-gray-200 bg-gray-700">
       {/* title */}
@@ -24,18 +26,38 @@ function Sitebar() {
         <ul className="block text-sm font-light cursor-pointer">
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
-              <i className="fa fa-home fa-lg w-8" aria-hidden="true"></i>Home
+              <i className="fa fa-table fa-lg w-8" aria-hidden="true"></i>Home
             </a>
           </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
+          <li className="mb-2 px-4 py-3">
             <a href="/#">
-              <i className="fa fa-table fa-lg w-8" aria-hidden="true"></i>Form
+              <i className="fa fa-home fa-lg w-8" aria-hidden="true"></i>Form
             </a>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
-            <Link to="/addproduct">
-              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>Product
-            </Link>
+            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+            <spam>Product</spam>
+            <button
+              className="ml-3"
+              onClick={() => {
+                setMenu(!menu);
+              }}
+            >
+              otevri
+            </button>
+            <ul className={`ml-3 ${menu ? "" : "hidden"}`}>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
+                <Link to="/addproduct" className="block">
+                  New
+                </Link>
+              </li>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
+                <Link to="/allproducts" className="block">
+                  List
+                </Link>
+              </li>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">Delete</li>
+            </ul>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
