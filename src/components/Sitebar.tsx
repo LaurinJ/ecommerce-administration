@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
+  const [openPay, setOpenPay] = useState(false)
 
   return (
     <div className="w-56 p-0 relative z-50 text-gray-200 bg-gray-700">
@@ -17,7 +18,7 @@ function Sitebar() {
           <img src="profile.jpg" alt="..." className="w-12 h-12 rounded-full" />
         </div>
         <div className="mx-3 font-normal">
-          <spam className="text-gray-400">Welcome,</spam>
+          <span className="text-gray-400">Welcome,</span>
           <h2>Josef Laurin</h2>
         </div>
       </div>
@@ -36,7 +37,7 @@ function Sitebar() {
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
-            <spam>Product</spam>
+            <span>Product</span>
             <button
               className="ml-3"
               onClick={() => {
@@ -59,10 +60,30 @@ function Sitebar() {
               <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">Delete</li>
             </ul>
           </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-bar-chart fa-lg w-8" aria-hidden="true"></i>Data
-            </a>
+           <li className="mb-2 px-4 py-3 hover:text-white">
+            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+            <span>Způsob platbý</span>
+            <button
+              className="ml-3"
+              onClick={() => {
+                setOpenPay(!openPay);
+              }}
+            >
+              otevri
+            </button>
+            <ul className={`ml-3 ${openPay ? "" : "hidden"}`}>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
+                <Link to="/addpayment" className="block">
+                  New
+                </Link>
+              </li>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
+                <Link to="/allproducts" className="block">
+                  List
+                </Link>
+              </li>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">Delete</li>
+            </ul>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">

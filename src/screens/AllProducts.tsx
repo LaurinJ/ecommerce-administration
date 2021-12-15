@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import ProductsTable from "../components/ProductsTable";
+import {ProductsTable} from "../components/ProductsTable";
 
 const ALL_PRODUCTS = gql`
   query Query {
@@ -23,7 +23,7 @@ function AllProducts() {
     <React.Fragment>
       <h1 className="text-2xl">All Products</h1>
       <div className="mt-5">
-        <ProductsTable products={data} />
+        <ProductsTable products={data.getProducts} />
       </div>
     </React.Fragment>
   );

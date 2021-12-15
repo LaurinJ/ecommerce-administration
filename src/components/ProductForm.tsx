@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill from 'react-quill';
+// import { Delta as TypeDelta } from "quill";
+// import Delta from "quill-delta";
 import "react-quill/dist/quill.snow.css";
 import { QuillModules, QuillFormats } from "../helpers/quill";
 import slugify from "slugify";
@@ -11,7 +13,7 @@ function ProductForm() {
     }
 
     if (localStorage.getItem("product")) {
-      return JSON.parse(localStorage.getItem("product"));
+      return JSON.parse(localStorage.getItem("product") || '');
     } else {
       return false;
     }
@@ -29,7 +31,7 @@ function ProductForm() {
     category: "",
     code: 0,
     hidden: "",
-    images: "",
+    images: {},
   });
   // const [product, setProduct] = useState(productFromLs());
 
@@ -39,30 +41,36 @@ function ProductForm() {
     // setValues({ ...values });
   }, []);
 
-  const publishProduct = (e) => {
-    e.preventDefault();
+  const publishProduct = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     console.log(values);
   };
 
-  const handleChange = (name) => (e) => {
-    const value = name === "images" ? e.target.files[0] : e.target.value;
-    setValues({ ...values, [name]: value, error: "" });
+  const handleChange = (name: String) => (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>): void => {
+    const value = event.target.value;
+    setValues({ ...values, [String(name)]: value, error: "" });
   };
 
-  const handleBody = (e) => {
-    setValues({ ...values, description: e });
+  const handleChangeImage = (event: React.ChangeEvent<HTMLInputElement>): void => {    
+    const value = event.target.files;
+    
+    setValues({ ...values, images: {...value}, error: "" });
+  };
+
+  const handleBody = ( event: String): void => {
+    setValues({ ...values, description: event });
     if (typeof window !== "undefined") {
-      localStorage.setItem("blog", JSON.stringify(e));
+      localStorage.setItem("blog", JSON.stringify(event));
     }
   };
 
   return (
+    <>
     <form
-      className="flex justify-between flex-wrap"
+      className="flex flex-wrap md:flex-nowrap lg:space-x-10 "
       encType="multipart/form-data"
-      onSubmit={publishProduct}
     >
-      <div className="w-3/5">
+      <div className="w-full lg:w-3/5">
         <div className="">
           <input
             type="text"
@@ -102,7 +110,7 @@ function ProductForm() {
           </label>
           <input
             type="number"
-            className="w-20 p-3 mr-1 bg-gray-100"
+            className="w-20 p-3 mr-1 bg-gray-100 inline-block"
             id="old_price"
             placeholder="Cena"
             onChange={handleChange("old_price")}
@@ -111,9 +119,9 @@ function ProductForm() {
         </div>
         {/* popis */}
         <div className="mt-4">
-          <textarea
-            rows="2"
-            cols="50"
+          <input
+            // rows={2}
+            // cols={50}
             name="sm-popis"
             className="w-full p-3 bg-gray-100"
             placeholder="Krátký popis..."
@@ -178,18 +186,18 @@ function ProductForm() {
             <br />
             <label className="inline-block mt-2 py-1 px-2 bg-green-500 rounded-md">
               Nahrát obrázky
-              <input type="file" multiple accept="image/" hidden />
+              <input type="file" multiple accept="image/" hidden  onChange={handleChangeImage}/>
             </label>
           </div>
         </div>
       </div>
-
-      <div className="flex mt-7 mx-auto">
-        <button type="submit" className="py-1 px-2 bg-green-500 rounded-md">
-          Přidat produkt
-        </button>
-      </div>
     </form>
+    <div className="flex mt-7 mx-auto justify-center">
+      <button onClick={publishProduct} className="py-1 px-2 bg-green-500 rounded-md">
+        Přidat produkt
+      </button>
+    </div>
+  </>
   );
 }
 

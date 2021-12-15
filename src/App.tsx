@@ -3,20 +3,20 @@ import Header from "./components/Header";
 import Sitebar from "./components/Sitebar";
 import AddProduct from "./screens/AddProduct";
 import AllProducts from "./screens/AllProducts";
+import AddPayment from "./screens/AddPayment";
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex flex-wrap md:flex-nowrap">
       <Router>
         <header>
           <Header />
           <Sitebar />
         </header>
-        <main>
-          <div className="mt-14 pt-5 px-5 w-full h-screen bg-gray-300 text-gray-700">
+        <main className="mt-14 pt-5 px-5 w-full h-screen bg-white text-gray-700">          
             <Route path="/addproduct" component={AddProduct} />
             <Route path="/allproducts" component={AllProducts} />
-          </div>
+            <Route path="/addpayment" component={AddPayment} />          
         </main>
 
         {/* footer */}
