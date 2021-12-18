@@ -1,19 +1,11 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { PaymentsTable } from "../components/PaymentsTable";
 import { Link } from "react-router-dom";
-
-const GET_PAYMENTS = gql`
-  query Query {
-    getPaymentMethod {
-      name
-      hidden
-    }
-  }
-`;
+import { GET_PAYMENT_METHODS } from "../queries/Query";
 
 function AllPayment() {
-  const { loading, error, data } = useQuery(GET_PAYMENTS);
+  const { loading, error, data } = useQuery(GET_PAYMENT_METHODS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

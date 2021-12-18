@@ -1,20 +1,10 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
-import {ProductsTable} from "../components/ProductsTable";
-
-const ALL_PRODUCTS = gql`
-  query Query {
-    getProducts(limit: 10) {
-      _id
-      title
-      price
-      countInStock
-    }
-  }
-`;
+import { useQuery } from "@apollo/client";
+import { ProductsTable } from "../components/ProductsTable";
+import { GET_PRODUCTS } from "../queries/Query";
 
 function AllProducts() {
-  const { loading, error, data } = useQuery(ALL_PRODUCTS);
+  const { loading, error, data } = useQuery(GET_PRODUCTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

@@ -21,7 +21,7 @@ function App() {
           <Route path="/products" component={AllProducts} />
           <Route path="/payments" component={AllPayment} />
           <Route path="/add-payment" component={AddPayment} />
-          <Route path="/deliver_method" component={AllDeliverMethod} />
+          <Route path="/deliver-method" component={AllDeliverMethod} />
           <Route path="/add-deliver" component={AddDeliverMethod} />
         </main>
 

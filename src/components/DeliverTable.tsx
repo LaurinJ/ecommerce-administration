@@ -1,24 +1,26 @@
 import React from "react";
 
 interface Props {
-  payments: any;
+  delivers: any;
 }
 
-export const PaymentsTable: React.FC<Props> = ({ payments }) => {
+export const DeliverTable: React.FC<Props> = ({ delivers }) => {
   return (
     <table className="w-full table-fixed border-collapse border-gray-400 border-2">
       <thead>
         <tr className="border-b-2 border-gray-400">
-          <th className="w-2/5 py-2">Způsob platby</th>
+          <th className="w-2/5 py-2">Způsob dopravy</th>
+          <th className="w-1/5 py-2">Cena</th>
           <th className="w-1/5 py-2">Status</th>
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment: any, i: KeyType) => (
+        {delivers.map((deliver: any, i: KeyType) => (
           <tr className="border-b border-gray-400" key={i}>
-            <td className=" py-2 text-center">{payment.name}</td>
+            <td className=" py-2 text-center">{deliver.name}</td>
+            <td className=" py-2 text-center">{deliver.price}</td>
             <td className=" py-2 ">
-              {payment.hidden ? (
+              {deliver.hidden ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 mx-auto text-green-700"

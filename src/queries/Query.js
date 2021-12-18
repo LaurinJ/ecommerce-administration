@@ -17,3 +17,32 @@ export const PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const GET_PRODUCTS = gql`
+  query GetProducts($limit: Int) {
+    getProducts(limit: $limit) {
+      title
+      price
+      countInStock
+    }
+  }
+`;
+
+export const GET_PAYMENT_METHODS = gql`
+  query Query {
+    getPaymentMethod {
+      name
+      hidden
+    }
+  }
+`;
+
+export const GET_DELIVERY_METHODS = gql`
+  query GetDeliverMethod {
+    getDeliverMethod {
+      name
+      price
+      hidden
+    }
+  }
+`;

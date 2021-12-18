@@ -7,3 +7,12 @@ export const CREATE_PAYMENT_METHOD = gql`
     }
   }
 `;
+
+export const CREATE_DELIVER_METHOD = gql`
+  mutation CreateDeliverMethod($deliver: DeliverData!, $image: Upload) {
+    createDeliverMethod(deliver: $deliver, image: $image) {
+      name
+      price
+    }
+  }
+`;

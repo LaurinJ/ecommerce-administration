@@ -1,12 +1,12 @@
 import React from "react";
-import PaymentForm from "../components/PaymentForm";
+import DeliverForm from "../components/DeliverForm";
 
 function AddDeliverMethod() {
   return (
     <React.Fragment>
       <h1 className="text-2xl">Nový způsob dopravy</h1>
       <div className="mt-5">
-        <PaymentForm />
+        <DeliverForm />
       </div>
     </React.Fragment>
   );
