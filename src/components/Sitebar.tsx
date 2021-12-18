@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
-  const [openPay, setOpenPay] = useState(false)
+  const [openPay, setOpenPay] = useState(false);
 
   return (
     <div className="w-56 p-0 relative z-50 text-gray-200 bg-gray-700">
@@ -48,61 +48,48 @@ function Sitebar() {
             </button>
             <ul className={`ml-3 ${menu ? "" : "hidden"}`}>
               <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/addproduct" className="block">
+                <Link to="/add-product" className="block">
                   New
                 </Link>
               </li>
               <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/allproducts" className="block">
+                <Link to="/products" className="block">
                   List
                 </Link>
               </li>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">Delete</li>
+              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
+                Delete
+              </li>
             </ul>
           </li>
-           <li className="mb-2 px-4 py-3 hover:text-white">
+          <li className="mb-2 px-4 py-3 hover:text-white">
             <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
-            <span>Způsob platbý</span>
-            <button
-              className="ml-3"
-              onClick={() => {
-                setOpenPay(!openPay);
-              }}
-            >
-              otevri
-            </button>
-            <ul className={`ml-3 ${openPay ? "" : "hidden"}`}>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/addpayment" className="block">
-                  New
-                </Link>
-              </li>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/allproducts" className="block">
-                  List
-                </Link>
-              </li>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">Delete</li>
-            </ul>
+            <Link to="/payments">
+              <span>Způsob platby</span>
+            </Link>
+          </li>
+          <li className="mb-2 px-4 py-3 hover:text-white">
+            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+            <Link to="/deliver-method">
+              <span>Způsob dopravy</span>
+            </Link>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
-              <i className="fa fa-wrench fa-lg w-8" aria-hidden="true"></i>Global settings
+              <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>
+              Email
             </a>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
-              <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>Email
+              <i className="fa fa-info fa-lg w-8" aria-hidden="true"></i>Django
+              info
             </a>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
-              <i className="fa fa-info fa-lg w-8" aria-hidden="true"></i>Django info
-            </a>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-android fa-lg w-8" aria-hidden="true"></i>Golden Farm
+              <i className="fa fa-android fa-lg w-8" aria-hidden="true"></i>
+              Golden Farm
             </a>
           </li>
         </ul>

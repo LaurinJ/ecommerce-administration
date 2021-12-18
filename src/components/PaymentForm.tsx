@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { ApolloError, useMutation } from "@apollo/client";
 import InputFieldAdm from "../components/form/InputFieldAdm";
 import FileInputField from "../components/form/FileInputField";
+import InputCheckBox from "../components/form/InputCheckBox";
+import { CREATE_PAYMENT_METHOD } from "../queries/Mutation";
 
 function PaymentForm() {
   interface Errors {
@@ -8,62 +11,64 @@ function PaymentForm() {
     image?: String;
   }
 
-  const [formValues, setFormValues] = useState({
+  interface State {
+    name?: String;
+    image?: Object;
+    hidden?: Boolean;
+  }
+
+  const [formValues, setFormValues] = useState<State>({
     name: "",
-    image: {},
+    hidden: false,
   });
   const [err, setErr] = useState<Errors>({});
-  //   const [address, { data, loading, error }] = useMutation(
-  //     PERSON_ADDRESS_MUTATION
-  //   );
+  const [createPayment, { data }] = useMutation(CREATE_PAYMENT_METHOD);
 
-  useEffect(() => {
-    // setValues({ ...values });
-  }, []);
+  useEffect(() => {}, [data]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    setFormValues({ ...formValues, [String(name)]: value });
+    if (name === "hidden") {
+      setFormValues({ ...formValues, [String(name)]: !formValues.hidden });
+    } else {
+      setFormValues({ ...formValues, [String(name)]: value });
+    }
   };
 
   const handleChangeImage = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    const value = event.target.files;
+    const value = event.target.files && event.target.files[0];
+    console.log(value);
 
-    setFormValues({ ...formValues, image: { ...value } });
+    if (!value) {
+      return;
+    }
+    setFormValues({ ...formValues, image: value });
   };
 
-  const handleSubmit = async (eevent: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
       console.log(formValues);
       const errors = validate(formValues);
       console.log(errors);
       setErr(errors);
       if (Object.keys(errors).length === 0) {
-        // setLocalStorage("address", formValues);
-        console.log(formValues);
-
-        // await address({
-        //   variables: {
-        //     person: {
-        //       email: formValues.email,
-        //       first_name: formValues.first_name,
-        //       last_name: formValues.last_name,
-        //       phone: Number(formValues.phone),
-        //     },
-        //     address: {
-        //       village: formValues.village,
-        //       street: formValues.street,
-        //       postCode: Number(formValues.postCode),
-        //       numberDescriptive: Number(formValues.numberDescriptive),
-        //     },
-        //   },
-        // });
+        await createPayment({
+          variables: {
+            payment: {
+              name: formValues.name,
+              hidden: formValues.hidden,
+            },
+            image: formValues.image,
+          },
+        });
       }
     } catch (error) {
       console.log(error);
-      // setErr(error.graphQLErrors[0].extensions.errors);
+      if (error instanceof ApolloError) {
+        setErr(error.graphQLErrors[0].extensions.errors);
+      }
     }
   };
 
@@ -81,6 +86,7 @@ function PaymentForm() {
         className="flex flex-wrap md:flex-nowrap lg:space-x-10 "
         encType="multipart/form-data"
       >
+        {/* <span>{error && error.graphQLErrors[0].extensions.errors}</span> */}
         <div className="w-full">
           <InputFieldAdm
             required={true}
@@ -88,8 +94,15 @@ function PaymentForm() {
             name="name"
             label="Jméno platby"
             prompt="Zadejte Jméno"
-            error={err.name}
+            error={err?.name}
             value={formValues.name}
+            handleChange={handleChange}
+          />
+
+          <InputCheckBox
+            name="hidden"
+            label="Zobrazení platby"
+            checked={false}
             handleChange={handleChange}
           />
         </div>

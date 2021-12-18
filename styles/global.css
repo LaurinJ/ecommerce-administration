@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* btn */
+.base_btn_form {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  border-radius: 0.125rem;
+  border: 0.0625rem solid;
+  border-color: #0050aa;
+  display: inline-flex;
+  padding: 0.875rem 1rem 0.8125rem;
+  background: none;
+  color: #0050aa;
+  cursor: pointer;
+}
+
+.base_btn_form:hover,
+.base_btn_form_primary:hover {
+  background: #0050aa;
+  color: #fff;
+  transition: 200ms;
+  border-color: transparent;
+  background-clip: padding-box;
+  box-shadow: inset 3000px 0 rgb(0 0 0 / 32%);
+}
+
+.base_btn_form_primary {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  border-radius: 0.125rem;
+  border: none;
+  display: inline-flex;
+  padding: 0.875rem 1rem 0.8125rem;
+  background: #0050aa;
+  color: #fff;
+  cursor: pointer;
+}
+
 .form_input {
   width: 100%;
   margin-bottom: 16px;
@@ -26,4 +66,58 @@
   background: #fff;
   border-color: #4e5761;
   outline-color: #0050aa;
+}
+
+/* check input */
+#checkbox:checked ~ .check-1 {
+  @apply text-opacity-100;
+}
+
+/* radio input */
+.radio {
+  width: 100%;
+  font-size: 16px;
+  /* display: inline-block; */
+  vertical-align: middle;
+  position: relative;
+  @apply text-gray-600;
+}
+
+.radio input[type="radio"] {
+  display: none;
+}
+
+.radio span {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 3px solid #0050aa;
+  display: block;
+  position: absolute;
+  left: 7px;
+  top: 11px;
+}
+
+.radio span:after {
+  content: "";
+  height: 12px;
+  width: 12px;
+  background: #0050aa;
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  transition: 300ms ease-in-out 0s;
+}
+
+.radio input[type="radio"]:checked ~ span:after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@media (min-width: 640px) {
+  .radio {
+    width: 49%;
+  }
 }
