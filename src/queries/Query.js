@@ -38,11 +38,22 @@ export const GET_PAYMENT_METHODS = gql`
 `;
 
 export const GET_DELIVERY_METHODS = gql`
-  query GetDeliverMethod {
-    getDeliverMethod {
+  query GetDeliveryMethod {
+    getDeliveryMethod {
       name
       price
       hidden
+    }
+  }
+`;
+
+export const GET_MESSAGES = gql`
+  query GetMessages($getMessagesId: String) {
+    getMessages(id: $getMessagesId) {
+      from
+      to
+      content
+      createdAt
     }
   }
 `;

@@ -21,7 +21,7 @@ function AllDeliverMethod() {
         </Link>
       </div>
       <div className="mt-5">
-        <DeliverTable delivers={data.getDeliverMethod} />
+        <DeliverTable delivers={data.getDeliveryMethod} />
       </div>
     </React.Fragment>
   );

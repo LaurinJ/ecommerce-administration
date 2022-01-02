@@ -16,3 +16,11 @@ export const CREATE_DELIVER_METHOD = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation Mutation($message: MessageData!) {
+    sendMessage(message: $message) {
+      to
+    }
+  }
+`;

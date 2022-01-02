@@ -21,7 +21,8 @@ function AllPayment() {
         </Link>
       </div>
       <div className="mt-5">
-        <PaymentsTable payments={data.getPaymentMethod} />
+        {error && <h4>Nebyli nalezeny</h4>}
+        {data && <PaymentsTable payments={data.getPaymentMethod} />}
       </div>
     </React.Fragment>
   );

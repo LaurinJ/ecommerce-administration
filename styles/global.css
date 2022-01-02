@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.n_scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* btn */
 .base_btn_form {
   font-size: 1.125rem;
