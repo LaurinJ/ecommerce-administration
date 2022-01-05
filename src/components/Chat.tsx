@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useSubscription } from "@apollo/client";
 import { GET_MESSAGES } from "../queries/Query";
 import { MESSAGES_SUBSCRIPTION } from "../queries/Subscription";
 import MessageForm from "./form/MessageForm";
 import { dateStringFormatter } from "../helpers/dateFormater";
 
-function Chat() {
+interface Props {
+  user: string;
+}
+
+function Chat({ user }: any) {
   const [open, setOpen] = useState(false);
-  const [getMessages, { data: messages, subscribeToMore }] = useLazyQuery(
-    GET_MESSAGES,
-    {
-      variables: { getMessagesId: "admin" },
-    }
-  );
+  const [getMessages, { data, subscribeToMore }] = useLazyQuery(GET_MESSAGES, {
+    variables: { getMessagesId: user },
+  });
 
   const updateScroll = () => {
     let element = document.getElementById("chat");
@@ -21,41 +22,40 @@ function Chat() {
     }
   };
 
-  useEffect(() => {
+  useEffect((): void | null | any => {
     getMessages();
 
-    if (messages) {
-      subscribeToMore({
+    if (subscribeToMore) {
+      const updateMessage = subscribeToMore({
         document: MESSAGES_SUBSCRIPTION,
-        variables: { getMessagesId: "admin" },
+        variables: { getMessagesId: user },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
           const newMessage = subscriptionData.data.shareMessage;
           setTimeout(updateScroll, 100);
           return Object.assign({}, prev, {
-            getMessages: {
-              getMessages: [prev.getMessages, newMessage],
-            },
+            getMessages: [...prev.getMessages, newMessage],
           });
         },
       });
+      return () => updateMessage;
     }
-  }, [getMessages, messages, subscribeToMore]);
+  }, []);
 
   useEffect(() => {
     updateScroll();
   }, [open]);
 
   return (
-    <div className={`fixed bottom-24 lg:bottom-4 right-2 z-50`}>
+    <div className={`fixed bottom-24 lg:bottom-4 right-2 z-10`}>
       <div
         className={`${
           open ? "" : "hidden"
-        } w-[350px] h-[600px] mb-3 flex flex-col bg-white shadow-2xl rounded-2xl`}
+        } w-[350px] h-[600px] mb-3 ml-auto flex flex-col bg-white shadow-2xl rounded-2xl`}
       >
         <div className=" bg-gray-800 rounded-t-2xl">
           <h2 className="text-white text-xl font-semibold py-3 pl-7">
-            BigBuy.cz
+            BigBuy.cz -- {user}
           </h2>
         </div>
         <div className="flex flex-col h-full justify-between overflow-hidden mx-4 my-3">
@@ -64,8 +64,8 @@ function Chat() {
             className="flex flex-col space-y-3 overflow-auto n_scroll"
             id="chat"
           >
-            {messages &&
-              messages.getMessages.map((message: any, i: KeyType) => {
+            {data &&
+              data.getMessages.map((message: any, i: KeyType) => {
                 return message.from !== "admin" ? (
                   <div key={i} className="flex flex-col mr-auto max-w-[220px]">
                     <span className="py-3 px-3 max-w-max mr-auto bg-gray-200 rounded-xl">

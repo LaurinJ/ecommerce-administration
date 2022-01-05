@@ -75,10 +75,10 @@ function Sitebar() {
             </Link>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>
-              Email
-            </a>
+            <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>
+            <Link to="/chats">
+              <span>Chaty</span>
+            </Link>
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <a href="/#">
