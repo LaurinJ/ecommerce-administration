@@ -15,7 +15,7 @@ function ChatsList() {
   });
 
   const handleChange = (user: any) => {
-    if (user == userId) {
+    if (user === userId) {
       setUserId("");
     } else {
       setUserId(user);
@@ -24,7 +24,7 @@ function ChatsList() {
 
   useEffect(() => {
     if (data) {
-      if (list.includes(data.shareMessage.from) == false) {
+      if (list.includes(data.shareMessage.from) === false) {
         console.log(data.shareMessage.from);
         console.log("list", list);
 

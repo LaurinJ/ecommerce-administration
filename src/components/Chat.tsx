@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery, useSubscription } from "@apollo/client";
+import { v4 } from "uuid";
+import { useLazyQuery } from "@apollo/client";
 import { GET_MESSAGES } from "../queries/Query";
 import { MESSAGES_SUBSCRIPTION } from "../queries/Subscription";
 import MessageForm from "./form/MessageForm";
@@ -24,12 +25,35 @@ function Chat({ user }: any) {
 
   useEffect((): void | null | any => {
     getMessages();
+    console.log("render effect");
+
+    // if (subscribeToMore) {
+    //   const updateMessage = subscribeToMore({
+    //     document: MESSAGES_SUBSCRIPTION,
+    //     variables: { getMessagesId: user },
+    //     updateQuery: (prev, { subscriptionData }) => {
+    //       if (!subscriptionData.data) return prev;
+    //       const newMessage = subscriptionData.data.shareMessage;
+    //       setTimeout(updateScroll, 100);
+    //       return Object.assign({}, prev, {
+    //         getMessages: [...prev.getMessages, newMessage],
+    //       });
+    //     },
+    //   });
+    //   return () => updateMessage;
+    // }
+  }, []);
+
+  useEffect((): void | null | any => {
+    console.log("render sub");
 
     if (subscribeToMore) {
       const updateMessage = subscribeToMore({
         document: MESSAGES_SUBSCRIPTION,
         variables: { getMessagesId: user },
         updateQuery: (prev, { subscriptionData }) => {
+          console.log("user", user);
+
           if (!subscriptionData.data) return prev;
           const newMessage = subscriptionData.data.shareMessage;
           setTimeout(updateScroll, 100);
@@ -51,7 +75,7 @@ function Chat({ user }: any) {
       <div
         className={`${
           open ? "" : "hidden"
-        } w-[350px] h-[600px] mb-3 ml-auto flex flex-col bg-white shadow-2xl rounded-2xl`}
+        } w-[350px] h-[550px] mb-3 ml-auto flex flex-col bg-white shadow-2xl rounded-2xl`}
       >
         <div className=" bg-gray-800 rounded-t-2xl">
           <h2 className="text-white text-xl font-semibold py-3 pl-7">
@@ -89,7 +113,7 @@ function Chat({ user }: any) {
           </div>
           {/* form */}
           <div className="mt-3">
-            <MessageForm />
+            <MessageForm to={user} />
           </div>
         </div>
       </div>
