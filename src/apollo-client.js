@@ -9,19 +9,13 @@ let httpLink = createUploadLink({
   uri: "http://localhost:4000/graphql",
 });
 
-const token = getCookie("accessToken");
-const chatId = getLocalStorage("chatId");
-
 const authLink = setContext((_, { headers }) => {
   // // get the authentication token from local storage if it exists
-  // const token = getCookie("accessToken");
-  // const chatId = getLocalStorage("chatId");
-  // return the headers to the context so httpLink can read them
+  const token = getCookie("accessToken");
   return {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : "",
-      chatid: chatId ? chatId : "",
     },
   };
 });
@@ -33,9 +27,8 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      authorization: `Bearer ${token}`,
-      chatid: "admin",
-      // chatid: chatId,
+      authorization: `Bearer ${getCookie("accessToken")}`,
+      chatid: getLocalStorage("chatId"),
     },
   },
 });

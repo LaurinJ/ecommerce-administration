@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { SEND_MESSAGE } from "../../queries/Mutation";
 
-function MessageForm({ chatId, to }: any) {
+function MessageForm({ from, to }: any) {
   const [message, setMessage] = useState("");
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     onCompleted: () => {
@@ -22,7 +22,7 @@ function MessageForm({ chatId, to }: any) {
     if (message.length !== 0) {
       sendMessage({
         variables: {
-          message: { content: message, to: to, from: "admin" },
+          message: { content: message, to: to, from: from },
         },
       });
     }

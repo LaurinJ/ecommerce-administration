@@ -3,8 +3,8 @@ import React, { useState } from "react";
 function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <div className=" md:fixed top-0 z-20  w-screen pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
-      <ul className="flex space-x-4 items-center text-gray-800 text-sm font-light cursor-pointer">
+    <div className=" md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
+      <ul className="flex space-x-4 mr-3 items-center text-gray-800 text-sm font-light cursor-pointer">
         <li>Web site</li>
         <li className="relative">
           <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>

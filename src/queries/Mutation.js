@@ -24,3 +24,18 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export const SET_ADMIN_TOKEN = gql`
+  mutation Mutation($token: String!) {
+    setAdminToken(token: $token) {
+      token
+    }
+  }
+`;
+export const DELETE_ADMIN_TOKEN = gql`
+  mutation Mutation($token: String!) {
+    deleteAdminToken(token: $token) {
+      token
+    }
+  }
+`;
