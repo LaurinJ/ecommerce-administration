@@ -5,7 +5,13 @@ import { MESSAGES_SUBSCRIPTION } from "../queries/Subscription";
 import MessageForm from "./form/MessageForm";
 import { dateStringFormatter } from "../helpers/dateFormater";
 
-function Chat({ open, user, adminToken }: any) {
+interface Props {
+  open?: boolean;
+  user?: string;
+  adminToken?: string;
+}
+
+export const Chat: React.FC<Props> = ({ open, user, adminToken }) => {
   const [getMessages, { data, subscribeToMore }] = useLazyQuery(GET_MESSAGES, {
     variables: { getMessagesId: user },
   });
@@ -73,6 +79,4 @@ function Chat({ open, user, adminToken }: any) {
       </div>
     </div>
   );
-}
-
-export default Chat;
+};

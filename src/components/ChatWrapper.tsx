@@ -3,7 +3,7 @@ import { useSubscription, useMutation } from "@apollo/client";
 import { v4 } from "uuid";
 import { MESSAGES_SUBSCRIPTION } from "../queries/Subscription";
 import { DELETE_ADMIN_TOKEN, SET_ADMIN_TOKEN } from "../queries/Mutation";
-import Chat from "./Chat";
+import { Chat } from "./Chat";
 import { setLocalStorage, getLocalStorage } from "../actions/auth";
 
 function ChatWrapper() {
