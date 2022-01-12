@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 import InputField from "../../components/form/InputField";
+import { login as loginRedux } from "../../state/actions-func/userActions";
+import { RootState } from "../../state/reducers/index";
+import { LOGIN_MUTATION } from "../../queries/Mutation";
+import Loader from "../../components/Loader";
+import { authenticate } from "../../actions/auth";
 
 function Login() {
   interface Form {
@@ -15,22 +23,36 @@ function Login() {
     password: "",
   });
   const [err, setErr] = useState<Error>({ email: "", password: "" });
-  //   const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
 
-  //   useEffect(() => {
-  // if (data) {
-  //   console.log("log inn");
-  //   console.log(data);
-  //   authenticate(data.login, () => {
-  //     dispatch({
-  //       type: "SUCCESS",
-  //       message: "Přihlášení bylo úspěšné",
-  //       title: "Successful Request",
-  //     });
-  //     Router.push(`/account`);
-  //   });
-  // }
-  //   }, [data]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const userLogin = useSelector((state: RootState) => state.user);
+  const { user } = userLogin;
+
+  const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      authenticate(data.login, () => {
+        dispatch(loginRedux(data.login.user));
+        history.push("/");
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      console.log("log inn");
+      //   console.log(data);
+      //   authenticate(data.login, () => {
+      //     dispatch({
+      //       type: "SUCCESS",
+      //       message: "Přihlášení bylo úspěšné",
+      //       title: "Successful Request",
+      //     });
+      //     Router.push(`/account`);
+      //   });
+    }
+  }, [data]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -41,11 +63,11 @@ function Login() {
       event.preventDefault();
       const errors = validate(formValues);
       setErr(errors);
-      //   if (Object.keys(errors).length === 0) {
-      //     await login({
-      //       variables: { user: { ...formValues } },
-      //     });
-      //   }
+      if (Object.keys(errors).length === 0) {
+        await login({
+          variables: { user: { ...formValues } },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +89,7 @@ function Login() {
 
   return (
     <div className="flex justify-center items-center w-full h-screen">
+      {loading && <Loader />}
       <form
         className="max-w-[450px] p-8 shadow-xl lg:text-lg"
         onSubmit={handleSubmit}
@@ -75,7 +98,7 @@ function Login() {
           Přihlášení do účtu
         </h2>
         {/* error response */}
-        {/* <span className="text-red-600">{error && error.message}</span> */}
+        <span className="text-red-600">{error && error.message}</span>
         {/* email input */}
         <InputField
           required={true}

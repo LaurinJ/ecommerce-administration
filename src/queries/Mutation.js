@@ -1,5 +1,26 @@
 import { gql } from "@apollo/client";
 
+export const LOGIN_MUTATION = gql`
+  mutation Login($user: userLoginData!) {
+    login(user: $user) {
+      accessToken
+      refreshToken
+      user {
+        name
+        email
+      }
+    }
+  }
+`;
+
+export const LOGOUT_MUTATION = gql`
+  mutation logout($token: RefreshToken!) {
+    logout(token: $token) {
+      status
+    }
+  }
+`;
+
 export const CREATE_PAYMENT_METHOD = gql`
   mutation Mutation($payment: PaymentData!, $image: Upload) {
     createPayment(payment: $payment, image: $image) {

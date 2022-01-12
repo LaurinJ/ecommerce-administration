@@ -1,17 +1,26 @@
 import React, { useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../state/reducers/index";
 
 type Props = {
   children?: JSX.Element | JSX.Element[] | React.Component;
 };
 
 function PrivateRoute({ children }: Props): any {
-  // useEffect(() => {
+  const userLogin = useSelector((state: RootState) => state.user);
+  const { user } = userLogin;
 
-  // }, []);
-  if (false) {
-    return <Redirect to={"/account/login"} />;
-  }
+  const history = useHistory();
+  useEffect(() => {
+    if (!user) {
+      console.log(user);
+      history.push("/account/login");
+    }
+  }, [history, user]);
+  // if (!user) {
+  //   return <Redirect to={"/account/login"} />;
+  // }
 
   return children;
 }
