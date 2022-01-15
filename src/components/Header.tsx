@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { userName } from "../apollo-client";
+import Logout from "./account/Logout";
 
 function Header() {
   const [open, setOpen] = useState(false);
@@ -22,7 +25,7 @@ function Header() {
             alt="Profile images"
             className="w-8 h-8 mr-1 rounded-full"
           />
-          Josef Laurin
+          {userName()}
           <i className="fa fa-sort-desc ml-1 pb-1" aria-hidden="true"></i>
           <div
             className={`${open ? "" : "hidden"} absolute top-9 -right-4 w-28`}
@@ -30,10 +33,12 @@ function Header() {
             <ul className="bg-white border border-gray-300">
               <li className="pl-3 py-1 hover:text-gray-500">Profile</li>
               <li className="pl-3 py-1 hover:text-gray-500">Settings</li>
-              <li className="pl-3 py-1 hover:text-gray-500">
-                Log Out{" "}
-                <i className="fa fa-sign-out ml-3" aria-hidden="true"></i>
-              </li>
+
+              <Link to="/account/login">
+                <li className="pl-3 py-1 hover:text-gray-500">
+                  <Logout />
+                </li>
+              </Link>
             </ul>
           </div>
         </li>

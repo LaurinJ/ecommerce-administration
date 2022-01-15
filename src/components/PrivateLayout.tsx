@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import Header from "./Header";
 import Sitebar from "./Sitebar";
 import ChatWrapper from "./ChatWrapper";
@@ -10,9 +10,21 @@ import AddPayment from "../screens/AddPayment";
 import AllDeliverMethod from "../screens/AllDeliverMethod";
 import AddDeliverMethod from "../screens/AddDeliverMethod";
 import AllChats from "../screens/AllChats";
-import Login from "../screens/account/Login";
 
-function Layout() {
+import { isAuth } from "../actions/auth";
+import { userName } from "../apollo-client";
+
+function PrivateLayout() {
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuth()) {
+      history.push("/account/login");
+    } else {
+      userName(isAuth().name);
+    }
+  }, []);
+
   return (
     <>
       <header>
@@ -27,7 +39,6 @@ function Layout() {
         <Route path="/deliver-method" component={AllDeliverMethod} />
         <Route path="/add-deliver" component={AddDeliverMethod} />
         <Route path="/chats" component={AllChats} />
-        <Route path="/account/login" component={Login} />
       </main>
       {/* chats */}
       <ChatWrapper />
@@ -36,4 +47,4 @@ function Layout() {
   );
 }
 
-export default Layout;
+export default PrivateLayout;

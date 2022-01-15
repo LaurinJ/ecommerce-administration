@@ -1,5 +1,5 @@
 import React from "react";
-import DeliverForm from "../components/DeliverForm";
+import DeliverForm from "../components/form/DeliverForm";
 
 function AddDeliverMethod() {
   return (

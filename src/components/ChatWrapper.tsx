@@ -75,7 +75,7 @@ function ChatWrapper() {
   }, [chatId, data, list]);
 
   return (
-    <div className={`fixed bottom-24 lg:bottom-4 right-2 z-30`}>
+    <div className={`fixed bottom-24 lg:bottom-4 right-2 z-40`}>
       <div
         className={`${
           open ? "" : "hidden"

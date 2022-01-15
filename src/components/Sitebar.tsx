@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { userName } from "../apollo-client";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
   const [openPay, setOpenPay] = useState(false);
 
   return (
-    <div className="w-56 p-0 relative z-50 text-gray-200 bg-gray-700">
+    <div className="w-56 p-0 relative z-40 text-gray-200 bg-gray-700">
       {/* title */}
       <div className="w-56 h-14 mb-2 flex justify-center items-center space-x-2.5 font-black">
         <i className="fa fa-buysellads fa-2x" aria-hidden="true"></i>
@@ -19,7 +20,7 @@ function Sitebar() {
         </div>
         <div className="mx-3 font-normal">
           <span className="text-gray-400">Welcome,</span>
-          <h2>Josef Laurin</h2>
+          <h2>{userName()}</h2>
         </div>
       </div>
       {/* nav link */}

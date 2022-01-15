@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, split } from "@apollo/client";
+import { ApolloClient, InMemoryCache, split, makeVar } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -27,7 +27,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      authorization: `Bearer ${getCookie("accessToken")}`,
+      // authorization: `Bearer ${getCookie("accessToken")}`,
       chatid: getLocalStorage("chatId"),
     },
   },
@@ -49,3 +49,5 @@ export const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
+
+export const userName = makeVar("");

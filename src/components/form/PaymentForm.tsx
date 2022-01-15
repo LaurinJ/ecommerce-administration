@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ApolloError, useMutation } from "@apollo/client";
-import InputFieldAdm from "../components/form/InputFieldAdm";
-import FileInputField from "../components/form/FileInputField";
-import InputCheckBox from "../components/form/InputCheckBox";
-import { CREATE_PAYMENT_METHOD } from "../queries/Mutation";
+import InputFieldAdm from "./InputFieldAdm";
+import FileInputField from "./FileInputField";
+import InputCheckBox from "./InputCheckBox";
+import { CREATE_PAYMENT_METHOD } from "../../queries/Mutation";
 
 function PaymentForm() {
   interface Errors {
