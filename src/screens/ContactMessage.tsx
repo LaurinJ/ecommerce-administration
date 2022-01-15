@@ -4,7 +4,7 @@ import { PaymentsTable } from "../components/PaymentsTable";
 import { Link } from "react-router-dom";
 import { GET_PAYMENT_METHODS } from "../queries/Query";
 
-function AllChats() {
+function ContactMessage() {
   // const { loading, error, data } = useQuery(GET_PAYMENT_METHODS);
 
   // if (loading) return <p>Loading...</p>;
@@ -13,7 +13,7 @@ function AllChats() {
   return (
     <React.Fragment>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Aktivní chaty</h1>
+        <h1 className="text-2xl">Zpravy</h1>
         <Link to="/add-payment">
           <span className="p-2 bg-blue-300 rounded-sm">
             Přidat způsob platby
@@ -28,4 +28,4 @@ function AllChats() {
   );
 }
 
-export default AllChats;
+export default ContactMessage;

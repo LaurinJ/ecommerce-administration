@@ -9,7 +9,7 @@ import AllPayment from "../screens/AllPayment";
 import AddPayment from "../screens/AddPayment";
 import AllDeliverMethod from "../screens/AllDeliverMethod";
 import AddDeliverMethod from "../screens/AddDeliverMethod";
-import AllChats from "../screens/AllChats";
+import ContactMessage from "../screens/ContactMessage";
 
 import { isAuth } from "../actions/auth";
 import { userName } from "../apollo-client";
@@ -38,7 +38,7 @@ function PrivateLayout() {
         <Route path="/add-payment" component={AddPayment} />
         <Route path="/deliver-method" component={AllDeliverMethod} />
         <Route path="/add-deliver" component={AddDeliverMethod} />
-        <Route path="/chats" component={AllChats} />
+        <Route path="/contact-message" component={ContactMessage} />
       </main>
       {/* chats */}
       <ChatWrapper />

@@ -36,62 +36,60 @@ function Sitebar() {
               <i className="fa fa-home fa-lg w-8" aria-hidden="true"></i>Form
             </a>
           </li>
+          <Link to="/products">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+              <span>Produkty</span>
+            </li>
+          </Link>
+          <Link to="/payments">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+              <span>Způsoby platby</span>
+            </li>
+          </Link>
+          <Link to="/deliver-method">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+              <span>Způsoby dopravy</span>
+            </li>
+          </Link>
+          <Link to="/contact-message">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>
+              <span className="">Zpravy</span>
+            </li>
+          </Link>
           <li className="mb-2 px-4 py-3 hover:text-white">
-            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
-            <span>Product</span>
-            <button
-              className="ml-3"
+            <i className="fa fa-info fa-lg w-8" aria-hidden="true"></i>
+            <a href="/#">Django info</a>
+          </li>
+          <li className="mb-2 px-4 py-3 hover:text-white">
+            <span
+              className="w-full"
               onClick={() => {
                 setMenu(!menu);
               }}
             >
-              otevri
-            </button>
+              <i className="fa fa-cogs fa-lg w-8" aria-hidden="true"></i>
+              Nastaveni
+            </span>
+
             <ul className={`ml-3 ${menu ? "" : "hidden"}`}>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/add-product" className="block">
+              <Link to="/add-product" className="block">
+                <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
                   New
-                </Link>
-              </li>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                <Link to="/products" className="block">
+                </li>
+              </Link>
+              <Link to="/products" className="block">
+                <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
                   List
-                </Link>
-              </li>
+                </li>
+              </Link>
               <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
                 Delete
               </li>
             </ul>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
-            <Link to="/payments">
-              <span>Způsob platby</span>
-            </Link>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
-            <Link to="/deliver-method">
-              <span>Způsob dopravy</span>
-            </Link>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <i className="fa fa-envelope fa-lg w-8" aria-hidden="true"></i>
-            <Link to="/chats">
-              <span>Chaty</span>
-            </Link>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-info fa-lg w-8" aria-hidden="true"></i>Django
-              info
-            </a>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-android fa-lg w-8" aria-hidden="true"></i>
-              Golden Farm
-            </a>
           </li>
         </ul>
       </div>

@@ -8,13 +8,17 @@ function Header() {
   return (
     <div className=" md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
       <ul className="flex space-x-4 mr-3 items-center text-gray-800 text-sm font-light cursor-pointer">
-        <li>Web site</li>
-        <li className="relative">
-          <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
-          <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-4 h-4 rounded-full">
-            <span className="text-white font-normal">3</span>
-          </div>
+        <li>
+          <a href="http://localhost:3000/">Zobrazit eshop</a>
         </li>
+        <Link to="/contact-message">
+          <li className="relative">
+            <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
+            <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-4 h-4 rounded-full">
+              <span className="text-white font-normal">3</span>
+            </div>
+          </li>
+        </Link>
         {/* dropdown */}
         <li
           className="flex items-center relative"

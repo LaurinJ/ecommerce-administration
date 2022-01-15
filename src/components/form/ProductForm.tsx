@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 import slugify from "slugify";
+import Loader from "../Loader";
 
 function ProductForm() {
   const productFromLs = () => {
@@ -75,9 +76,10 @@ function ProductForm() {
   return (
     <>
       <form
-        className="flex flex-wrap md:flex-nowrap lg:space-x-10 "
+        className="flex relative flex-wrap md:flex-nowrap "
         encType="multipart/form-data"
       >
+        {true && <Loader />}
         <div className="w-full lg:w-3/5">
           <div className="">
             <input
@@ -148,7 +150,7 @@ function ProductForm() {
           />
         </div>
 
-        <div className="w-96 h-80 bg-white">
+        <div className="w-96 h-full lg:ml-10 bg-white">
           <div className="mt-4 ml-4">
             <label htmlFor="category">Kategorie:</label>
             <select

@@ -4,6 +4,7 @@ import InputFieldAdm from "./InputFieldAdm";
 import InputField33 from "./InputField33";
 import FileInputField from "./FileInputField";
 import InputCheckBox from "./InputCheckBox";
+import Loader from "../Loader";
 import { CREATE_DELIVER_METHOD } from "../../queries/Mutation";
 
 function DeliverForm() {
@@ -26,9 +27,16 @@ function DeliverForm() {
     hidden: false,
   });
   const [err, setErr] = useState<Errors>({});
-  const [createDeliver, { data }] = useMutation(CREATE_DELIVER_METHOD);
+  const [createDeliver, { data, loading }] = useMutation(
+    CREATE_DELIVER_METHOD,
+    {
+      onCompleted: () => {
+        setFormValues({});
+      },
+    }
+  );
 
-  useEffect(() => {}, [data]);
+  // useEffect(() => {}, [data]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -53,9 +61,7 @@ function DeliverForm() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      console.log(formValues);
       const errors = validate(formValues);
-      console.log(errors);
       setErr(errors);
       if (Object.keys(errors).length === 0) {
         await createDeliver({
@@ -91,9 +97,10 @@ function DeliverForm() {
   return (
     <>
       <form
-        className="flex flex-wrap md:flex-nowrap lg:space-x-10 "
+        className="flex relative flex-wrap md:flex-nowrap"
         encType="multipart/form-data"
       >
+        {loading && <Loader />}
         <div className="w-full">
           <InputFieldAdm
             required={true}
@@ -124,7 +131,7 @@ function DeliverForm() {
             handleChange={handleChange}
           />
         </div>
-        <div className="w-full bg-white">
+        <div className="w-full lg:ml-10 bg-white">
           <FileInputField
             required={true}
             label="Logo dopravy"

@@ -4,6 +4,7 @@ import InputFieldAdm from "./InputFieldAdm";
 import FileInputField from "./FileInputField";
 import InputCheckBox from "./InputCheckBox";
 import { CREATE_PAYMENT_METHOD } from "../../queries/Mutation";
+import Loader from "../Loader";
 
 function PaymentForm() {
   interface Errors {
@@ -22,9 +23,16 @@ function PaymentForm() {
     hidden: false,
   });
   const [err, setErr] = useState<Errors>({});
-  const [createPayment, { data }] = useMutation(CREATE_PAYMENT_METHOD);
+  const [createPayment, { data, loading }] = useMutation(
+    CREATE_PAYMENT_METHOD,
+    {
+      onCompleted: () => {
+        setFormValues({});
+      },
+    }
+  );
 
-  useEffect(() => {}, [data]);
+  // useEffect(() => {}, [data]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -39,8 +47,6 @@ function PaymentForm() {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.files && event.target.files[0];
-    console.log(value);
-
     if (!value) {
       return;
     }
@@ -49,9 +55,7 @@ function PaymentForm() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      console.log(formValues);
       const errors = validate(formValues);
-      console.log(errors);
       setErr(errors);
       if (Object.keys(errors).length === 0) {
         await createPayment({
@@ -83,9 +87,10 @@ function PaymentForm() {
   return (
     <>
       <form
-        className="flex flex-wrap md:flex-nowrap lg:space-x-10 "
+        className="flex relative flex-wrap md:flex-nowrap"
         encType="multipart/form-data"
       >
+        {loading && <Loader />}
         {/* <span>{error && error.graphQLErrors[0].extensions.errors}</span> */}
         <div className="w-full">
           <InputFieldAdm
@@ -106,7 +111,7 @@ function PaymentForm() {
             handleChange={handleChange}
           />
         </div>
-        <div className="w-full bg-white">
+        <div className="w-full lg:ml-10 bg-white">
           <FileInputField
             required={true}
             label="Logo platby"
