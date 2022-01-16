@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { ProductsTable } from "../components/ProductsTable";
+import { ProductsTable } from "../components/table/ProductsTable";
 import { GET_PRODUCTS } from "../queries/Query";
 import Loader from "../components/Loader";
 

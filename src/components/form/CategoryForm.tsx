@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ApolloError, useMutation, useLazyQuery } from "@apollo/client";
 import InputFieldAdm from "./InputFieldAdm";
-import FileInputField from "./FileInputField";
 import InputCheckBox from "./InputCheckBox";
-import {
-  CREATE_PAYMENT_METHOD,
-  EDIT_PAYMENT_METHOD,
-} from "../../queries/Mutation";
-import { GET_PAYMENT_METHOD } from "../../queries/Query";
+import { CREATE_CATEGORY, EDIT_CATEGORY } from "../../queries/Mutation";
+import { GET_CATEGORY } from "../../queries/Query";
 import Loader from "../Loader";
-import { validate } from "../../validators/payment";
+import { validate } from "../../validators/category";
 
 interface Props {
   id: string;
@@ -17,40 +13,35 @@ interface Props {
 
 export interface Errors {
   name?: String;
-  price?: String;
-  image?: String;
 }
 
 export interface State {
   _id: string;
   name: String;
-  image: Object;
   hidden: Boolean;
 }
 
-function PaymentForm({ id }: Props) {
+function CategoryForm({ id }: Props) {
   const [formValues, setFormValues] = useState<State>({
     _id: "",
     name: "",
-    image: "",
     hidden: false,
   });
   const [err, setErr] = useState<Errors>({});
 
-  const [getPayment] = useLazyQuery(GET_PAYMENT_METHOD, {
+  const [getCategory] = useLazyQuery(GET_CATEGORY, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      setFormValues({ ...data.getPaymentMethod });
+      setFormValues({ ...data.getCategory });
     },
   });
 
-  const Mutation = id ? EDIT_PAYMENT_METHOD : CREATE_PAYMENT_METHOD;
-  const [createPayment, { loading }] = useMutation(Mutation, {
+  const Mutation = id ? EDIT_CATEGORY : CREATE_CATEGORY;
+  const [createCategory, { loading, error }] = useMutation(Mutation, {
     onCompleted: () => {
       setFormValues({
         _id: "",
         name: "",
-        image: "",
         hidden: false,
       });
     },
@@ -58,9 +49,9 @@ function PaymentForm({ id }: Props) {
 
   useEffect(() => {
     if (id) {
-      getPayment({
+      getCategory({
         variables: {
-          getPaymentMethodId: id,
+          getCategoryId: id,
         },
       });
     }
@@ -75,29 +66,18 @@ function PaymentForm({ id }: Props) {
     }
   };
 
-  const handleChangeImage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const value = event.target.files && event.target.files[0];
-    if (!value) {
-      return;
-    }
-    setFormValues({ ...formValues, image: value });
-  };
-
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
       const errors = validate(formValues);
       setErr(errors);
       if (Object.keys(errors).length === 0) {
-        await createPayment({
+        await createCategory({
           variables: {
-            payment: {
+            category: {
               _id: formValues._id,
               name: formValues.name,
               hidden: formValues.hidden,
             },
-            image: formValues.image,
           },
         });
       }
@@ -115,14 +95,14 @@ function PaymentForm({ id }: Props) {
         className="flex relative flex-wrap md:flex-nowrap"
         encType="multipart/form-data"
       >
-        {loading && <Loader />}
+        {!error && loading && <Loader />}
         {/* <span>{error && error.graphQLErrors[0].extensions.errors}</span> */}
-        <div className="w-full">
+        <div className="w-1/3">
           <InputFieldAdm
             required={true}
             type="text"
             name="name"
-            label="Jméno platby"
+            label="Jméno kategorie"
             prompt="Zadejte Jméno"
             error={err?.name}
             value={formValues.name}
@@ -131,17 +111,9 @@ function PaymentForm({ id }: Props) {
 
           <InputCheckBox
             name="hidden"
-            label="Zobrazení platby"
+            label="Zobrazení kategorie"
             checked={formValues.hidden}
             handleChange={handleChange}
-          />
-        </div>
-        <div className="w-full lg:ml-10 bg-white">
-          <FileInputField
-            img={formValues.image}
-            required={true}
-            label="Logo platby"
-            handleChange={handleChangeImage}
           />
         </div>
       </form>
@@ -150,11 +122,11 @@ function PaymentForm({ id }: Props) {
           onClick={handleSubmit}
           className="py-1 px-2 bg-green-500 rounded-md"
         >
-          {id ? "Aktualizovat způsob platby" : "Přidat způsob platby"}
+          {id ? "Aktualizovat kategorii" : "Přidat kategorii"}
         </button>
       </div>
     </>
   );
 }
 
-export default PaymentForm;
+export default CategoryForm;

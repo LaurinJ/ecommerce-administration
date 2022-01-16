@@ -1,47 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useLazyQuery } from "@apollo/client";
 import InputFieldAdm from "./InputFieldAdm";
 import InputField33 from "./InputField33";
 import FileInputField from "./FileInputField";
 import InputCheckBox from "./InputCheckBox";
 import Loader from "../Loader";
-import { CREATE_DELIVER_METHOD } from "../../queries/Mutation";
+import {
+  CREATE_DELIVER_METHOD,
+  EDIT_DELIVER_METHOD,
+} from "../../queries/Mutation";
+import { GET_DELIVERY_METHOD } from "../../queries/Query";
+import { validate } from "../../validators/delivery";
 
-function DeliverForm() {
-  interface Errors {
-    name?: String;
-    price?: String;
-    image?: String;
-  }
+interface Props {
+  id: string;
+}
 
-  interface State {
-    name?: String;
-    price?: Number;
-    image?: Object;
-    hidden?: Boolean;
-  }
+export interface Errors {
+  name?: String;
+  price?: String;
+  image?: String;
+}
 
+export interface State {
+  _id: string;
+  name: String;
+  price: Number;
+  image: Object;
+  hidden: Boolean;
+}
+
+function DeliveryForm({ id }: Props) {
   const [formValues, setFormValues] = useState<State>({
+    _id: "",
     name: "",
     price: 0,
+    image: "",
     hidden: false,
   });
   const [err, setErr] = useState<Errors>({});
-  const [createDeliver, { data, loading }] = useMutation(
-    CREATE_DELIVER_METHOD,
-    {
-      onCompleted: () => {
-        setFormValues({});
-      },
-    }
-  );
+  const [getDelivery] = useLazyQuery(GET_DELIVERY_METHOD, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      setFormValues({ ...data.getDeliveryMethod });
+    },
+  });
+  const Mutation = id ? EDIT_DELIVER_METHOD : CREATE_DELIVER_METHOD;
+  const [createDeliver, { loading }] = useMutation(Mutation, {
+    onCompleted: () => {
+      setFormValues({
+        _id: "",
+        name: "",
+        price: 0,
+        image: "",
+        hidden: false,
+      });
+    },
+  });
 
-  // useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (id) {
+      getDelivery({
+        variables: {
+          getDeliveryMethodId: id,
+        },
+      });
+    }
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     if (name === "hidden") {
-      setFormValues({ ...formValues, [String(name)]: !formValues.hidden });
+      // setFormValues({ ...formValues, [String(name)]: !formValues.hidden });
+      setFormValues({ ...formValues, [String(name)]: event.target.checked });
     } else {
       setFormValues({ ...formValues, [String(name)]: value });
     }
@@ -51,7 +82,6 @@ function DeliverForm() {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.files && event.target.files[0];
-    console.log(value);
 
     if (!value) {
       return;
@@ -66,7 +96,8 @@ function DeliverForm() {
       if (Object.keys(errors).length === 0) {
         await createDeliver({
           variables: {
-            deliver: {
+            delivery: {
+              _id: formValues._id,
               name: formValues.name,
               price: Number(formValues.price),
               hidden: formValues.hidden,
@@ -81,17 +112,6 @@ function DeliverForm() {
         setErr(error.graphQLErrors[0].extensions.errors);
       }
     }
-  };
-
-  const validate = (values: any) => {
-    const errors: Errors = {};
-    if (!values.name) {
-      errors.name = "Toto pole je povinné";
-    }
-    if (!values.price) {
-      errors.price = "Toto pole je povinné";
-    }
-    return errors;
   };
 
   return (
@@ -127,15 +147,15 @@ function DeliverForm() {
           <InputCheckBox
             name="hidden"
             label="Zobrazení dopravy"
-            checked={false}
+            checked={formValues.hidden}
             handleChange={handleChange}
           />
         </div>
         <div className="w-full lg:ml-10 bg-white">
           <FileInputField
+            img={formValues.image}
             required={true}
             label="Logo dopravy"
-            //   error={err.first_name}
             handleChange={handleChangeImage}
           />
         </div>
@@ -145,11 +165,11 @@ function DeliverForm() {
           onClick={handleSubmit}
           className="py-1 px-2 bg-green-500 rounded-md"
         >
-          Přidat způsob dopravy
+          {id ? "Aktualizovat způsob dopravy" : "Přidat způsob dopravy"}
         </button>
       </div>
     </>
   );
 }
 
-export default DeliverForm;
+export default DeliveryForm;

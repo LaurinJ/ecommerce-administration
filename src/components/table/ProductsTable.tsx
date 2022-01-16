@@ -17,7 +17,10 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
       </thead>
       <tbody>
         {products.map((product: any, i: KeyType) => (
-          <tr className="odd:bg-white even:bg-gray-100" key={i}>
+          <tr
+            className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
+            key={i}
+          >
             <td className=" pl-3  py-3">{product.title}</td>
             <td className="text-center px-10 py-3">{product.price}</td>
             <td className=" text-center px-10 py-3">{product.countInStock}</td>

@@ -28,7 +28,7 @@ export function InputFieldAdm(props) {
         {isTextarea ? (
           <textarea
             required={required}
-            className="base_input_form"
+            className="base_textarea_form"
             placeholder={props.prompt}
             rows={props.rows}
             minLength={minlength}

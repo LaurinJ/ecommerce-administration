@@ -6,6 +6,7 @@ import { LOGIN_MUTATION } from "../../queries/Mutation";
 import Loader from "../../components/Loader";
 import { authenticate } from "../../actions/auth";
 import { validate } from "../../validators/login";
+import { userName } from "../../apollo-client";
 
 function LoginForm() {
   interface Form {
@@ -25,6 +26,7 @@ function LoginForm() {
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       authenticate(data.login, () => {
+        userName(data.login.user.name);
         history.push("/add-product");
       });
     },

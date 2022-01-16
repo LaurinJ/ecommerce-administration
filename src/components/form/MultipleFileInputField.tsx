@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function FileInputField(props: any) {
+function MultipleFileInputField(props: any) {
   const [img, setImg] = useState<string | ArrayBuffer | null>("");
   // element and type validation
   const required = props.required || false;
@@ -8,7 +8,10 @@ function FileInputField(props: any) {
   const imageReader = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
+      console.log(reader);
+
       let img1 = reader.result;
+      // console.log(img1);
 
       setImg(img1);
     });
@@ -81,4 +84,4 @@ function FileInputField(props: any) {
   );
 }
 
-export default FileInputField;
+export default MultipleFileInputField;

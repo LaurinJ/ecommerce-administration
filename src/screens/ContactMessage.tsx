@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { PaymentsTable } from "../components/PaymentsTable";
+import { PaymentsTable } from "../components/table/PaymentsTable";
 import { Link } from "react-router-dom";
 import { GET_PAYMENT_METHODS } from "../queries/Query";
 

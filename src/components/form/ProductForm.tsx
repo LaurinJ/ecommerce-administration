@@ -6,6 +6,10 @@ import "react-quill/dist/quill.snow.css";
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 import slugify from "slugify";
 import Loader from "../Loader";
+import InputFieldAdm from "./InputFieldAdm";
+import InputCheckBox from "./InputCheckBox";
+import FileInputField from "./FileInputField";
+import MultipleFileInputField from "./MultipleFileInputField";
 
 function ProductForm() {
   const productFromLs = () => {
@@ -79,29 +83,29 @@ function ProductForm() {
         className="flex relative flex-wrap md:flex-nowrap "
         encType="multipart/form-data"
       >
-        {true && <Loader />}
+        {false && <Loader />}
         <div className="w-full lg:w-3/5">
-          <div className="">
-            <input
-              type="text"
-              className="w-full p-3 bg-gray-100"
-              placeholder="Nadpis produktu"
-              required
-              value={title}
-              onChange={handleChange("title")}
-            />
-          </div>
+          <InputFieldAdm
+            required={true}
+            type="text"
+            name="name"
+            label="Nadpis produktu"
+            prompt="Nadpis produktu"
+            // error={err?.name}
+            // value={formValues.name}
+            handleChange={handleChange("title")}
+          />
+          <InputFieldAdm
+            required={true}
+            type="text"
+            name="slug"
+            label="URL adresa"
+            prompt="slug"
+            // error={err?.name}
+            value={slugify(title)}
+            handleChange={handleChange("slug")}
+          />
 
-          <div className="mt-4">
-            <input
-              type="text"
-              className="w-full p-3 bg-gray-100"
-              placeholder="URL adresa"
-              required
-              value={slugify(title)}
-              onChange={handleChange("slug")}
-            />
-          </div>
           <div className="mt-4">
             <label htmlFor="price" className="mr-3">
               Cena:
@@ -128,26 +132,32 @@ function ProductForm() {
             Kč
           </div>
           {/* popis */}
-          <div className="mt-4">
-            <input
-              // rows={2}
-              // cols={50}
-              name="sm-popis"
-              className="w-full p-3 bg-gray-100"
-              placeholder="Krátký popis..."
-              required
-              onChange={handleChange("short_description")}
+          <InputFieldAdm
+            required={true}
+            type="textarea"
+            name="short_description"
+            label="Krátký popis"
+            prompt="Krátký popis..."
+            rows={5}
+            // error={err?.name}
+            // value={slugify(title)}
+            handleChange={handleChange("short_description")}
+          />
+
+          <div>
+            <h4 className="mb-2 text-base font-semibold text-gray-700 xl:text-lg">
+              Popis produktu
+            </h4>
+            <ReactQuill
+              modules={QuillModules}
+              formats={QuillFormats}
+              theme="snow"
+              value={description}
+              placeholder="Dlouhý popis produktu..."
+              className="mt-4 bg-gray-100"
+              onChange={handleBody}
             />
           </div>
-          <ReactQuill
-            modules={QuillModules}
-            formats={QuillFormats}
-            theme="snow"
-            value={description}
-            placeholder="Dlouhý popis produktu..."
-            className="mt-4 bg-gray-100"
-            onChange={handleBody}
-          />
         </div>
 
         <div className="w-96 h-full lg:ml-10 bg-white">
@@ -177,34 +187,20 @@ function ProductForm() {
                 onChange={handleChange("code")}
               />
             </div>
-            <div className="mt-4 ">
-              <label className="mr-3" htmlFor="hidden">
-                Zobrazit:
-              </label>
-              <input
-                className="w-5 h-5 bg-green-400 text-black"
-                type="checkbox"
-                id="hidden"
-                onChange={handleChange("hidden")}
-              />
-            </div>
-            <div className="mt-4">
-              <h5>Obrazky</h5>
-              <hr />
+            <InputCheckBox
+              name="hidden"
+              label="Zobrazení produktu"
+              // checked={formValues.hidden}
+              onChange={handleChange("hidden")}
+            />
 
-              <small>Max velikost obrázku: 1mb</small>
-              <br />
-              <label className="inline-block mt-2 py-1 px-2 bg-green-500 rounded-md">
-                Nahrát obrázky
-                <input
-                  type="file"
-                  multiple
-                  accept="image/"
-                  hidden
-                  onChange={handleChangeImage}
-                />
-              </label>
-            </div>
+            <MultipleFileInputField
+              // img={formValues.image}
+              required={true}
+              label="Fotky produktu"
+              multiple={true}
+              handleChange={handleChangeImage}
+            />
           </div>
         </div>
       </form>

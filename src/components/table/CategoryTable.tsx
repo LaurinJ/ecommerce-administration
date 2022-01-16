@@ -1,24 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+type Category = {
+  _id?: string;
+  name?: string;
+  image?: string;
+  price?: number;
+  hidden?: boolean;
+};
 
 interface Props {
-  payments: any;
+  categories: [Category];
 }
 
-export const PaymentsTable: React.FC<Props> = ({ payments }) => {
+export const CategoryTable: React.FC<Props> = ({ categories }) => {
   return (
-    <table className="w-full table-fixed border-collapse border-gray-400 border-2">
+    <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
-        <tr className="border-b-2 border-gray-400">
-          <th className="w-2/5 py-2">Způsob platby</th>
-          <th className="w-1/5 py-2">Status</th>
+        <tr className="border-b border-gray-200">
+          <th className="text-lg w-2/5 py-3">Jmeno</th>
+          <th className="text-lg w-1/5 py-3">Status</th>
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment: any, i: KeyType) => (
-          <tr className="border-b border-gray-400" key={i}>
-            <td className=" py-2 text-center">{payment.name}</td>
-            <td className=" py-2 ">
-              {payment.hidden ? (
+        {categories.map((category, i) => (
+          <tr
+            className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
+            key={i}
+          >
+            <td className=" py-3 text-center">{category.name}</td>
+            <td className=" py-3 ">
+              {category.hidden ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 mx-auto text-green-700"
@@ -50,13 +62,15 @@ export const PaymentsTable: React.FC<Props> = ({ payments }) => {
                 </svg>
               )}
             </td>
-            <td className="text-center px-10 py-2">
+            <td className="text-center px-10 py-3">
+              <Link to={`/edit-category/${category._id}`}>
+                <i
+                  className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
+                  aria-hidden="true"
+                ></i>
+              </Link>
               <i
-                className="fa fa-pencil fa-lg w-8 hover:text-gray-400"
-                aria-hidden="true"
-              ></i>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400"
+                className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
                 aria-hidden="true"
               ></i>
             </td>

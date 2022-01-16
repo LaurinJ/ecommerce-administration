@@ -4,7 +4,6 @@ import { userName } from "../apollo-client";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
-  const [openPay, setOpenPay] = useState(false);
 
   return (
     <div className="w-56 p-0 relative z-40 text-gray-200 bg-gray-700">
@@ -42,15 +41,21 @@ function Sitebar() {
               <span>Produkty</span>
             </li>
           </Link>
+          <Link to="/categories">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-list-ul fa-lg w-8" aria-hidden="true"></i>
+              <span>Kategorie</span>
+            </li>
+          </Link>
           <Link to="/payments">
             <li className="mb-2 px-4 py-3 hover:text-white">
-              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+              <i className="fa fa-credit-card fa-lg w-8" aria-hidden="true"></i>
               <span>Způsoby platby</span>
             </li>
           </Link>
-          <Link to="/deliver-method">
+          <Link to="/delivery-method">
             <li className="mb-2 px-4 py-3 hover:text-white">
-              <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>
+              <i className="fa fa-car fa-lg w-8" aria-hidden="true"></i>
               <span>Způsoby dopravy</span>
             </li>
           </Link>

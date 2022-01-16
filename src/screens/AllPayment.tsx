@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { PaymentsTable } from "../components/PaymentsTable";
+import { PaymentsTable } from "../components/table/PaymentsTable";
 import { Link } from "react-router-dom";
 import { GET_PAYMENT_METHODS } from "../queries/Query";
 import Loader from "../components/Loader";
@@ -21,7 +21,7 @@ function AllPayment() {
       </div>
       <div className="mt-5">
         {error && <h4>Nejsou k dispozici žádné způsoby platby</h4>}
-        {data && <PaymentsTable payments={data.getPaymentMethod} />}
+        {data && <PaymentsTable payments={data.getPaymentMethods} />}
       </div>
     </div>
   );
