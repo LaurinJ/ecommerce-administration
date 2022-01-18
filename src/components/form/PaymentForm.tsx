@@ -24,7 +24,7 @@ export interface Errors {
 export interface State {
   _id: string;
   name: String;
-  image: Object;
+  image: Object | string;
   hidden: Boolean;
 }
 

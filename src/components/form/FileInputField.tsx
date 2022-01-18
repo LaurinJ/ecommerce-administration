@@ -1,25 +1,47 @@
 import React, { useState, useEffect } from "react";
 
-function FileInputField(props: any) {
-  const [img, setImg] = useState<string | ArrayBuffer | null>("");
+interface Props {
+  img?: string | object;
+  required?: boolean;
+  label: string;
+  error?: string;
+  multiple?: boolean;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function FileInputField(props: Props) {
+  const [img, setImg] = useState<string[] | null[]>([]);
   // element and type validation
   const required = props.required || false;
 
-  const imageReader = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      let img1 = reader.result;
-
-      setImg(img1);
+  const imageReader = (file: File) =>
+    new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
     });
-    if (event.target.files) {
-      reader.readAsDataURL(event.target.files[0]);
+
+  const multiImageReader = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let ar: string[] = [];
+    let files = event.target.files;
+    if (files?.length) {
+      for (let i = 0; i < files.length; i++) {
+        if (files[i] instanceof File) {
+          const file: string = await imageReader(files[i]);
+          ar.push(file);
+        }
+      }
+      setImg(ar);
     }
   };
 
   useEffect(() => {
     if (props.img) {
-      setImg("http://localhost:4000/" + props.img);
+      setImg(["http://localhost:4000/" + props.img]);
     }
   }, [props.img]);
 
@@ -43,21 +65,27 @@ function FileInputField(props: any) {
               props.error ? "border-red-600 " : ""
             }`}
             onChange={(e) => {
-              imageReader(e);
+              multiImageReader(e);
               props.handleChange(e);
             }}
           />
         </label>
       </div>
-      {img && (
-        <img
-          className="mt-5"
-          src={String(img)}
-          width={100}
-          height={100}
-          alt="logo"
-        />
-      )}
+      <div className="flex flex-wrap">
+        {img &&
+          img.map((image, i) => {
+            return (
+              <img
+                key={i}
+                className="mt-5"
+                src={String(image)}
+                width={150}
+                height={150}
+                alt="logo"
+              />
+            );
+          })}
+      </div>
       {props.error && (
         <div className=" flex items-center mt-1 lg:text-base xl:text-lg text-red-600">
           <svg

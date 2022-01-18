@@ -26,7 +26,7 @@ export interface State {
   _id: string;
   name: String;
   price: Number;
-  image: Object;
+  image: Object | string;
   hidden: Boolean;
 }
 

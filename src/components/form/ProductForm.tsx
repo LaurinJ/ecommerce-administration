@@ -4,12 +4,13 @@ import ReactQuill from "react-quill";
 // import Delta from "quill-delta";
 import "react-quill/dist/quill.snow.css";
 import { QuillModules, QuillFormats } from "../../helpers/quill";
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "../../queries/Query";
 import slugify from "slugify";
 import Loader from "../Loader";
 import InputFieldAdm from "./InputFieldAdm";
 import InputCheckBox from "./InputCheckBox";
 import FileInputField from "./FileInputField";
-import MultipleFileInputField from "./MultipleFileInputField";
 
 function ProductForm() {
   const productFromLs = () => {
@@ -35,10 +36,11 @@ function ProductForm() {
     old_price: 0,
     category: "",
     code: 0,
-    hidden: "",
+    hidden: false,
     images: {},
   });
-  // const [product, setProduct] = useState(productFromLs());
+  const { data, loading } = useQuery(GET_CATEGORIES);
+  console.log(values);
 
   const { error, success, title, description } = values;
 
@@ -83,7 +85,7 @@ function ProductForm() {
         className="flex relative flex-wrap md:flex-nowrap "
         encType="multipart/form-data"
       >
-        {false && <Loader />}
+        {loading && <Loader />}
         <div className="w-full lg:w-3/5">
           <InputFieldAdm
             required={true}
@@ -165,16 +167,23 @@ function ProductForm() {
             <label htmlFor="category">Kategorie:</label>
             <select
               id="category"
-              className="ml-2 w-56 p-3 bg-gray-100"
-              defaultValue="akcni"
+              className="ml-2 w-56 p-3 mb-4 bg-gray-100"
               onChange={handleChange("category")}
             >
-              <option value="akcni">Akční</option>
-              <option value="dobrodruzne">Dobrodružné</option>
-              <option value="rpg">RPG</option>
-              <option value="strategie">Strategie</option>
+              {data &&
+                data.getCategories.map((category: any, i: KeyType) => {
+                  return (
+                    <option
+                      className="p-2 bg-gray-500"
+                      value={category._id}
+                      key={i}
+                    >
+                      {category.name}
+                    </option>
+                  );
+                })}
             </select>
-            <div className="mt-4">
+            <div className="mb-4">
               <label htmlFor="code" className="mr-3">
                 Kod produktu:
               </label>
@@ -190,11 +199,12 @@ function ProductForm() {
             <InputCheckBox
               name="hidden"
               label="Zobrazení produktu"
+              checked={values.hidden}
               // checked={formValues.hidden}
               onChange={handleChange("hidden")}
             />
 
-            <MultipleFileInputField
+            <FileInputField
               // img={formValues.image}
               required={true}
               label="Fotky produktu"
