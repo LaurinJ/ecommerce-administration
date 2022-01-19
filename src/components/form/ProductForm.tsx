@@ -11,6 +11,32 @@ import Loader from "../Loader";
 import InputFieldAdm from "./InputFieldAdm";
 import InputCheckBox from "./InputCheckBox";
 import FileInputField from "./FileInputField";
+import { validate } from "../../validators/product";
+import InputNumberField from "./InputNumberField";
+import InputPriceField from "./InputPriceField";
+import InputSelectField from "./InputSelectField";
+
+export interface Errors {
+  title?: string;
+  price?: string;
+  image?: string;
+  code?: string;
+  short_description?: string;
+  description?: string;
+}
+
+export interface State {
+  title: string;
+  slug: string;
+  short_description: string;
+  description: string;
+  price: number;
+  old_price: number;
+  category: string;
+  code: number;
+  hidden: boolean;
+  images: object;
+}
 
 function ProductForm() {
   const productFromLs = () => {
@@ -25,9 +51,7 @@ function ProductForm() {
     }
   };
 
-  const [values, setValues] = useState({
-    error: "",
-    success: "",
+  const [formValues, setFormValues] = useState<State>({
     title: "",
     slug: "",
     short_description: "",
@@ -39,41 +63,45 @@ function ProductForm() {
     hidden: false,
     images: {},
   });
+  const [err, setErr] = useState<Errors>({});
   const { data, loading } = useQuery(GET_CATEGORIES);
-  console.log(values);
-
-  const { error, success, title, description } = values;
+  console.log(formValues);
 
   useEffect(() => {
-    // setValues({ ...values });
+    // setFormValues({ ...formValues });
   }, []);
 
   const publishProduct = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log(values);
+    console.log(formValues);
   };
 
-  const handleChange =
-    (name: String) =>
-    (
-      event:
-        | React.ChangeEvent<HTMLInputElement>
-        | React.ChangeEvent<HTMLSelectElement>
-    ): void => {
-      const value = event.target.value;
-      setValues({ ...values, [String(name)]: value, error: "" });
-    };
+  const handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    const { name, value } = event.target;
+    if (name === "hidden") {
+      setFormValues({
+        ...formValues,
+        [String(name)]: event.target.value,
+      });
+    } else {
+      setFormValues({ ...formValues, [String(name)]: value });
+    }
+  };
 
   const handleChangeImage = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.files;
 
-    setValues({ ...values, images: { ...value }, error: "" });
+    setFormValues({ ...formValues, images: { ...value } });
   };
 
-  const handleBody = (event: String): void => {
-    setValues({ ...values, description: event });
+  const handleBody = (event: string): void => {
+    setFormValues({ ...formValues, description: event });
     if (typeof window !== "undefined") {
       localStorage.setItem("blog", JSON.stringify(event));
     }
@@ -90,12 +118,12 @@ function ProductForm() {
           <InputFieldAdm
             required={true}
             type="text"
-            name="name"
+            name="title"
             label="Nadpis produktu"
             prompt="Nadpis produktu"
-            // error={err?.name}
-            // value={formValues.name}
-            handleChange={handleChange("title")}
+            error={err?.title}
+            value={formValues.title}
+            handleChange={handleChange}
           />
           <InputFieldAdm
             required={true}
@@ -103,36 +131,32 @@ function ProductForm() {
             name="slug"
             label="URL adresa"
             prompt="slug"
-            // error={err?.name}
-            value={slugify(title)}
-            handleChange={handleChange("slug")}
+            value={slugify(formValues.title)}
           />
-
-          <div className="mt-4">
-            <label htmlFor="price" className="mr-3">
-              Cena:
-            </label>
-            <input
-              type="number"
-              className="w-20 mr-1 p-3 bg-gray-100"
-              id="price"
-              placeholder="Cena"
-              required
-              onChange={handleChange("price")}
+          {/* price section */}
+          <div className="flex ">
+            {/* price field */}
+            <InputPriceField
+              required={true}
+              name="price"
+              label="Aktuální cena"
+              prompt="Cena..."
+              // error={"Toto pole je povine"}
+              error={err?.price}
+              value={formValues.price}
+              handleChange={handleChange}
             />
-            Kč
-            <label htmlFor="old_price" className="mx-3">
-              Před:
-            </label>
-            <input
-              type="number"
-              className="w-20 p-3 mr-1 bg-gray-100 inline-block"
-              id="old_price"
-              placeholder="Cena"
-              onChange={handleChange("old_price")}
+            {/* old price field */}
+            <InputPriceField
+              required={true}
+              name="old_price"
+              label="Stará cena"
+              prompt="Stará cena..."
+              value={formValues.old_price}
+              handleChange={handleChange}
             />
-            Kč
           </div>
+
           {/* popis */}
           <InputFieldAdm
             required={true}
@@ -141,9 +165,9 @@ function ProductForm() {
             label="Krátký popis"
             prompt="Krátký popis..."
             rows={5}
-            // error={err?.name}
-            // value={slugify(title)}
-            handleChange={handleChange("short_description")}
+            error={err?.short_description}
+            value={formValues.short_description}
+            handleChange={handleChange}
           />
 
           <div>
@@ -154,7 +178,7 @@ function ProductForm() {
               modules={QuillModules}
               formats={QuillFormats}
               theme="snow"
-              value={description}
+              value={formValues.description}
               placeholder="Dlouhý popis produktu..."
               className="mt-4 bg-gray-100"
               onChange={handleBody}
@@ -164,11 +188,20 @@ function ProductForm() {
 
         <div className="w-96 h-full lg:ml-10 bg-white">
           <div className="mt-4 ml-4">
-            <label htmlFor="category">Kategorie:</label>
+            <InputSelectField
+              required={true}
+              name="category"
+              label="Kategorie"
+              // error={"Toto pole je povine"}
+              value={formValues.category}
+              data={data}
+              handleChange={handleChange}
+            />
+            {/* <label htmlFor="category">Kategorie:</label>
             <select
-              id="category"
+              name="category"
               className="ml-2 w-56 p-3 mb-4 bg-gray-100"
-              onChange={handleChange("category")}
+              onChange={handleChange}
             >
               {data &&
                 data.getCategories.map((category: any, i: KeyType) => {
@@ -182,30 +215,28 @@ function ProductForm() {
                     </option>
                   );
                 })}
-            </select>
-            <div className="mb-4">
-              <label htmlFor="code" className="mr-3">
-                Kod produktu:
-              </label>
-              <input
-                type="number"
-                className="w-32 p-3 bg-gray-100"
-                id="code"
-                placeholder="Kod"
-                required
-                onChange={handleChange("code")}
-              />
-            </div>
+            </select> */}
+            <InputNumberField
+              required={true}
+              type="number"
+              name="code"
+              label="Kod"
+              prompt="Kod..."
+              error={err?.code}
+              value={formValues.code}
+              handleChange={handleChange}
+            />
             <InputCheckBox
               name="hidden"
               label="Zobrazení produktu"
-              checked={values.hidden}
+              checked={formValues.hidden}
+              value={formValues.hidden}
               // checked={formValues.hidden}
-              onChange={handleChange("hidden")}
+              onChange={handleChange}
             />
 
             <FileInputField
-              // img={formValues.image}
+              img={formValues.images}
               required={true}
               label="Fotky produktu"
               multiple={true}

@@ -9,7 +9,7 @@ function InputCheckBox(props: any) {
         type="checkbox"
         id="checkbox"
         name={props.name}
-        // value={props.value}
+        value={props.value}
         checked={checked}
         onChange={props.handleChange}
         className="appearance-none h-6 w-6 border-2 border-gray-600 rounded-md mr-2"
