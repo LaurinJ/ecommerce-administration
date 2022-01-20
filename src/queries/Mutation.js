@@ -92,3 +92,51 @@ export const EDIT_CATEGORY = gql`
     }
   }
 `;
+
+export const CREATE_PRODUCT = gql`
+  mutation Mutation($product: ProductInputData, $images: [Upload]) {
+    createProduct(product: $product, images: $images) {
+      title
+      _id
+      slug
+      description
+      short_description
+      code
+      price
+      old_price
+      countInStock
+      rating
+      rating_sum
+      categories {
+        _id
+        name
+      }
+      images
+      imgurl
+    }
+  }
+`;
+
+export const EDIT_PRODUCT = gql`
+  mutation Mutation($product: ProductInputData, $images: [Upload]) {
+    createProduct(product: $product, images: $images) {
+      title
+      _id
+      slug
+      description
+      short_description
+      code
+      price
+      old_price
+      countInStock
+      rating
+      rating_sum
+      categories {
+        _id
+        name
+      }
+      images
+      imgurl
+    }
+  }
+`;

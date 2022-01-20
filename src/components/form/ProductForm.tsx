@@ -4,8 +4,9 @@ import ReactQuill from "react-quill";
 // import Delta from "quill-delta";
 import "react-quill/dist/quill.snow.css";
 import { QuillModules, QuillFormats } from "../../helpers/quill";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation, ApolloError } from "@apollo/client";
 import { GET_CATEGORIES } from "../../queries/Query";
+import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../queries/Mutation";
 import slugify from "slugify";
 import Loader from "../Loader";
 import InputFieldAdm from "./InputFieldAdm";
@@ -23,17 +24,21 @@ export interface Errors {
   code?: string;
   short_description?: string;
   description?: string;
+  countInStock?: string;
+  categories?: string;
 }
 
 export interface State {
+  _id: string;
   title: string;
   slug: string;
   short_description: string;
   description: string;
   price: number;
   old_price: number;
-  category: string;
+  categories: string[];
   code: number;
+  countInStock: number;
   hidden: boolean;
   images: object;
 }
@@ -51,45 +56,89 @@ function ProductForm() {
     }
   };
 
-  const [formValues, setFormValues] = useState<State>({
+  const initialState = {
+    _id: "",
     title: "",
     slug: "",
     short_description: "",
     description: productFromLs(),
     price: 0,
     old_price: 0,
-    category: "",
+    categories: [],
     code: 0,
+    countInStock: 0,
     hidden: false,
     images: {},
-  });
+  };
+
+  const [formValues, setFormValues] = useState<State>(initialState);
   const [err, setErr] = useState<Errors>({});
   const { data, loading } = useQuery(GET_CATEGORIES);
   console.log(formValues);
+  const Mutation = false ? EDIT_PRODUCT : CREATE_PRODUCT;
+  const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
+    onCompleted: () => {
+      setFormValues(initialState);
+    },
+  });
 
   useEffect(() => {
     // setFormValues({ ...formValues });
   }, []);
 
-  const publishProduct = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    console.log(formValues);
+  const publishProduct = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      event.preventDefault();
+      const errors = validate(formValues);
+      setErr(errors);
+      if (Object.keys(errors).length === 0) {
+        await createProduct({
+          variables: {
+            product: {
+              // _id: formValues._id,
+              title: formValues.title,
+              hidden: formValues.hidden,
+              categories: [...formValues.categories],
+              countInStock: formValues.countInStock,
+              price: formValues.price,
+              old_price: formValues.old_price,
+              short_description: formValues.short_description,
+              description: formValues.description,
+            },
+            images: formValues.images,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ApolloError) {
+        console.log(error.graphQLErrors);
+
+        setErr(error.graphQLErrors[0].extensions.errors);
+      }
+    }
   };
 
   const handleChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement>
+    // | React.ChangeEvent<HTMLSelectElement>
   ): void => {
     const { name, value } = event.target;
     if (name === "hidden") {
       setFormValues({
         ...formValues,
-        [String(name)]: event.target.value,
+        [String(name)]: event.target.checked,
       });
     } else {
       setFormValues({ ...formValues, [String(name)]: value });
     }
+  };
+
+  const handleChangeSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [String(name)]: value });
   };
 
   const handleChangeImage = (
@@ -113,7 +162,7 @@ function ProductForm() {
         className="flex relative flex-wrap md:flex-nowrap "
         encType="multipart/form-data"
       >
-        {loading && <Loader />}
+        {(loading || loadingMutation) && <Loader />}
         <div className="w-full lg:w-3/5">
           <InputFieldAdm
             required={true}
@@ -132,6 +181,7 @@ function ProductForm() {
             label="URL adresa"
             prompt="slug"
             value={slugify(formValues.title)}
+            handleChange={handleChange}
           />
           {/* price section */}
           <div className="flex ">
@@ -188,34 +238,16 @@ function ProductForm() {
 
         <div className="w-96 h-full lg:ml-10 bg-white">
           <div className="mt-4 ml-4">
+            {/* select category */}
             <InputSelectField
               required={true}
-              name="category"
+              name="categories"
               label="Kategorie"
               // error={"Toto pole je povine"}
-              value={formValues.category}
+              value={formValues.categories}
               data={data}
-              handleChange={handleChange}
+              handleChange={handleChangeSelect}
             />
-            {/* <label htmlFor="category">Kategorie:</label>
-            <select
-              name="category"
-              className="ml-2 w-56 p-3 mb-4 bg-gray-100"
-              onChange={handleChange}
-            >
-              {data &&
-                data.getCategories.map((category: any, i: KeyType) => {
-                  return (
-                    <option
-                      className="p-2 bg-gray-500"
-                      value={category._id}
-                      key={i}
-                    >
-                      {category.name}
-                    </option>
-                  );
-                })}
-            </select> */}
             <InputNumberField
               required={true}
               type="number"
@@ -226,13 +258,23 @@ function ProductForm() {
               value={formValues.code}
               handleChange={handleChange}
             />
+            <InputNumberField
+              required={true}
+              type="number"
+              name="countInStock"
+              label="Kusu na skladě"
+              prompt="Počet..."
+              error={err?.countInStock}
+              value={formValues.countInStock}
+              handleChange={handleChange}
+            />
             <InputCheckBox
               name="hidden"
               label="Zobrazení produktu"
               checked={formValues.hidden}
-              value={formValues.hidden}
+              // value={formValues.hidden}
               // checked={formValues.hidden}
-              onChange={handleChange}
+              handleChange={handleChange}
             />
 
             <FileInputField
