@@ -40,7 +40,7 @@ function FileInputField(props: Props) {
   };
 
   useEffect(() => {
-    if (props.img) {
+    if (props.img && !(props.img instanceof Object) && props.img.length !== 0) {
       setImg(["http://localhost:4000/" + props.img]);
     }
   }, [props.img]);
@@ -81,7 +81,7 @@ function FileInputField(props: Props) {
                 src={String(image)}
                 width={150}
                 height={150}
-                alt="logo"
+                alt={image || "picture"}
               />
             );
           })}

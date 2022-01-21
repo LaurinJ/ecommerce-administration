@@ -2,7 +2,7 @@ import React from "react";
 
 export function InputFieldAdm(props: any) {
   // supported types for the input element
-  const INPUTS = ["password", "number", "date"];
+  const INPUTS = ["password", "number", "date", "text"];
 
   // element and type validation
   const type = props.type.toLowerCase();

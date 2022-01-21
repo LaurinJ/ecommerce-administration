@@ -16,10 +16,22 @@ export function InputFieldAdm(props: any) {
           className={`w-56 p-3 bg-gray-100 ${
             props.error ? "border border-red-600 " : ""
           }`}
+          multiple={props.multiple}
           name={props.name}
           value={props.value}
           onChange={props.handleChange}
         >
+          {required ? (
+            /* empty value disabled */
+            <option disabled value={props.emptySelected}>
+              {props.prompt}
+            </option>
+          ) : (
+            /* empty value allowed */
+            <option key={30} value={props.emptySelected}>
+              ({props.prompt})
+            </option>
+          )}
           {props.data &&
             props.data.getCategories.map((obj: any, i: KeyType) => {
               return (

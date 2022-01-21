@@ -37,10 +37,10 @@ export interface State {
   price: number;
   old_price: number;
   categories: string[];
-  code: number;
+  code: string;
   countInStock: number;
   hidden: boolean;
-  images: object;
+  images: any;
 }
 
 function ProductForm() {
@@ -65,10 +65,10 @@ function ProductForm() {
     price: 0,
     old_price: 0,
     categories: [],
-    code: 0,
+    code: "",
     countInStock: 0,
     hidden: false,
-    images: {},
+    images: [],
   };
 
   const [formValues, setFormValues] = useState<State>(initialState);
@@ -77,7 +77,7 @@ function ProductForm() {
   console.log(formValues);
   const Mutation = false ? EDIT_PRODUCT : CREATE_PRODUCT;
   const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
-    onCompleted: () => {
+    onCompleted: (data) => {
       setFormValues(initialState);
     },
   });
@@ -86,11 +86,14 @@ function ProductForm() {
     // setFormValues({ ...formValues });
   }, []);
 
+  // console.log(formValues.categories);
+
   const publishProduct = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
       event.preventDefault();
       const errors = validate(formValues);
       setErr(errors);
+      console.log(errors);
       if (Object.keys(errors).length === 0) {
         await createProduct({
           variables: {
@@ -99,9 +102,10 @@ function ProductForm() {
               title: formValues.title,
               hidden: formValues.hidden,
               categories: [...formValues.categories],
-              countInStock: formValues.countInStock,
-              price: formValues.price,
-              old_price: formValues.old_price,
+              countInStock: Number(formValues.countInStock),
+              price: Number(formValues.price),
+              old_price: Number(formValues.old_price),
+              code: formValues.code,
               short_description: formValues.short_description,
               description: formValues.description,
             },
@@ -137,16 +141,22 @@ function ProductForm() {
   const handleChangeSelect = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [String(name)]: value });
+    const { name } = event.target;
+    if (["categories"].includes(name)) {
+      let cat = Array.from(event.target.selectedOptions, (item) => item.value);
+      setFormValues({ ...formValues, [String(name)]: cat });
+    }
   };
 
   const handleChangeImage = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.files;
-
-    setFormValues({ ...formValues, images: { ...value } });
+    console.log(value);
+    if (value && value[0]) {
+      let i = Array.from(value);
+      setFormValues({ ...formValues, images: i });
+    }
   };
 
   const handleBody = (event: string): void => {
@@ -243,16 +253,18 @@ function ProductForm() {
               required={true}
               name="categories"
               label="Kategorie"
-              // error={"Toto pole je povine"}
+              prompt="Vyber kategorie"
+              multiple={true}
+              error={err?.categories}
               value={formValues.categories}
               data={data}
               handleChange={handleChangeSelect}
             />
             <InputNumberField
               required={true}
-              type="number"
+              type="text"
               name="code"
-              label="Kod"
+              label="Kod produktu"
               prompt="Kod..."
               error={err?.code}
               value={formValues.code}
@@ -282,6 +294,7 @@ function ProductForm() {
               required={true}
               label="Fotky produktu"
               multiple={true}
+              error={err?.image}
               handleChange={handleChangeImage}
             />
           </div>
