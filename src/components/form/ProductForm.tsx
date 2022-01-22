@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-// import { Delta as TypeDelta } from "quill";
-// import Delta from "quill-delta";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { QuillModules, QuillFormats } from "../../helpers/quill";
-import { useQuery, useMutation, ApolloError } from "@apollo/client";
-import { GET_CATEGORIES } from "../../queries/Query";
+
+import ReactQuill from "react-quill";
+import EditorToolbar, { modules, formats } from "../../helpers/quill";
+
+// import { QuillModules, QuillFormats } from "../../helpers/quill";
+import { useLazyQuery, useMutation, ApolloError } from "@apollo/client";
+import { GET_CATEGORIES, GET_PRODUCT } from "../../queries/Query";
 import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../queries/Mutation";
 import slugify from "slugify";
 import Loader from "../Loader";
@@ -16,6 +18,11 @@ import { validate } from "../../validators/product";
 import InputNumberField from "./InputNumberField";
 import InputPriceField from "./InputPriceField";
 import InputSelectField from "./InputSelectField";
+import { getLocalStorage, setLocalStorage } from "../../actions/auth";
+
+interface Props {
+  slug: string;
+}
 
 export interface Errors {
   title?: string;
@@ -23,7 +30,6 @@ export interface Errors {
   image?: string;
   code?: string;
   short_description?: string;
-  description?: string;
   countInStock?: string;
   categories?: string;
 }
@@ -33,7 +39,6 @@ export interface State {
   title: string;
   slug: string;
   short_description: string;
-  description: string;
   price: number;
   old_price: number;
   categories: string[];
@@ -43,14 +48,14 @@ export interface State {
   images: any;
 }
 
-function ProductForm() {
+function ProductForm({ slug }: Props) {
   const productFromLs = () => {
     if (typeof window === "undefined") {
       return false;
     }
 
-    if (localStorage.getItem("product")) {
-      return JSON.parse(localStorage.getItem("product") || "");
+    if (getLocalStorage("description")) {
+      return getLocalStorage("description");
     } else {
       return false;
     }
@@ -61,7 +66,6 @@ function ProductForm() {
     title: "",
     slug: "",
     short_description: "",
-    description: productFromLs(),
     price: 0,
     old_price: 0,
     categories: [],
@@ -72,33 +76,59 @@ function ProductForm() {
   };
 
   const [formValues, setFormValues] = useState<State>(initialState);
+  const [description, setDescription] = useState("");
   const [err, setErr] = useState<Errors>({});
-  const { data, loading } = useQuery(GET_CATEGORIES);
-  console.log(formValues);
-  const Mutation = false ? EDIT_PRODUCT : CREATE_PRODUCT;
-  const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
+  const [getCategory, { data: categories, loading: categoriesLoading }] =
+    useLazyQuery(GET_CATEGORIES);
+  const [getProduct, { loading: productLoading }] = useLazyQuery(GET_PRODUCT, {
+    fetchPolicy: "network-only",
     onCompleted: (data) => {
-      setFormValues(initialState);
+      const product = data.getProduct;
+      const state = {
+        _id: product._id,
+        title: product.title,
+        slug: product.slug,
+        short_description: product.short_description,
+        price: product.price,
+        old_price: product.old_price,
+        categories: product.categories.map((cat: any) => cat._id),
+        code: product.code,
+        countInStock: product.countInStock,
+        hidden: product?.hidden || false,
+        images: product.images,
+      };
+
+      setFormValues(state);
+      setDescription(product.description);
     },
   });
 
+  const Mutation = slug ? EDIT_PRODUCT : CREATE_PRODUCT;
+  const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
+    onCompleted: () => {
+      setLocalStorage("description", "");
+      setErr({});
+      setFormValues(initialState);
+      setDescription("");
+    },
+  });
   useEffect(() => {
-    // setFormValues({ ...formValues });
-  }, []);
-
-  // console.log(formValues.categories);
+    getCategory();
+    if (slug) {
+      getProduct({ variables: { slug: slug } });
+    }
+  }, [getCategory, getProduct, slug]);
 
   const publishProduct = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
       event.preventDefault();
       const errors = validate(formValues);
       setErr(errors);
-      console.log(errors);
       if (Object.keys(errors).length === 0) {
         await createProduct({
           variables: {
             product: {
-              // _id: formValues._id,
+              _id: formValues._id,
               title: formValues.title,
               hidden: formValues.hidden,
               categories: [...formValues.categories],
@@ -107,7 +137,7 @@ function ProductForm() {
               old_price: Number(formValues.old_price),
               code: formValues.code,
               short_description: formValues.short_description,
-              description: formValues.description,
+              description: description,
             },
             images: formValues.images,
           },
@@ -116,17 +146,12 @@ function ProductForm() {
     } catch (error) {
       console.log(error);
       if (error instanceof ApolloError) {
-        console.log(error.graphQLErrors);
-
         setErr(error.graphQLErrors[0].extensions.errors);
       }
     }
   };
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-    // | React.ChangeEvent<HTMLSelectElement>
-  ): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     if (name === "hidden") {
       setFormValues({
@@ -159,10 +184,13 @@ function ProductForm() {
     }
   };
 
-  const handleBody = (event: string): void => {
-    setFormValues({ ...formValues, description: event });
+  const handleBody = (e: any): void => {
+    // setFormValues({ ...formValues, description: e });
+    setDescription(e);
+    // console.log(formValues);
+
     if (typeof window !== "undefined") {
-      localStorage.setItem("blog", JSON.stringify(event));
+      setLocalStorage("description", e);
     }
   };
 
@@ -172,7 +200,7 @@ function ProductForm() {
         className="flex relative flex-wrap md:flex-nowrap "
         encType="multipart/form-data"
       >
-        {(loading || loadingMutation) && <Loader />}
+        {(categoriesLoading || productLoading || loadingMutation) && <Loader />}
         <div className="w-full lg:w-3/5">
           <InputFieldAdm
             required={true}
@@ -234,7 +262,7 @@ function ProductForm() {
             <h4 className="mb-2 text-base font-semibold text-gray-700 xl:text-lg">
               Popis produktu
             </h4>
-            <ReactQuill
+            {/* <ReactQuill
               modules={QuillModules}
               formats={QuillFormats}
               theme="snow"
@@ -242,6 +270,15 @@ function ProductForm() {
               placeholder="Dlouhý popis produktu..."
               className="mt-4 bg-gray-100"
               onChange={handleBody}
+            /> */}
+            <EditorToolbar toolbarId={"t1"} />
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={handleBody}
+              placeholder={"Write something awesome..."}
+              modules={modules("t1")}
+              formats={formats}
             />
           </div>
         </div>
@@ -257,7 +294,7 @@ function ProductForm() {
               multiple={true}
               error={err?.categories}
               value={formValues.categories}
-              data={data}
+              data={categories?.getCategories}
               handleChange={handleChangeSelect}
             />
             <InputNumberField
@@ -305,7 +342,7 @@ function ProductForm() {
           onClick={publishProduct}
           className="py-1 px-2 bg-green-500 rounded-md"
         >
-          Přidat produkt
+          {slug ? "Aktualizovat produkt" : "Přidat produkt"}
         </button>
       </div>
     </>

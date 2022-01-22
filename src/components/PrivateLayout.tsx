@@ -36,6 +36,7 @@ function PrivateLayout() {
       <main className="mt-14 pt-5 px-5 w-full h-screen bg-white text-gray-700">
         <Switch>
           <Route path="/add-product" component={AddProduct} />
+          <Route path="/edit-product/:slug" component={AddProduct} />
           <Route path="/products" component={AllProducts} />
           <Route path="/payments" component={AllPayment} />
           <Route path="/add-payment" component={AddPayment} />

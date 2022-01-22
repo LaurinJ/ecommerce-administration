@@ -1,6 +1,6 @@
 import React from "react";
 
-export function InputFieldAdm(props: any) {
+export function InputPriceField(props: any) {
   // element and type validation
   const required = props.required || false;
 
@@ -47,4 +47,4 @@ export function InputFieldAdm(props: any) {
   );
 }
 
-export default InputFieldAdm;
+export default InputPriceField;

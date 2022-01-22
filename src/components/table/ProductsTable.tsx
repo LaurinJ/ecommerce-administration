@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   products: any;
@@ -25,10 +26,12 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
             <td className="text-center px-10 py-3">{product.price}</td>
             <td className=" text-center px-10 py-3">{product.countInStock}</td>
             <td className=" text-center px-10 py-3">
-              <i
-                className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
-                aria-hidden="true"
-              ></i>
+              <Link to={`/edit-product/${product.slug}`}>
+                <i
+                  className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
+                  aria-hidden="true"
+                ></i>
+              </Link>
               <i
                 className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
                 aria-hidden="true"

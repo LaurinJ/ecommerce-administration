@@ -1,6 +1,6 @@
 import React from "react";
 
-export function InputFieldAdm(props: any) {
+export function InputSelectField(props: any) {
   // element and type validation
   const required = props.required || false;
 
@@ -33,7 +33,7 @@ export function InputFieldAdm(props: any) {
             </option>
           )}
           {props.data &&
-            props.data.getCategories.map((obj: any, i: KeyType) => {
+            props.data.map((obj: any, i: KeyType) => {
               return (
                 <option className="p-2 bg-gray-100" value={obj._id} key={i}>
                   {obj.name}
@@ -65,4 +65,4 @@ export function InputFieldAdm(props: any) {
   );
 }
 
-export default InputFieldAdm;
+export default InputSelectField;

@@ -1,19 +1,24 @@
 import { gql } from "@apollo/client";
 
-export const PRODUCTS_QUERY = gql`
-  query GetProducts($skip: Int) {
-    getProducts(skip: $skip) {
+export const GET_PRODUCT = gql`
+  query GetProduct($slug: String!) {
+    getProduct(slug: $slug) {
+      _id
       title
-      price
-      old_price
       slug
       description
-      imgurl
-      rating
-      rating_sum
-    }
-    getCountPages {
-      pages
+      short_description
+      code
+      price
+      old_price
+      countInStock
+      categories {
+        _id
+        # name
+      }
+      images
+      # imgurl
+      # hidden
     }
   }
 `;
@@ -21,7 +26,20 @@ export const PRODUCTS_QUERY = gql`
 export const GET_PRODUCTS = gql`
   query GetProducts($limit: Int) {
     getProducts(limit: $limit) {
+      _id
       title
+      price
+      slug
+      countInStock
+    }
+  }
+`;
+
+export const SEARCH = gql`
+  query GetFilterProducts($params: FilterData) {
+    getFilterProducts(params: $params) {
+      title
+      slug
       price
       countInStock
     }

@@ -8,9 +8,6 @@ export const validate = (values: State) => {
   if (!values.short_description) {
     errors.short_description = "Toto pole je povinné";
   }
-  if (!values.description) {
-    errors.description = "Toto pole je povinné";
-  }
   if (!values.price) {
     errors.price = "Toto pole je povinné";
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 interface Props {
-  img?: string | object;
+  img?: any;
   required?: boolean;
   label: string;
   error?: string;
@@ -40,8 +40,14 @@ function FileInputField(props: Props) {
   };
 
   useEffect(() => {
-    if (props.img && !(props.img instanceof Object) && props.img.length !== 0) {
-      setImg(["http://localhost:4000/" + props.img]);
+    if (props.img && props.img.length !== 0) {
+      setImg(
+        props.img.map((image: string) => {
+          return `http://localhost:4000/${image}`;
+        })
+      );
+    } else {
+      setImg([]);
     }
   }, [props.img]);
 
