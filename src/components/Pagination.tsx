@@ -25,7 +25,7 @@ const Pagination: React.FC<Props> = ({ page = 1, pages }) => {
           <Link to={`/products?page=${i}&q=${q}`} key={i}>
             <button
               key={i}
-              className="w-[35px] mr-2 leading-8 text-center border inline-block border-gray-300 hover:border-black duration-200 cursor-pointer"
+              className="w-[35px] mr-2 leading-8 text-center border inline-block border-gray-300 hover:border-black hover:bg-red-700 duration-200 cursor-pointer"
             >
               {i}
             </button>
@@ -37,7 +37,7 @@ const Pagination: React.FC<Props> = ({ page = 1, pages }) => {
   };
 
   return (
-    <div className="mb-7 mx-auto font-bold sm:font-normal">
+    <div className="my-7 flex justify-center font-bold sm:font-normal">
       {page > 1 ? (
         <Link to={`/products?page=${page - 1}&q=${q}`} key="40">
           <button

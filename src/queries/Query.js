@@ -36,12 +36,15 @@ export const GET_PRODUCTS = gql`
 `;
 
 export const SEARCH = gql`
-  query GetFilterProducts($params: FilterData) {
-    getFilterProducts(params: $params) {
-      title
-      slug
-      price
-      countInStock
+  query GetFilterProducts($params: FilterData, $limit: Int, $skip: Int) {
+    getFilterProducts(params: $params, skip: $skip, limit: $limit) {
+      products {
+        title
+        slug
+        price
+        countInStock
+      }
+      pages
     }
   }
 `;

@@ -709,6 +709,11 @@ video {
   margin-bottom: auto;
 }
 
+.my-7 {
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -755,8 +760,8 @@ video {
   margin-left: 0.25rem;
 }
 
-.mb-7 {
-  margin-bottom: 1.75rem;
+.mb-20 {
+  margin-bottom: 5rem;
 }
 
 .mt-14 {
@@ -1793,6 +1798,11 @@ video {
 .hover\:bg-green-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(52, 211, 153, var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-800:hover {

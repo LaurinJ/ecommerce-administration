@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Link, Router } from "react-router-dom";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "../queries/Query";
 import SearchSelectField from "./form/SearchSelectField";
 
-function Search({ searchFunc }) {
+function Search({ searchFunc }: any) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [open, setOpen] = useState(false);
   const { data } = useQuery(GET_CATEGORIES);
 
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setSearch(value);
-    if (value.length > 2) {
-      searchFunc({ variables: { params: { title: value.trim() } } });
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    if (name === "category") {
+      setCategory(value);
+      searchFunc({
+        variables: { params: { title: search.trim(), category: value } },
+      });
+    } else {
+      setSearch(value);
+      if (value.length > 2) {
+        searchFunc({
+          variables: { params: { title: value.trim(), category: category } },
+        });
+      }
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <form className="hidden relative lg:flex">
@@ -30,11 +37,12 @@ function Search({ searchFunc }) {
         onChange={handleChange}
       />
       <SearchSelectField
-        name="categories"
+        name="category"
         prompt="Vyber kategorii"
-        // value={formValues.categories}
+        value={category}
         data={data?.getCategories}
-        // handleChange={handleChangeSelect}
+        handleChange={handleChange}
+        emptySelected=""
       />
     </form>
   );

@@ -33,7 +33,7 @@ function PrivateLayout() {
         <Header />
         <Sitebar />
       </header>
-      <main className="mt-14 pt-5 px-5 w-full h-screen bg-white text-gray-700">
+      <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700">
         <Switch>
           <Route path="/add-product" component={AddProduct} />
           <Route path="/edit-product/:slug" component={AddProduct} />
