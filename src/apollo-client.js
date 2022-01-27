@@ -1,10 +1,7 @@
 import { ApolloClient, InMemoryCache, split, makeVar } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
-import {
-  getMainDefinition,
-  offsetLimitPagination,
-} from "@apollo/client/utilities";
+import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getCookie, getLocalStorage } from "./actions/auth";
 

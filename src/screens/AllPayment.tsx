@@ -12,7 +12,7 @@ function AllPayment() {
     <div className="relative h-screen">
       {loading && <Loader />}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Způsob platby</h1>
+        <h1 className="w-56 text-2xl">Způsob platby</h1>
         <Link to="/add-payment">
           <span className="p-2 bg-blue-300 rounded-sm">
             Přidat způsob platby
@@ -20,7 +20,9 @@ function AllPayment() {
         </Link>
       </div>
       <div className="mt-5">
-        {error && <h4>Nejsou k dispozici žádné způsoby platby</h4>}
+        {error && data?.getPaymentMethods.length === 0 && (
+          <h4>Nejsou k dispozici žádné způsoby platby</h4>
+        )}
         {data && <PaymentsTable payments={data.getPaymentMethods} />}
       </div>
     </div>

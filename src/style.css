@@ -760,10 +760,6 @@ video {
   margin-left: 0.25rem;
 }
 
-.mb-20 {
-  margin-bottom: 5rem;
-}
-
 .mt-14 {
   margin-top: 3.5rem;
 }
@@ -1869,10 +1865,6 @@ video {
 
   .lg\:ml-10 {
     margin-left: 2.5rem;
-  }
-
-  .lg\:flex {
-    display: flex;
   }
 
   .lg\:w-3\/5 {

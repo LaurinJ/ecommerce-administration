@@ -22,7 +22,10 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
             key={i}
           >
-            <td className=" pl-3  py-3">{product.title}</td>
+            <td className=" pl-3  py-3" title={product.title}>
+              {product.title.slice(0, 55)}
+              {product.title.length > 55 ? "..." : ""}
+            </td>
             <td className="text-center px-10 py-3">{product.price}</td>
             <td className=" text-center px-10 py-3">{product.countInStock}</td>
             <td className=" text-center px-10 py-3">

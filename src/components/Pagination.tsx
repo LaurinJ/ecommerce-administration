@@ -23,7 +23,6 @@ const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
         );
       } else {
         pagesButton.push(
-          // <Link to={`/products?page=${i}&q=${q}`} key={i}>
           <button
             key={i}
             onClick={() => {
@@ -33,7 +32,6 @@ const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
           >
             {i}
           </button>
-          // </Link>
         );
       }
     }
@@ -43,7 +41,6 @@ const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
   return (
     <div className="my-7 flex justify-center font-bold sm:font-normal">
       {page > 1 ? (
-        // <Link to={`/products?page=${page - 1}&q=${q}`} key="40">
         <button
           key="40"
           onClick={() => {
@@ -54,12 +51,10 @@ const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
           &#60;
         </button>
       ) : (
-        // </Link>
         ""
       )}
       {paginator(page, pages)}
       {page < pages ? (
-        // <Link to={`/products?page=${page + 1}&q=${q}`} key="41">
         <button
           key="41"
           onClick={() => {
@@ -70,7 +65,6 @@ const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
           &#62;
         </button>
       ) : (
-        // </Link>
         ""
       )}
     </div>

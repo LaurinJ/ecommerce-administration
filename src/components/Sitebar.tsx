@@ -30,11 +30,15 @@ function Sitebar() {
               <i className="fa fa-table fa-lg w-8" aria-hidden="true"></i>Home
             </a>
           </li>
-          <li className="mb-2 px-4 py-3">
-            <a href="/#">
-              <i className="fa fa-home fa-lg w-8" aria-hidden="true"></i>Form
-            </a>
-          </li>
+          <Link to="/orders">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i
+                className="fa fa-shopping-bag fa-lg w-8"
+                aria-hidden="true"
+              ></i>
+              <span>Objednávky</span>
+            </li>
+          </Link>
           <Link to="/products">
             <li className="mb-2 px-4 py-3 hover:text-white">
               <i className="fa fa-desktop fa-lg w-8" aria-hidden="true"></i>

@@ -12,6 +12,7 @@ import AddDeliveryMethod from "../screens/AddDeliveryMethod";
 import ContactMessage from "../screens/ContactMessage";
 import AllCategories from "../screens/AllCategories";
 import AddCategory from "../screens/AddCategory";
+import AllOrders from "../screens/AllOrders";
 
 import { isAuth } from "../actions/auth";
 import { userName } from "../apollo-client";
@@ -35,6 +36,7 @@ function PrivateLayout() {
       </header>
       <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700">
         <Switch>
+          <Route path="/orders" component={AllOrders} />
           <Route path="/add-product" component={AddProduct} />
           <Route path="/edit-product/:slug" component={AddProduct} />
           <Route path="/products" component={AllProducts} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "../queries/Query";
+import SearchSelectField from "./form/SearchSelectField";
 
 function Search({ searchFunc, page }: any) {
   const [search, setSearch] = useState("");
@@ -31,13 +32,21 @@ function Search({ searchFunc, page }: any) {
   };
 
   return (
-    <form className="relative">
+    <form className="relative flex">
       <input
         type="search"
-        className="p-4 rounded-sm lg:text-lg max-h-12 bg-gray-100 w-96 outline-none border border-gray-400"
+        className="p-4 rounded-l-sm lg:text-lg max-h-12 bg-gray-100 w-96 outline-none border-r-0 border border-gray-400"
         placeholder="Vyhledat..."
         value={search}
         onChange={handleChange}
+      />
+      <SearchSelectField
+        name="category"
+        prompt="Vyber kategorii"
+        value={category}
+        data={data?.getCategories}
+        handleChange={handleChange}
+        emptySelected=""
       />
     </form>
   );

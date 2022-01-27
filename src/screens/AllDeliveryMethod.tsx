@@ -12,7 +12,7 @@ function AllDeliveryMethod() {
     <div className="relative h-screen">
       {loading && <Loader />}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Způsob dopravy</h1>
+        <h1 className="w-56 text-2xl">Způsob dopravy</h1>
         <Link to="/add-delivery">
           <span className="p-2 bg-blue-300 rounded-sm">
             Přidat způsob dopravy

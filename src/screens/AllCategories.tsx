@@ -11,7 +11,7 @@ function AllCategories() {
     <div className="relative h-screen">
       {loading && <Loader />}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Kategorie</h1>
+        <h1 className="w-56 text-2xl">Kategorie</h1>
         <Link to="/add-category">
           <span className="p-2 bg-blue-300 rounded-sm">Přidat kategorii</span>
         </Link>

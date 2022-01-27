@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
-import { ProductsTable } from "../components/table/ProductsTable";
 import { GET_PRODUCTS } from "../queries/Query";
 import Loader from "../components/Loader";
-import Search from "../components/SearchWithFilter";
+import Search from "../components/Search";
 import { SEARCH } from "../queries/Query";
 import Pagination from "../components/Pagination";
+import { OrdersTable } from "../components/table/OrdersTable";
 
-function AllProducts() {
+export default function AllOrders() {
   const [page, setPage] = useState(1);
   const [search, { loading, error, data }] = useLazyQuery(SEARCH, {
     variables: { skip: page, limit: 10, params: { title: "" } },
@@ -23,11 +23,42 @@ function AllProducts() {
     search();
   }, []);
 
+  type Order = {
+    orderNumber: number;
+    is_paid: boolean;
+    is_deliver: boolean;
+    state: string;
+    price: number;
+    createdAt: Date;
+  };
+
+  const data1:
+    | []
+    | [
+        {
+          orderNumber: number;
+          is_paid: boolean;
+          is_deliver: boolean;
+          state: string;
+          price: number;
+          createdAt: Date;
+        }
+      ] = [
+    {
+      orderNumber: 934658721,
+      is_paid: true,
+      is_deliver: false,
+      state: "created",
+      price: 955,
+      createdAt: new Date(),
+    },
+  ];
+
   return (
     <div className="relative h-screen">
       {loading && <Loader />}
-      <div className="flex items-center justify-between">
-        <h1 className="w-56 text-2xl">Seznam produktu</h1>
+      <div className="flex flex-wrap items-center justify-between">
+        <h1 className="w-56 text-2xl">Seznam objednávek</h1>
         <div>
           <Search searchFunc={search} />
         </div>
@@ -36,10 +67,11 @@ function AllProducts() {
         </Link>
       </div>
       <div className="mt-5">
-        {error && data?.getFilterProducts.products.length === 0 && (
-          <h4>Nejsou k dispozici žádné produkty</h4>
-        )}
-        {data && <ProductsTable products={data.getFilterProducts.products} />}
+        {error ||
+          (data?.getFilterProducts.products.length === 0 && (
+            <h4>Nejsou žádné objednávky</h4>
+          ))}
+        {data && <OrdersTable orders={data1} />}
       </div>
       {data?.getFilterProducts.pages > 1 ? (
         <Pagination
@@ -53,5 +85,3 @@ function AllProducts() {
     </div>
   );
 }
-
-export default AllProducts;
