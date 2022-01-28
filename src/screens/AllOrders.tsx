@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
-import { GET_PRODUCTS } from "../queries/Query";
+import { GET_ORDERS } from "../queries/Query";
 import Loader from "../components/Loader";
 import Search from "../components/Search";
 import { SEARCH } from "../queries/Query";
@@ -10,8 +10,8 @@ import { OrdersTable } from "../components/table/OrdersTable";
 
 export default function AllOrders() {
   const [page, setPage] = useState(1);
-  const [search, { loading, error, data }] = useLazyQuery(SEARCH, {
-    variables: { skip: page, limit: 10, params: { title: "" } },
+  const [search, { loading, error, data }] = useLazyQuery(GET_ORDERS, {
+    variables: { skip: page, limit: 10, params: { numberOrder: 0 } },
   });
 
   const handleClick = (page: number) => {
@@ -68,15 +68,15 @@ export default function AllOrders() {
       </div>
       <div className="mt-5">
         {error ||
-          (data?.getFilterProducts.products.length === 0 && (
+          (data?.getOrders.orders.length === 0 && (
             <h4>Nejsou žádné objednávky</h4>
           ))}
-        {data && <OrdersTable orders={data1} />}
+        {data && <OrdersTable orders={data.getOrders.orders} />}
       </div>
-      {data?.getFilterProducts.pages > 1 ? (
+      {data?.getOrders.pages > 1 ? (
         <Pagination
           page={page}
-          pages={data.getFilterProducts.pages}
+          pages={data.getOrders.pages}
           handleClick={handleClick}
         />
       ) : (

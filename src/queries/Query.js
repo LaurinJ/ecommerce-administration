@@ -141,3 +141,19 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+export const GET_ORDERS = gql`
+  query GetOrders($params: FilterOrderData, $limit: Int, $skip: Int) {
+    getOrders(params: $params, limit: $limit, skip: $skip) {
+      orders {
+        total_price
+        state
+        is_paid
+        is_deliver
+        orderNumber
+        createdAt
+      }
+      pages
+    }
+  }
+`;

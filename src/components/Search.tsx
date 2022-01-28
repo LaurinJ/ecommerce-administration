@@ -35,7 +35,7 @@ function Search({ searchFunc, page }: any) {
       <input
         type="search"
         className="p-4 rounded-sm lg:text-lg max-h-12 bg-gray-100 w-96 outline-none border border-gray-400"
-        placeholder="Vyhledat..."
+        placeholder="Vyhledat podle čísla"
         value={search}
         onChange={handleChange}
       />
