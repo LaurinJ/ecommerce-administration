@@ -11,7 +11,7 @@ import { OrdersTable } from "../components/table/OrdersTable";
 export default function AllOrders() {
   const [page, setPage] = useState(1);
   const [search, { loading, error, data }] = useLazyQuery(GET_ORDERS, {
-    variables: { skip: page, limit: 10, params: { numberOrder: 0 } },
+    variables: { skip: page, limit: 10, params: { numberOrder: "" } },
   });
 
   const handleClick = (page: number) => {
@@ -22,37 +22,6 @@ export default function AllOrders() {
   useEffect(() => {
     search();
   }, []);
-
-  type Order = {
-    orderNumber: number;
-    is_paid: boolean;
-    is_deliver: boolean;
-    state: string;
-    price: number;
-    createdAt: Date;
-  };
-
-  const data1:
-    | []
-    | [
-        {
-          orderNumber: number;
-          is_paid: boolean;
-          is_deliver: boolean;
-          state: string;
-          price: number;
-          createdAt: Date;
-        }
-      ] = [
-    {
-      orderNumber: 934658721,
-      is_paid: true,
-      is_deliver: false,
-      state: "created",
-      price: 955,
-      createdAt: new Date(),
-    },
-  ];
 
   return (
     <div className="relative h-screen">

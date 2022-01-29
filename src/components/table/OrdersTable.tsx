@@ -102,15 +102,14 @@ export const OrdersTable: React.FC<Props> = ({ orders }) => {
               )}
             </td>
             <td className="text-center px-10 py-3">{order.total_price} Kč</td>
-            <td className=" text-center px-10 py-3">
+            <td className="block w-[165px] text-center px-10 py-3">
               {dateStringFormatter(order.createdAt)}
-              {order.createdAt}
             </td>
             <td className=" text-center px-10 py-3">{order.state}</td>
             <td className=" text-center px-10 py-3">
-              <Link to={`/edit-order/${order.orderNumber}`}>
+              <Link to={`/order/${order.orderNumber}`}>
                 <i
-                  className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
+                  className="fa fa-arrow-circle-right fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
                 ></i>
               </Link>

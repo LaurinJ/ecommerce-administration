@@ -1,5 +1,5 @@
 export const dateStringFormatter = (date) => {
-  const d = new Date(date);
+  const d = new Date(Number(date));
   const today = new Date();
 
   const month = "" + (d.getMonth() + 1);
@@ -11,11 +11,16 @@ export const dateStringFormatter = (date) => {
   if ((month !== Tmonth) | (day !== Tday)) {
     return d.toLocaleDateString("cs-CZ", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
     });
+    // return d.toLocaleDateString("cs-CZ", {
+    //   year: "numeric",
+    //   month: "long",
+    //   day: "numeric",
+    //   hour: "numeric",
+    //   minute: "numeric",
+    // });
   }
 
   const hours = "" + d.getHours();

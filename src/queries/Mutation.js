@@ -134,3 +134,15 @@ export const EDIT_PRODUCT = gql`
     }
   }
 `;
+
+export const CREATE_ORDER = gql`
+  mutation Mutation(
+    $token: OrderTokenData
+    $address: AddressData
+    $person: PersonData
+  ) {
+    createOrUpdateOrder(token: $token, address: $address, person: $person) {
+      token
+    }
+  }
+`;

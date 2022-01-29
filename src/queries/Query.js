@@ -142,6 +142,50 @@ export const GET_CATEGORIES = gql`
   }
 `;
 
+export const GET_ORDER = gql`
+  query GetOrder($orderNumber: String) {
+    getOrder(orderNumber: $orderNumber) {
+      items {
+        title
+        price
+        old_price
+        count
+        img
+        short_description
+      }
+      total_price
+      person {
+        person_detail {
+          first_name
+          last_name
+          phone
+          email
+        }
+        address {
+          street
+          village
+          postCode
+          numberDescriptive
+        }
+      }
+      state
+      orderNumber
+      is_paid
+      paid_at
+      is_deliver
+      delivered_at
+      createdAt
+      deliver_method {
+        price
+        name
+      }
+      payment_method {
+        name
+      }
+    }
+  }
+`;
+
 export const GET_ORDERS = gql`
   query GetOrders($params: FilterOrderData, $limit: Int, $skip: Int) {
     getOrders(params: $params, limit: $limit, skip: $skip) {

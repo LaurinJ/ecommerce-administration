@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { userName } from "../apollo-client";
@@ -15,7 +16,11 @@ function Sitebar() {
       {/* profile */}
       <div className="flex mb-2">
         <div className="mx-3">
-          <img src="profile.jpg" alt="..." className="w-12 h-12 rounded-full" />
+          <img
+            src="/profile.jpg"
+            alt="Profile photo"
+            className="w-12 h-12 rounded-full"
+          />
         </div>
         <div className="mx-3 font-normal">
           <span className="text-gray-400">Welcome,</span>

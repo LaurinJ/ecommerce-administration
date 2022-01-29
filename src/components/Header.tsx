@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { userName } from "../apollo-client";
@@ -25,8 +26,8 @@ function Header() {
           onClick={() => setOpen(!open)}
         >
           <img
-            src="profile.jpg"
-            alt="Profile images"
+            src="/profile.jpg"
+            alt="Profile photo."
             className="w-8 h-8 mr-1 rounded-full"
           />
           {userName()}
