@@ -48,6 +48,7 @@ const splitLink = split(
 export const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache({
+    addTypename: false,
     // typePolicies: {
     //   Query: {
     //     fields: {

@@ -17,7 +17,7 @@ export function InputField(props) {
         <label>{props.label}</label>
       </div>
       <div className="flex">
-        <div className="form_input min-w-[75px] w-[10%] mt-2 mb-1">
+        <div className="min-w-[75px] w-[10%] mt-2 mb-1">
           <div>
             <input
               id="phone_number_label"

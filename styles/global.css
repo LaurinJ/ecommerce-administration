@@ -134,11 +134,11 @@
   transform: translate(-50%, -50%) scale(1);
 }
 
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .radio {
     width: 49%;
   }
-}
+} */
 
 /* cart info */
 .cartitem_product_info {
@@ -163,6 +163,11 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* check input */
+#deli_address:checked ~ .check-1 {
+  @apply text-opacity-100;
 }
 
 /* quill */

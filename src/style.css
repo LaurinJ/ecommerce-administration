@@ -733,11 +733,6 @@ video {
   margin-right: 0.75rem;
 }
 
-.my-8 {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -829,6 +824,10 @@ video {
 
 .mb-1 {
   margin-bottom: 0.25rem;
+}
+
+.mb-7 {
+  margin-bottom: 1.75rem;
 }
 
 .ml-4 {
@@ -977,6 +976,10 @@ video {
 
 .w-56 {
   width: 14rem;
+}
+
+.w-2\/4 {
+  width: 50%;
 }
 
 .w-6 {
@@ -1423,10 +1426,6 @@ video {
   padding-top: 1.25rem;
 }
 
-.pr-3 {
-  padding-right: 0.75rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -1595,11 +1594,6 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 .shadow-xl {
   --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -1752,11 +1746,11 @@ video {
           transform: translate(-50%, -50%) scale(1);
 }
 
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .radio {
     width: 49%;
   }
-}
+} */
 
 /* cart info */
 
@@ -1783,6 +1777,12 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* check input */
+
+#deli_address:checked ~ .check-1 {
+  --tw-text-opacity: 1;
 }
 
 /* quill */
@@ -2008,24 +2008,8 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 0px;
   }
 
-  .md\:mr-4 {
-    margin-right: 1rem;
-  }
-
-  .md\:mb-0 {
-    margin-bottom: 0px;
-  }
-
-  .md\:flex-row {
-    flex-direction: row;
-  }
-
   .md\:flex-nowrap {
     flex-wrap: nowrap;
-  }
-
-  .md\:justify-end {
-    justify-content: flex-end;
   }
 }
 
@@ -2091,10 +2075,6 @@ input[type="number"]::-webkit-outer-spin-button {
   .xl\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
-  }
-
-  .xl\:text-\[22px\] {
-    font-size: 22px;
   }
 
   .xl\:text-xl {

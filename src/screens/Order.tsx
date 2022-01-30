@@ -31,7 +31,7 @@ export default function Order() {
   const order = data?.getOrder;
 
   return (
-    <>
+    <div className="relative h-screen">
       {loading && <Loader />}
       {data && (
         <>
@@ -112,6 +112,6 @@ export default function Order() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }

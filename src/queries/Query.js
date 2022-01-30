@@ -142,6 +142,22 @@ export const GET_CATEGORIES = gql`
   }
 `;
 
+export const PAYMENT_DELIVERY_METHODS = gql`
+  query GetPaymentDeliveryMethod {
+    getPaymentMethods {
+      _id
+      name
+      image
+    }
+    getDeliveryMethods {
+      _id
+      name
+      image
+      price
+    }
+  }
+`;
+
 export const GET_ORDER = gql`
   query GetOrder($orderNumber: String) {
     getOrder(orderNumber: $orderNumber) {

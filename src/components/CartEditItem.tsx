@@ -13,9 +13,12 @@ type Product = {
 
 interface Props {
   product: Product;
+  i: number;
+  handleChange: (i: number) => void;
+  // handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function CartEditItem({ product }: Props) {
+function CartEditItem({ product, i, handleChange }: Props) {
   const countHandle = (count: number) => {
     if (count < 1) {
       // removeItem(product._id, i);
@@ -81,7 +84,7 @@ function CartEditItem({ product }: Props) {
       <div className="sm:ml-40 lg:ml-36">
         <button
           onClick={() => {
-            // removeItem(product._id, i);
+            handleChange(i);
           }}
           className="flex font-normal lg:text-lg text-blue-600"
         >
