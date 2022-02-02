@@ -23,6 +23,7 @@ type Product = {
 export default function Order() {
   const { orderNumber } = useParams<Params>();
   const { loading, error, data } = useQuery(GET_ORDER, {
+    fetchPolicy: "network-only",
     variables: { orderNumber: orderNumber },
   });
 

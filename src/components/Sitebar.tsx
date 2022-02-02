@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
+import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { userName } from "../apollo-client";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
+  const name = useReactiveVar(userName);
 
   return (
     <div className="w-56 p-0 relative z-40 text-gray-200 bg-gray-700">
@@ -24,7 +26,7 @@ function Sitebar() {
         </div>
         <div className="mx-3 font-normal">
           <span className="text-gray-400">Welcome,</span>
-          <h2>{userName()}</h2>
+          <h2>{name}</h2>
         </div>
       </div>
       {/* nav link */}

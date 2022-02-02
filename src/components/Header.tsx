@@ -1,11 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useReactiveVar } from "@apollo/client";
 import { userName } from "../apollo-client";
 import Logout from "./account/Logout";
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const name = useReactiveVar(userName);
+
   return (
     <div className=" md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
       <ul className="flex space-x-4 mr-3 items-center text-gray-800 text-sm font-light cursor-pointer">
@@ -30,7 +33,7 @@ function Header() {
             alt="Profile photo."
             className="w-8 h-8 mr-1 rounded-full"
           />
-          {userName()}
+          {name}
           <i className="fa fa-sort-desc ml-1 pb-1" aria-hidden="true"></i>
           <div
             className={`${open ? "" : "hidden"} absolute top-9 -right-4 w-28`}

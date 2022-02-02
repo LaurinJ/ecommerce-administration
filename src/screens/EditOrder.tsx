@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
-import { Link, useParams } from "react-router-dom";
+import {
+  useQuery,
+  useMutation,
+  useReactiveVar,
+  ApolloError,
+} from "@apollo/client";
+import { useHistory, useParams } from "react-router-dom";
 import { GET_ORDER } from "../queries/Query";
 import Loader from "../components/Loader";
 import { dateStringFormatter } from "../helpers/dateFormater";
 import CartEditItem from "../components/CartEditItem";
 import AddressForm from "../components/form/AddressForm";
 import PaymentForm from "../components/form/PaymentForm1";
-import { type } from "os";
+import { orderCart } from "../apollo-client";
+import { Address } from "../type/address";
+import { validate } from "../validators/address";
+import { EDIT_ORDER } from "../queries/Mutation";
+import { getTotalPrice } from "../actions/cart";
 
 interface Params {
   orderNumber: string;
 }
 
-type Product = {
-  _id?: string;
-  title: string;
-  short_description: string;
-  price: number;
-  old_price: number;
-  count: number;
-  img: string;
-};
-
-type ProductsState = {
-  [index: number]: Product;
-};
-
 export default function EditOrder() {
-  const [cart, setCart] = useState<ProductsState[]>([]);
+  const cart = useReactiveVar(orderCart);
+  const history = useHistory();
   const [methods, setMethods] = useState({ payment: "", delivery: "" });
-  const [token, setToken] = useState("");
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<Address>({
     email: "",
     first_name: "",
     last_name: "",
@@ -44,29 +39,23 @@ export default function EditOrder() {
   const [err, setErr] = useState({});
 
   const { orderNumber } = useParams<Params>();
-  const { loading, error, data } = useQuery(GET_ORDER, {
+  const { loading, data } = useQuery(GET_ORDER, {
     variables: { orderNumber: orderNumber },
     onCompleted: (data) => {
-      const person = data.getOrder.person;
-      setFormValues({ ...person.address, ...person.person_detail });
-      setCart(data.getOrder.items);
+      const order = data.getOrder;
+      setFormValues({ ...order.person.address, ...order.person.person_detail });
+      setMethods({
+        payment: order.payment_method._id,
+        delivery: order.deliver_method._id,
+      });
+      orderCart(order.items);
     },
   });
-
-  const handleChange = (i: number) => {
-    console.log(cart[i]);
-    const c: any = cart[i];
-    const item = { ...cart[i], count: c.count + 1 };
-    console.log(item);
-    const cartF = cart.map((items, e) => {
-      if (e === i) {
-        return item;
-      } else {
-        return items;
-      }
-    });
-    setCart([...cartF]);
-  };
+  const [editOrder, { loading: editLoading, error }] = useMutation(EDIT_ORDER, {
+    onCompleted: () => {
+      history.push(`/order/${orderNumber}`);
+    },
+  });
 
   const methodsHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -83,21 +72,62 @@ export default function EditOrder() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  useEffect(() => {
-    // setCart(data.getOrder.items);
-  }, [data]);
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const errors = validate(formValues);
+      setErr(errors);
+      if (Object.keys(errors).length === 0) {
+        console.log(cart);
+
+        const total_price = getTotalPrice();
+        await editOrder({
+          variables: {
+            orderNumber: orderNumber,
+            order: {
+              payment: methods.payment,
+              delivery: methods.delivery,
+              total_price: total_price,
+              items: cart,
+            },
+            person: {
+              email: formValues.email,
+              first_name: formValues.first_name,
+              last_name: formValues.last_name,
+              phone: Number(formValues.phone),
+            },
+            address: {
+              village: formValues.village,
+              street: formValues.street,
+              postCode: Number(formValues.postCode),
+              numberDescriptive: Number(formValues.numberDescriptive),
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ApolloError) {
+        setErr(error.graphQLErrors[0].extensions.errors);
+      }
+    }
+  };
 
   const order = data?.getOrder;
 
   return (
     <div className="relative h-screen">
-      {loading && <Loader />}
+      {(loading || editLoading) && <Loader />}
       {data && (
         <>
           <div className="flex flex-wrap items-center justify-between">
             <h1 className="text-2xl">Objednávka č.{order.orderNumber}</h1>
 
-            <button className="p-2 bg-blue-300 rounded-sm">Uložit</button>
+            <button
+              className="p-2 bg-blue-300 rounded-sm"
+              onClick={handleSubmit}
+            >
+              Uložit
+            </button>
           </div>
           <div className="mt-5 overflow-hidden">
             <div className="flex">
@@ -109,7 +139,11 @@ export default function EditOrder() {
                 />
               </div>
               <div className="w-2/4">
-                <PaymentForm handleChange={methodsHandleChange} />
+                <PaymentForm
+                  handleChange={methodsHandleChange}
+                  error={err}
+                  methods={methods}
+                />
               </div>
             </div>
 
@@ -175,17 +209,9 @@ export default function EditOrder() {
             </div>
             {/* products list */}
             <div className="m-4">
-              {cart.length &&
-                cart.map((product: any, i) => {
-                  return (
-                    <CartEditItem
-                      key={i}
-                      i={i}
-                      product={product}
-                      handleChange={handleChange}
-                    />
-                  );
-                })}
+              {cart.map((product: any, i) => {
+                return <CartEditItem key={i} product={product} />;
+              })}
             </div>
           </div>
         </>

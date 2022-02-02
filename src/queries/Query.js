@@ -162,6 +162,7 @@ export const GET_ORDER = gql`
   query GetOrder($orderNumber: String) {
     getOrder(orderNumber: $orderNumber) {
       items {
+        _id
         title
         price
         old_price
@@ -192,10 +193,12 @@ export const GET_ORDER = gql`
       delivered_at
       createdAt
       deliver_method {
+        _id
         price
         name
       }
       payment_method {
+        _id
         name
       }
     }

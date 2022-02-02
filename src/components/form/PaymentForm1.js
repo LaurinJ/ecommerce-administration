@@ -6,18 +6,17 @@ import { PAYMENT_DELIVERY_METHODS } from "../../queries/Query";
 // import { PAYMENT_DELIVERY_MUTATION } from "../../queries/Mutation";
 import { getLocalStorage } from "../../actions/auth";
 
-function PaymentForm({ handleChange }) {
+function PaymentForm({ handleChange, methods, error }) {
   const { data } = useQuery(PAYMENT_DELIVERY_METHODS);
-  const [err, setErr] = useState("");
 
   return (
     <div className=" w-full">
       <form>
         <div className="p-4">
-          <span>{err}</span>
-          <h3 className="mb-7 leading-5 font-bold lg:text-2xl">
-            Způsob platby:
-          </h3>
+          <h3 className="-7 leading-5 font-bold lg:text-2xl">Způsob platby:</h3>
+          <span className="my-2 block lg:text-base xl:text-lg text-red-600">
+            {error?.payment}
+          </span>
           {/* payment method */}
           <div className="flex flex-col w-full space-y-6">
             {data
@@ -30,8 +29,7 @@ function PaymentForm({ handleChange }) {
                       label={paymentM.name}
                       value={paymentM._id}
                       img={paymentM.image}
-                      // checked={paymentM._id === payment.id}
-                      checked={i === 2}
+                      checked={paymentM._id === methods.payment}
                       handleChange={handleChange}
                     />
                   );
@@ -39,9 +37,12 @@ function PaymentForm({ handleChange }) {
               : "loading"}
           </div>
 
-          <h3 className="my-7 leading-5 font-bold lg:text-2xl">
+          <h3 className="mt-7 leading-5 font-bold lg:text-2xl">
             Způsob dopravy:
           </h3>
+          <span className="my-2 block lg:text-base xl:text-lg text-red-600">
+            {error?.delivery}
+          </span>
           {/* delivery method */}
           <div className="flex flex-col w-full space-y-6">
             {data
@@ -55,8 +56,7 @@ function PaymentForm({ handleChange }) {
                       price={deliveryM.price}
                       value={deliveryM._id}
                       img={deliveryM.image}
-                      // checked={deliveryM._id === delivery.id}
-                      checked={i === 1}
+                      checked={deliveryM._id === methods.delivery}
                       handleChange={handleChange}
                     />
                   );

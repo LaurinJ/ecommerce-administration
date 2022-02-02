@@ -146,3 +146,21 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+
+export const EDIT_ORDER = gql`
+  mutation EditOrder(
+    $orderNumber: String
+    $order: EditOrderData
+    $address: AddressData
+    $person: PersonData
+  ) {
+    editOrder(
+      orderNumber: $orderNumber
+      order: $order
+      address: $address
+      person: $person
+    ) {
+      orderNumber
+    }
+  }
+`;

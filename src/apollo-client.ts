@@ -4,7 +4,7 @@ import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getCookie, getLocalStorage } from "./actions/auth";
-
+import { Product } from "./type/product";
 let httpLink = createUploadLink({
   uri: "http://localhost:4000/graphql",
 });
@@ -79,3 +79,4 @@ export const client = new ApolloClient({
 });
 
 export const userName = makeVar("");
+export const orderCart = makeVar<Product[]>([]);

@@ -1,9 +1,9 @@
 import React from "react";
-
-function Counter({ count, countHandle }) {
+import { countItem } from "../../actions/cart";
+function Counter({ count, id }) {
   const changeHandle = (e) => {
     let value = e.target.value;
-    countHandle(value);
+    countItem(id, Number(value));
   };
   console.log("render");
   return (
@@ -11,7 +11,7 @@ function Counter({ count, countHandle }) {
       <button
         className="w-6"
         onClick={() => {
-          countHandle(count - 1);
+          countItem(id, count - 1);
         }}
       >
         -
@@ -27,7 +27,7 @@ function Counter({ count, countHandle }) {
       <button
         className="w-6"
         onClick={() => {
-          countHandle(count + 1);
+          countItem(id, count + 1);
         }}
       >
         +

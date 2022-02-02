@@ -1,32 +1,8 @@
 import React, { useContext, useState } from "react";
 import Counter from "./form/Counter";
-
-type Product = {
-  _id?: string;
-  title: string;
-  short_description: string;
-  price: number;
-  old_price: number;
-  count: number;
-  img: string;
-};
-
-interface Props {
-  product: Product;
-  i: number;
-  handleChange: (i: number) => void;
-  // handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-function CartEditItem({ product, i, handleChange }: Props) {
-  const countHandle = (count: number) => {
-    if (count < 1) {
-      // removeItem(product._id, i);
-    } else {
-      // updateItem(product._id, count, i);
-    }
-  };
-
+import { deleteItem } from "../actions/cart";
+import { PropsProducts } from "../type/product";
+function CartEditItem({ product }: PropsProducts) {
   return (
     <>
       <div className="flex flex-wrap justify-between">
@@ -48,7 +24,7 @@ function CartEditItem({ product, i, handleChange }: Props) {
         </div>
         {/* amount section */}
         <div className="sm:order-4 lg:order-3 sm:ml-40 lg:ml-5">
-          <Counter count={product.count} countHandle={countHandle} />
+          <Counter count={product.count} id={product._id} />
         </div>
         {/* price section */}
         <div className="sm:order-3 lg:order-4 flex text-[0.625rem] sm:text-xs font-medium text-gray-800 text-right">
@@ -84,7 +60,7 @@ function CartEditItem({ product, i, handleChange }: Props) {
       <div className="sm:ml-40 lg:ml-36">
         <button
           onClick={() => {
-            handleChange(i);
+            deleteItem(product._id);
           }}
           className="flex font-normal lg:text-lg text-blue-600"
         >
