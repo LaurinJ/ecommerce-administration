@@ -27,8 +27,6 @@ export default function Order() {
     variables: { orderNumber: orderNumber },
   });
 
-  useEffect(() => {}, []);
-
   const order = data?.getOrder;
 
   return (

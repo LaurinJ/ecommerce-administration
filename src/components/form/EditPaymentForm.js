@@ -6,7 +6,7 @@ import { PAYMENT_DELIVERY_METHODS } from "../../queries/Query";
 // import { PAYMENT_DELIVERY_MUTATION } from "../../queries/Mutation";
 import { getLocalStorage } from "../../actions/auth";
 
-function PaymentForm({ handleChange, methods, error }) {
+function EditPaymentForm({ handleChange, methods, error }) {
   const { data } = useQuery(PAYMENT_DELIVERY_METHODS);
 
   return (
@@ -69,4 +69,4 @@ function PaymentForm({ handleChange, methods, error }) {
   );
 }
 
-export default PaymentForm;
+export default EditPaymentForm;

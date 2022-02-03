@@ -5,7 +5,6 @@ function Counter({ count, id }) {
     let value = e.target.value;
     countItem(id, Number(value));
   };
-  console.log("render");
   return (
     <div className="h-14 p-[10px] inline-block border border-gray-300 rounded-md text-2xl leading-6">
       <button

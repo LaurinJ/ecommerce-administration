@@ -31,3 +31,7 @@ export const getTotalPrice = () => {
 
   return total;
 };
+
+export const removeCart = () => {
+  orderCart([]);
+};
