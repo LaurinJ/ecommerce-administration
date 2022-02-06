@@ -15,9 +15,7 @@ function ContactMessage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl">Zpravy</h1>
         <Link to="/add-payment">
-          <span className="p-2 bg-blue-300 rounded-sm">
-            Přidat způsob platby
-          </span>
+          <span className="p-2 bg-blue-300 rounded-sm">Odeslat zprávu</span>
         </Link>
       </div>
       <div className="mt-5">

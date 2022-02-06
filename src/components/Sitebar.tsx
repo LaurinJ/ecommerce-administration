@@ -32,11 +32,12 @@ function Sitebar() {
       {/* nav link */}
       <div className="mt-5">
         <ul className="block text-sm font-light cursor-pointer">
-          <li className="mb-2 px-4 py-3 hover:text-white">
-            <a href="/#">
-              <i className="fa fa-table fa-lg w-8" aria-hidden="true"></i>Home
-            </a>
-          </li>
+          <Link to="/">
+            <li className="mb-2 px-4 py-3 hover:text-white">
+              <i className="fa fa-table fa-lg w-8" aria-hidden="true"></i>
+              <span>Home</span>
+            </li>
+          </Link>
           <Link to="/orders">
             <li className="mb-2 px-4 py-3 hover:text-white">
               <i

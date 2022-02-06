@@ -15,6 +15,7 @@ import AddCategory from "../screens/AddCategory";
 import AllOrders from "../screens/AllOrders";
 import Order from "../screens/Order";
 import EditOrder from "../screens/EditOrder";
+import Home from "../screens/Home";
 
 import { isAuth } from "../actions/auth";
 import { userName } from "../apollo-client";
@@ -36,8 +37,9 @@ function PrivateLayout() {
         <Header />
         <Sitebar />
       </header>
-      <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700">
+      <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700 bg-gray-100">
         <Switch>
+          <Route path="/" component={Home} exact />
           <Route path="/orders" component={AllOrders} />
           <Route path="/order/:orderNumber" component={Order} />
           <Route path="/edit-order/:orderNumber" component={EditOrder} />

@@ -249,3 +249,17 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
   }
 }
+
+/* dashboard */
+.tile_stats_count::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 65px;
+  border-left: 2px solid #adb2b5;
+  margin-top: 10px;
+}
+
+.tile_stats_count:first-child::before {
+  border-left: 0;
+}
