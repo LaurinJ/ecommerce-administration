@@ -1,20 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { GET_ORDERS } from "../../queries/Query";
 import { dateStringFormatter } from "../../helpers/dateFormater";
-import Loader from "../Loader";
-type Order = {
-  orderNumber: number;
-  is_paid: boolean;
-  is_deliver: boolean;
-  state: string;
-  total_price: number;
+
+type Messages = {
+  _id: string;
+  email: string;
+  read: boolean;
+  content: string;
   createdAt: Date;
 };
 
 interface Props {
-  messages: Order[];
+  messages: Messages[];
 }
 
 export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
@@ -25,7 +22,7 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
           <thead>
             <tr className="border-b border-gray-200">
               <th className="text-lg py-3">Email</th>
-              <th className="text-lg py-3">Status</th>
+              {/* <th className="text-lg py-3">Status</th> */}
               <th className="text-lg py-3">Datum</th>
               <th className="text-lg py-3"></th>
             </tr>
@@ -36,13 +33,13 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
                 className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
                 key={i}
               >
-                <td className="text-center pl-3  py-3">{"karel@sez.com"}</td>
-                <td className="text-center px-2 py-3">{"zobrazeno"}</td>
+                <td className="text-center pl-3  py-3">{message.email}</td>
+                {/* <td className="text-center px-2 py-3">{"zobrazeno"}</td> */}
                 <td className="text-center px-2 py-3">
                   {dateStringFormatter(message.createdAt)}
                 </td>
                 <td className="text-center px-10 py-3">
-                  <Link to={`/message/${message.orderNumber}`}>
+                  <Link to={`/message/${message._id}`}>
                     <i
                       className="fa fa-arrow-circle-right fa-lg w-8 hover:text-gray-400 cursor-pointer"
                       aria-hidden="true"

@@ -220,3 +220,18 @@ export const GET_ORDERS = gql`
     }
   }
 `;
+
+export const GET_CONTACT_MESSAGES = gql`
+  query GetContactMessages($limit: Int) {
+    getContactMessages(limit: $limit) {
+      pages
+      messages {
+        _id
+        email
+        read
+        createdAt
+        content
+      }
+    }
+  }
+`;
