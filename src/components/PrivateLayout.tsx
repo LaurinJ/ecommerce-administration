@@ -10,6 +10,7 @@ import AddPayment from "../screens/AddPayment";
 import AllDeliveryMethod from "../screens/AllDeliveryMethod";
 import AddDeliveryMethod from "../screens/AddDeliveryMethod";
 import ContactMessage from "../screens/ContactMessage";
+import Message from "../screens/Message";
 import AllCategories from "../screens/AllCategories";
 import AddCategory from "../screens/AddCategory";
 import AllOrders from "../screens/AllOrders";
@@ -37,7 +38,7 @@ function PrivateLayout() {
         <Header />
         <Sitebar />
       </header>
-      <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700 bg-gray-100">
+      <main className="mt-14 pt-5 px-5 w-full h-full bg-white text-gray-700">
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/orders" component={AllOrders} />
@@ -56,6 +57,7 @@ function PrivateLayout() {
           <Route path="/add-category" component={AddCategory} />
           <Route path="/edit-category/:id" component={AddCategory} />
           <Route path="/contact-message" component={ContactMessage} />
+          <Route path="/message/:id" component={Message} />
         </Switch>
       </main>
       {/* chats */}

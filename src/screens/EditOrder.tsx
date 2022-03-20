@@ -8,7 +8,6 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { GET_ORDER } from "../queries/Query";
 import Loader from "../components/Loader";
-import { dateStringFormatter } from "../helpers/dateFormater";
 import CartEditItem from "../components/CartEditItem";
 import AddressForm from "../components/form/AddressForm";
 import EditPaymentForm from "../components/form/EditPaymentForm";

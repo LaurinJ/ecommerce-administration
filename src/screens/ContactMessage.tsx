@@ -1,11 +1,11 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { PaymentsTable } from "../components/table/PaymentsTable";
+import { LastMessagesTable } from "../components/table/LastMessagesTable";
 import { Link } from "react-router-dom";
-import { GET_PAYMENT_METHODS } from "../queries/Query";
+import { GET_CONTACT_MESSAGES } from "../queries/Query";
 
 function ContactMessage() {
-  // const { loading, error, data } = useQuery(GET_PAYMENT_METHODS);
+  const { loading, error, data } = useQuery(GET_CONTACT_MESSAGES);
 
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>Error </p>;
@@ -19,8 +19,10 @@ function ContactMessage() {
         </Link>
       </div>
       <div className="mt-5">
-        {/* {error && <h4>Nebyli nalezeny</h4>}
-        {data && <PaymentsTable payments={data.getPaymentMethod} />} */}
+        {error && <h4>Nebyli nalezeny zprávy</h4>}
+        {data && (
+          <LastMessagesTable messages={data.getContactMessages.messages} />
+        )}
       </div>
     </React.Fragment>
   );

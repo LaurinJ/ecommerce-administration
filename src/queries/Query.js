@@ -235,3 +235,15 @@ export const GET_CONTACT_MESSAGES = gql`
     }
   }
 `;
+
+export const GET_CONTACT_MESSAGE = gql`
+  query GetContactMessage($getContactMessageId: String!) {
+    getContactMessage(id: $getContactMessageId) {
+      _id
+      email
+      content
+      read
+      createdAt
+    }
+  }
+`;

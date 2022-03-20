@@ -10,7 +10,7 @@ function Header() {
   const name = useReactiveVar(userName);
 
   return (
-    <div className=" md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
+    <div className="md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
       <ul className="flex space-x-4 mr-3 items-center text-gray-800 text-sm font-light cursor-pointer">
         <li>
           <a href="http://localhost:3000/">Zobrazit eshop</a>

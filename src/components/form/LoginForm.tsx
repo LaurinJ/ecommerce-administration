@@ -27,7 +27,7 @@ function LoginForm() {
     onCompleted: (data) => {
       authenticate(data.login, () => {
         userName(data.login.user.name);
-        history.push("/add-product");
+        history.push("/");
       });
     },
   });
