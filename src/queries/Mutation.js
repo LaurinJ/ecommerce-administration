@@ -62,6 +62,19 @@ export const SEND_MESSAGE = gql`
   }
 `;
 
+export const ANSWER_CONTACT_MESSAGE = gql`
+  mutation AnswerContactMessage($message: ContactData) {
+    answerContactMessage(message: $message) {
+      createdAt
+      answer
+      read
+      content
+      email
+      _id
+    }
+  }
+`;
+
 export const SET_ADMIN_TOKEN = gql`
   mutation Mutation($token: String!) {
     setAdminToken(token: $token) {
@@ -161,6 +174,14 @@ export const EDIT_ORDER = gql`
       person: $person
     ) {
       orderNumber
+    }
+  }
+`;
+
+export const SET_READ_CONTACT_MESSAGE = gql`
+  mutation Mutation($readContactMessageId: String!) {
+    readContactMessage(id: $readContactMessageId) {
+      message
     }
   }
 `;

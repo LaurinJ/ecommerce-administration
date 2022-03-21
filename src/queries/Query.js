@@ -243,6 +243,7 @@ export const GET_CONTACT_MESSAGE = gql`
       email
       content
       read
+      answer
       createdAt
     }
   }

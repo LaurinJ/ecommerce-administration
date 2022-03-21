@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { SEND_MESSAGE } from "../../queries/Mutation";
+import { ANSWER_CONTACT_MESSAGE } from "../../queries/Mutation";
 
-function ContactForm({ from, to }: any) {
+interface Props {
+  email: string;
+}
+
+function ContactForm({ email }: Props) {
   const [message, setMessage] = useState("");
-  const [sendMessage] = useMutation(SEND_MESSAGE, {
+  const [sendMessage] = useMutation(ANSWER_CONTACT_MESSAGE, {
     onCompleted: () => {
       setMessage("");
     },
@@ -22,7 +26,7 @@ function ContactForm({ from, to }: any) {
     if (message.length !== 0) {
       sendMessage({
         variables: {
-          message: { content: message, to: to, from: from },
+          message: { content: message, email: email },
         },
       });
     }

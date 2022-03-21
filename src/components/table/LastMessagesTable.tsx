@@ -30,7 +30,9 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
           <tbody>
             {messages.map((message, i) => (
               <tr
-                className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
+                className={`${
+                  message.read ? "" : "font-medium"
+                } odd:bg-white even:bg-gray-100 hover:bg-gray-200`}
                 key={i}
               >
                 <td className="text-center pl-3  py-3">{message.email}</td>
