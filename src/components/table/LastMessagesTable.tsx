@@ -47,6 +47,10 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
                       aria-hidden="true"
                     ></i>
                   </Link>
+                  <i
+                    className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
+                    aria-hidden="true"
+                  ></i>
                 </td>
               </tr>
             ))}

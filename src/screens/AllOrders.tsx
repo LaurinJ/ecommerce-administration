@@ -16,7 +16,6 @@ export default function AllOrders() {
 
   const handleClick = (page: number) => {
     setPage(page);
-    // search({ variables: { skip: page, limit: 10, params: { title: "" } } });
   };
 
   useEffect(() => {
@@ -42,14 +41,12 @@ export default function AllOrders() {
           ))}
         {data && <OrdersTable orders={data.getOrders.orders} />}
       </div>
-      {data?.getOrders.pages > 1 ? (
+      {data?.getOrders.pages > 1 && (
         <Pagination
           page={page}
           pages={data.getOrders.pages}
           handleClick={handleClick}
         />
-      ) : (
-        ""
       )}
     </div>
   );

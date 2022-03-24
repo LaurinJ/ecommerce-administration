@@ -13,6 +13,7 @@ function Message() {
   const { id } = useParams<Params>();
   const history = useHistory();
   const { data, loading, error } = useQuery(GET_CONTACT_MESSAGE, {
+    nextFetchPolicy: "network-only",
     variables: {
       getContactMessageId: id,
     },
@@ -39,6 +40,7 @@ function Message() {
       >
         Zpět
       </button>
+      {/* {data && data.getContactMessage.messages} */}
       <div className="my-4 p-4 bg-gray-100 rounded-md">
         <span className="font-medium">{data?.getContactMessage.email}</span>
         <p>{data?.getContactMessage.content}</p>

@@ -41,14 +41,12 @@ function AllProducts() {
         )}
         {data && <ProductsTable products={data.getFilterProducts.products} />}
       </div>
-      {data?.getFilterProducts.pages > 1 ? (
+      {data?.getFilterProducts.pages > 1 && (
         <Pagination
           page={page}
           pages={data.getFilterProducts.pages}
           handleClick={handleClick}
         />
-      ) : (
-        ""
       )}
     </div>
   );

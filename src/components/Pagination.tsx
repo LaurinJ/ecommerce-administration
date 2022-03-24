@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
 
 interface Props {
   page: number;
@@ -8,7 +7,6 @@ interface Props {
 }
 
 const Pagination: React.FC<Props> = ({ page = 1, pages, handleClick }) => {
-  const q = useParams();
   const paginator = (p: number, ps: number) => {
     const pagesButton = [];
     for (let i = 1; i <= ps; i++) {
