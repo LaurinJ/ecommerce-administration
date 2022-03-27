@@ -10,7 +10,8 @@ import { OrdersTable } from "../components/table/OrdersTable";
 
 export default function AllOrders() {
   const [page, setPage] = useState(1);
-  const [search, { loading, error, data }] = useLazyQuery(GET_ORDERS, {
+  const [search, { loading, error, data, refetch }] = useLazyQuery(GET_ORDERS, {
+    notifyOnNetworkStatusChange: true,
     variables: { skip: page, limit: 10, params: { numberOrder: "" } },
   });
 
@@ -23,21 +24,25 @@ export default function AllOrders() {
   }, []);
 
   return (
-    <div className="relative h-screen">
-      {loading && <Loader />}
+    <div className="relative ">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="w-56 text-2xl">Seznam objednávek</h1>
         <div>
           <Search searchFunc={search} />
         </div>
-        <Link to="/add-product">
-          <span className="p-2 bg-blue-300 rounded-sm">Přidat produkt</span>
-        </Link>
+        <button
+          onClick={() => {
+            refetch();
+          }}
+        >
+          <i className="fas fa-sync-alt"></i>
+        </button>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 relative">
+        {loading && <Loader />}
         {error ||
           (data?.getOrders.orders.length === 0 && (
-            <h4>Nejsou žádné objednávky</h4>
+            <h4 className="mb-3">Nejsou žádné objednávky</h4>
           ))}
         {data && <OrdersTable orders={data.getOrders.orders} />}
       </div>
