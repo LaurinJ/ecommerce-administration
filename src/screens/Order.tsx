@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
 import { GET_ORDER } from "../queries/Query";
+import { SEND_ORDER, SUSPEND_ORDER, CANCEL_ORDER } from "../queries/Mutation";
 import Loader from "../components/Loader";
 import { dateStringFormatter } from "../helpers/dateFormater";
 import CartItem from "../components/CartItem";
@@ -22,21 +24,70 @@ type Product = {
 
 export default function Order() {
   const { orderNumber } = useParams<Params>();
-  const { loading, error, data } = useQuery(GET_ORDER, {
+  const { loading, data, refetch } = useQuery(GET_ORDER, {
     fetchPolicy: "network-only",
     variables: { orderNumber: orderNumber },
+  });
+
+  const [sendOrder, { loading: sendLoading }] = useMutation(SEND_ORDER, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      refetch();
+    },
+  });
+  const [suspendOrder, { loading: suspendLoading }] = useMutation(
+    SUSPEND_ORDER,
+    {
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        refetch();
+      },
+    }
+  );
+  const [cancelOrder, { loading: cancelLoading }] = useMutation(CANCEL_ORDER, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      refetch();
+    },
   });
 
   const order = data?.getOrder;
 
   return (
     <div className="relative h-screen">
-      {loading && <Loader />}
+      {(loading || sendLoading || suspendLoading || cancelLoading) && (
+        <Loader />
+      )}
       {data && (
         <>
           <div className="flex flex-wrap items-center justify-between">
             <h1 className="text-2xl">Objednávka č.{order.orderNumber}</h1>
-            <div></div>
+            <div className="space-x-2">
+              <button
+                className=" p-2 bg-blue-300 rounded-sm"
+                onClick={() => {
+                  cancelOrder({ variables: { orderNumber: orderNumber } });
+                }}
+              >
+                Stornovat
+              </button>
+              <button
+                className=" p-2 bg-blue-300 rounded-sm"
+                onClick={() => {
+                  suspendOrder({ variables: { orderNumber: orderNumber } });
+                }}
+              >
+                Pozastavit
+              </button>
+              <button
+                className=" p-2 bg-blue-300 rounded-sm"
+                onClick={() => {
+                  sendOrder({ variables: { orderNumber: orderNumber } });
+                }}
+              >
+                Doručit
+              </button>
+            </div>
             <Link to={`/edit-order/${order.orderNumber}`}>
               <span className="p-2 bg-blue-300 rounded-sm">Upravit</span>
             </Link>
@@ -50,6 +101,8 @@ export default function Order() {
                 <span>Cena: {order.total_price} Kč</span>
                 <span>Status: {order.state}</span>
               </div>
+
+              {/* Personal information */}
               <div className="flex flex-wrap justify-between">
                 <div className="flex flex-col mt-3 md:mt-0">
                   <span className="text-lg font-medium">Osobní údaje</span>
@@ -61,6 +114,7 @@ export default function Order() {
                   <span>{order.person.person_detail.phone}</span>
                 </div>
 
+                {/* Delivery information */}
                 <div className="flex flex-col mt-3 md:mt-0">
                   <span className="text-lg font-medium">Doručovací údaje</span>
                   <span>
@@ -77,6 +131,8 @@ export default function Order() {
                   </span>
                   <span>Česká republika</span>
                 </div>
+
+                {/* payment information */}
                 <div className="flex flex-col mt-3 md:mt-0">
                   <span className="text-lg font-medium">Způsob platby </span>
                   <span>{order.payment_method.name}</span>
@@ -86,6 +142,8 @@ export default function Order() {
                     {order.paid_at ? dateStringFormatter(order.paid_at) : "-"}
                   </span>
                 </div>
+
+                {/* Way of transportation */}
                 <div className="flex flex-col mt-3 md:mt-0">
                   <span className="text-lg font-medium">Způsob dopravy </span>
                   <span>

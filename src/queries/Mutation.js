@@ -178,6 +178,30 @@ export const EDIT_ORDER = gql`
   }
 `;
 
+export const SEND_ORDER = gql`
+  mutation Mutation($orderNumber: String) {
+    sendOrder(orderNumber: $orderNumber) {
+      message
+    }
+  }
+`;
+
+export const SUSPEND_ORDER = gql`
+  mutation SuspendOrder($orderNumber: String) {
+    suspendOrder(orderNumber: $orderNumber) {
+      message
+    }
+  }
+`;
+
+export const CANCEL_ORDER = gql`
+  mutation CancelOrder($orderNumber: String) {
+    cancelOrder(orderNumber: $orderNumber) {
+      message
+    }
+  }
+`;
+
 export const SET_READ_CONTACT_MESSAGE = gql`
   mutation Mutation($readContactMessageId: String!) {
     readContactMessage(id: $readContactMessageId) {
