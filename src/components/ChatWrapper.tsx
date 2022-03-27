@@ -30,12 +30,13 @@ function ChatWrapper() {
     },
   });
 
-  const handleChange = (user: any) => {
+  const handleChange = (user: string) => {
     if (user === userId) {
-      setOpen(false);
-      setUserId("");
+      // setUserId("");
+      setOpen(!open);
     } else {
       setUserId(user);
+      setOpen(true);
     }
   };
 
@@ -64,15 +65,20 @@ function ChatWrapper() {
     } else {
       setChatId(id);
     }
+  }, [chatId]);
+
+  useEffect(() => {
     if (data) {
+      console.log(data);
+
       if (
-        data.shareMessage.from !== chatId ||
+        data.shareMessage.from !== chatId &&
         list.includes(data.shareMessage.from) === false
       ) {
         setList([...list, data.shareMessage.from]);
       }
     }
-  }, [chatId, data, list]);
+  }, [data, list, chatId]);
 
   return (
     <div className={`fixed bottom-24 lg:bottom-4 right-2 z-40`}>
@@ -95,16 +101,18 @@ function ChatWrapper() {
         {/* <Chat /> */}
         <Chat open={open} user={userId} adminToken={chatId} />
       </div>
-      <button className="w-16 h-16 ml-auto flex items-center justify-center bg-black rounded-full">
+      <button
+        className="w-16 h-16 ml-auto flex items-center justify-center bg-black rounded-full"
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
         {!open ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 text-white hover:h-14 hover:w-14 cursor-pointer"
+            className="h-12 w-12 text-white cursor-pointer"
             viewBox="0 0 20 20"
             fill="currentColor"
-            onClick={() => {
-              setOpen(!open);
-            }}
           >
             <path
               fillRule="evenodd"
@@ -115,13 +123,10 @@ function ChatWrapper() {
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-10 w-10 text-white hover:h-12 hover:w-12 cursor-pointer"
+            className="h-10 w-10 text-white cursor-pointer"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            onClick={() => {
-              setOpen(!open);
-            }}
           >
             <path
               strokeLinecap="round"
@@ -139,11 +144,10 @@ function ChatWrapper() {
               <div key={i} className="flex flex-col mr-auto max-w-[220px]">
                 <span
                   className={`${
-                    userId === value ? "bg-green-400" : ""
+                    userId === value && "bg-green-400"
                   } py-2 px-2 max-w-max mr-auto bg-gray-200 rounded-xl hover:bg-green-400 cursor-pointer z-20`}
                   onClick={() => {
-                    setOpen(true);
-                    handleChange(value);
+                    handleChange(String(value));
                   }}
                 >
                   {value}

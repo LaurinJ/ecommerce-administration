@@ -18,7 +18,7 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
   return (
     <div className="border-collapse border-gray-200 border">
       {messages ? (
-        <table className="w-full relative table-fixed">
+        <table className="w-full table-fixed">
           <thead>
             <tr className="border-b border-gray-200">
               <th className="text-lg py-3">Email</th>

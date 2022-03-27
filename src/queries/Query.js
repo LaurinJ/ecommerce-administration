@@ -248,3 +248,17 @@ export const GET_CONTACT_MESSAGE = gql`
     }
   }
 `;
+
+export const GET_DASHBOARD_INFO = gql`
+  query GetDashboardInfo {
+    getOrdersTotal {
+      total
+    }
+    getOrdersCount {
+      orders
+    }
+    getUsersCount {
+      users
+    }
+  }
+`;

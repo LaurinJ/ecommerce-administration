@@ -18,6 +18,7 @@ export const Chat: React.FC<Props> = ({ open, user, adminToken }) => {
 
   const updateScroll = () => {
     let element = document.getElementById("chat");
+
     if (element) {
       element.scrollTop = element.scrollHeight;
     }
@@ -25,12 +26,19 @@ export const Chat: React.FC<Props> = ({ open, user, adminToken }) => {
 
   useEffect((): void | null | any => {
     getMessages();
+  }, [user]);
+
+  useEffect((): void | null | any => {
     if (subscribeToMore) {
       const updateMessage = subscribeToMore({
         document: MESSAGES_SUBSCRIPTION,
         variables: { getMessagesId: user },
         updateQuery: (prev, { subscriptionData }) => {
+          console.log("sub to more");
+
           if (!subscriptionData.data) return prev;
+          if (subscriptionData.data.shareMessage.from !== user) return;
+
           const newMessage = subscriptionData.data.shareMessage;
           setTimeout(updateScroll, 100);
           return Object.assign({}, prev, {
@@ -43,8 +51,10 @@ export const Chat: React.FC<Props> = ({ open, user, adminToken }) => {
   }, []);
 
   useEffect(() => {
-    updateScroll();
-  }, [open]);
+    setTimeout(() => {
+      updateScroll();
+    }, 0);
+  }, [open, user]);
 
   return (
     <div className="flex flex-col h-full justify-between overflow-hidden mx-4 my-3">
