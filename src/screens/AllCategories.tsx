@@ -6,7 +6,9 @@ import { GET_CATEGORIES } from "../queries/Query";
 import Loader from "../components/Loader";
 
 function AllCategories() {
-  const { loading, data } = useQuery(GET_CATEGORIES);
+  const { loading, data } = useQuery(GET_CATEGORIES, {
+    fetchPolicy: "network-only",
+  });
   return (
     <div className="relative h-screen">
       {loading && <Loader />}
@@ -18,7 +20,7 @@ function AllCategories() {
       </div>
       <div className="mt-5">
         {data ? (
-          <CategoryTable categories={data.getCategories} />
+          <CategoryTable categories={data.getAllCategories.categories} />
         ) : (
           "Nejsou k dispozici žádné kategorie"
         )}

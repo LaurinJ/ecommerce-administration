@@ -6,7 +6,9 @@ import { GET_DELIVERY_METHODS } from "../queries/Query";
 import Loader from "../components/Loader";
 
 function AllDeliveryMethod() {
-  const { loading, error, data } = useQuery(GET_DELIVERY_METHODS);
+  const { loading, data } = useQuery(GET_DELIVERY_METHODS, {
+    fetchPolicy: "network-only",
+  });
 
   return (
     <div className="relative h-screen">
@@ -21,7 +23,7 @@ function AllDeliveryMethod() {
       </div>
       <div className="mt-5">
         {data ? (
-          <DeliveryTable deliveries={data.getDeliveryMethods} />
+          <DeliveryTable deliveries={data.getAllDeliveryMethods.methods} />
         ) : (
           "Nejsou k dispozici žádné způsoby dopravy"
         )}

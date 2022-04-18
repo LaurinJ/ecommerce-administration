@@ -26,28 +26,32 @@ function FileInputField(props: Props) {
   const multiImageReader = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let ar: string[] = [];
+    let images: string[] = [];
     let files = event.target.files;
     if (files?.length) {
       for (let i = 0; i < files.length; i++) {
         if (files[i] instanceof File) {
           const file: string = await imageReader(files[i]);
-          ar.push(file);
+          images.push(file);
         }
       }
-      setImg(ar);
+      setImg(images);
     }
   };
 
   useEffect(() => {
     if (props.img && props.img.length !== 0) {
-      setImg(
-        props.img.map((image: string) => {
-          return `http://localhost:4000/${image}`;
-        })
-      );
-    } else {
-      setImg([]);
+      if (typeof props.img === "string") {
+        setImg([`http://localhost:4000/${props.img}`]);
+        return;
+      }
+      if (!(props.img instanceof File)) {
+        setImg(
+          props.img.map((image: string) => {
+            return `http://localhost:4000/${image}`;
+          })
+        );
+      }
     }
   }, [props.img]);
 

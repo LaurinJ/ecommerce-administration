@@ -6,7 +6,9 @@ import { GET_PAYMENT_METHODS } from "../queries/Query";
 import Loader from "../components/Loader";
 
 function AllPayment() {
-  const { loading, error, data } = useQuery(GET_PAYMENT_METHODS);
+  const { loading, error, data } = useQuery(GET_PAYMENT_METHODS, {
+    fetchPolicy: "network-only",
+  });
 
   return (
     <div className="relative h-screen">
@@ -23,7 +25,7 @@ function AllPayment() {
         {error && data?.getPaymentMethods.length === 0 && (
           <h4>Nejsou k dispozici žádné způsoby platby</h4>
         )}
-        {data && <PaymentsTable payments={data.getPaymentMethods} />}
+        {data && <PaymentsTable payments={data.getAllPaymentMethods.methods} />}
       </div>
     </div>
   );

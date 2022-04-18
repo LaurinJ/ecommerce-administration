@@ -61,7 +61,7 @@ export const SEARCH = gql`
 `;
 
 export const GET_PAYMENT_METHOD = gql`
-  query Query($getPaymentMethodId: String) {
+  query GetPaymentMethod($getPaymentMethodId: String) {
     getPaymentMethod(id: $getPaymentMethodId) {
       _id
       name
@@ -72,11 +72,14 @@ export const GET_PAYMENT_METHOD = gql`
 `;
 
 export const GET_PAYMENT_METHODS = gql`
-  query Query {
-    getPaymentMethods {
-      _id
-      name
-      hidden
+  query GetAllPaymentMethods($limit: Int, $skip: Int) {
+    getAllPaymentMethods(limit: $limit, skip: $skip) {
+      methods {
+        _id
+        name
+        hidden
+      }
+      pages
     }
   }
 `;
@@ -94,12 +97,15 @@ export const GET_DELIVERY_METHOD = gql`
 `;
 
 export const GET_DELIVERY_METHODS = gql`
-  query GetDeliveryMethod {
-    getDeliveryMethods {
-      _id
-      name
-      price
-      hidden
+  query getAllDeliveryMethods($limit: Int, $skip: Int) {
+    getAllDeliveryMethods(limit: $limit, skip: $skip) {
+      methods {
+        _id
+        name
+        price
+        hidden
+      }
+      pages
     }
   }
 `;
@@ -133,11 +139,14 @@ export const GET_CATEGORY = gql`
 `;
 
 export const GET_CATEGORIES = gql`
-  query GetCategories($limit: Int, $skip: Int) {
-    getCategories(limit: $limit, skip: $skip) {
-      hidden
-      name
-      _id
+  query GetAllCategories($limit: Int, $skip: Int) {
+    getAllCategories(limit: $limit, skip: $skip) {
+      categories {
+        hidden
+        name
+        _id
+      }
+      pages
     }
   }
 `;
