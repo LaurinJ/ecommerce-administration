@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ANSWER_CONTACT_MESSAGE } from "../../queries/Mutation";
+import { useNotification } from "../../context/NotificationProvider";
 
 interface Props {
   id: string;
@@ -8,11 +9,16 @@ interface Props {
 }
 
 function ContactForm({ id, email }: Props) {
+  const dispatch = useNotification();
   const [message, setMessage] = useState("");
   const [sendMessage] = useMutation(ANSWER_CONTACT_MESSAGE, {
     onCompleted: () => {
       setMessage("");
-      // odesl
+      dispatch({
+        type: "SUCCESS",
+        message: "Zpráva byla odeslaná",
+        title: "Successful Request",
+      });
     },
   });
 

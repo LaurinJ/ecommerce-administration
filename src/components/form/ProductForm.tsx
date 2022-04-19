@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
 import ReactQuill from "react-quill";
 import EditorToolbar, { modules, formats } from "../../helpers/quill";
-
 // import { QuillModules, QuillFormats } from "../../helpers/quill";
 import { useLazyQuery, useMutation, ApolloError } from "@apollo/client";
 import { GET_CATEGORIES, GET_PRODUCT } from "../../queries/Query";
@@ -78,8 +75,10 @@ function ProductForm({ slug }: Props) {
   const [formValues, setFormValues] = useState<State>(initialState);
   const [description, setDescription] = useState("");
   const [err, setErr] = useState<Errors>({});
+
   const [getCategory, { data: categories, loading: categoriesLoading }] =
     useLazyQuery(GET_CATEGORIES);
+
   const [getProduct, { loading: productLoading }] = useLazyQuery(GET_PRODUCT, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
@@ -112,6 +111,7 @@ function ProductForm({ slug }: Props) {
       setDescription("");
     },
   });
+
   useEffect(() => {
     getCategory();
     if (slug) {
@@ -185,9 +185,7 @@ function ProductForm({ slug }: Props) {
   };
 
   const handleBody = (e: any): void => {
-    // setFormValues({ ...formValues, description: e });
     setDescription(e);
-    // console.log(formValues);
 
     if (typeof window !== "undefined") {
       setLocalStorage("description", e);
@@ -294,7 +292,7 @@ function ProductForm({ slug }: Props) {
               multiple={true}
               error={err?.categories}
               value={formValues.categories}
-              data={categories?.getCategories}
+              data={categories?.getAllCategories.categories}
               handleChange={handleChangeSelect}
             />
             <InputNumberField
@@ -321,8 +319,6 @@ function ProductForm({ slug }: Props) {
               name="hidden"
               label="Zobrazení produktu"
               checked={formValues.hidden}
-              // value={formValues.hidden}
-              // checked={formValues.hidden}
               handleChange={handleChange}
             />
 

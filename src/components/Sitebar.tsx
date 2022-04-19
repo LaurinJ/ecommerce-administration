@@ -93,19 +93,16 @@ function Sitebar() {
             </span>
 
             <ul className={`ml-3 ${menu ? "" : "hidden"}`}>
-              <Link to="/add-product" className="block">
+              <Link to="/account/change-password" className="block">
                 <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                  New
+                  Změna hesla
                 </li>
               </Link>
               <Link to="/products" className="block">
                 <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                  List
+                  Profil
                 </li>
               </Link>
-              <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
-                Delete
-              </li>
             </ul>
           </li>
         </ul>

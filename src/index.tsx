@@ -5,16 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo-client";
-import { Provider } from "react-redux";
-import { store } from "./state/store";
+import NotificationProvider from "../src/context/NotificationProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <NotificationProvider>
         <App />
-      </ApolloProvider>
-    </Provider>
+      </NotificationProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
