@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import { ApolloClient, InMemoryCache, split, makeVar } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
@@ -5,8 +6,23 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getCookie, getLocalStorage } from "./actions/auth";
 import { Product } from "./type/product";
+import { onError } from "@apollo/client/link/error";
+
 let httpLink = createUploadLink({
   uri: "http://localhost:4000/graphql",
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  const history = useHistory();
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      if (message.includes("Nejsi přihlášený/ná")) {
+        history.push("/account/login");
+      }
+    });
+  }
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -20,7 +36,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-httpLink = authLink.concat(httpLink);
+httpLink = errorLink.concat(authLink.concat(httpLink));
 
 const wsLink = new WebSocketLink({
   uri: "ws://localhost:4000/graphql",

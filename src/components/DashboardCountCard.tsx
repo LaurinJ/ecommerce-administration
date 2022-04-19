@@ -4,10 +4,12 @@ import { GET_DASHBOARD_INFO } from "../queries/Query";
 import Loader from "../components/Loader";
 
 function DashboardCountCard() {
-  const { data, loading, refetch } = useQuery(GET_DASHBOARD_INFO);
+  const { data, loading, refetch } = useQuery(GET_DASHBOARD_INFO, {
+    notifyOnNetworkStatusChange: true,
+  });
 
   return (
-    <div className="relative flex flex-wrap w-full p-4 my-5 text-gray-500">
+    <div className="relative flex flex-wrap w-full h-24 p-4 text-gray-500">
       {loading && <Loader />}
       <div className="px-3 mb-2 sm:mb-0 relative tile_stats_count">
         <span className="text-sm">

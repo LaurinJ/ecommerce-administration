@@ -257,6 +257,13 @@ export const GET_CONTACT_MESSAGE = gql`
     }
   }
 `;
+export const GET_CONTACT_MESSAGE_COUNT = gql`
+  query GetContactMessagesCount {
+    getContactMessagesCount {
+      messages
+    }
+  }
+`;
 
 export const GET_DASHBOARD_INFO = gql`
   query GetDashboardInfo {

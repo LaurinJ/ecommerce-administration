@@ -1,13 +1,16 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useReactiveVar } from "@apollo/client";
+import { useReactiveVar, useQuery } from "@apollo/client";
 import { userName } from "../apollo-client";
 import Logout from "./account/Logout";
+import { GET_CONTACT_MESSAGE_COUNT } from "../queries/Query";
 
 function Header() {
   const [open, setOpen] = useState(false);
   const name = useReactiveVar(userName);
+
+  const { data } = useQuery(GET_CONTACT_MESSAGE_COUNT);
 
   return (
     <div className="md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
@@ -18,8 +21,10 @@ function Header() {
         <Link to="/contact-message">
           <li className="relative">
             <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
-            <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-4 h-4 rounded-full">
-              <span className="text-white font-normal">3</span>
+            <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-5 h-4 rounded-full">
+              <span className="text-white font-normal">
+                {data?.getContactMessagesCount.messages}
+              </span>
             </div>
           </li>
         </Link>
