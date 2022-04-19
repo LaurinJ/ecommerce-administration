@@ -9,7 +9,7 @@ import Pagination from "../components/Pagination";
 import { OrdersTable } from "../components/table/OrdersTable";
 
 export default function AllOrders() {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [search, { loading, error, data, refetch }] = useLazyQuery(GET_ORDERS, {
     notifyOnNetworkStatusChange: true,
     variables: { skip: page, limit: 10, params: { numberOrder: "" } },
@@ -24,7 +24,7 @@ export default function AllOrders() {
   }, []);
 
   return (
-    <div className="relative ">
+    <div className="">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="w-56 text-2xl">Seznam objednávek</h1>
         <div>
@@ -38,7 +38,7 @@ export default function AllOrders() {
           <i className="fas fa-sync-alt"></i>
         </button>
       </div>
-      <div className="mt-5 relative">
+      <div className="screen_container">
         {loading && <Loader />}
         {error ||
           (data?.getOrders.orders.length === 0 && (

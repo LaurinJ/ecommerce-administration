@@ -3,14 +3,16 @@ import { useMutation } from "@apollo/client";
 import { ANSWER_CONTACT_MESSAGE } from "../../queries/Mutation";
 
 interface Props {
+  id: string;
   email: string;
 }
 
-function ContactForm({ email }: Props) {
+function ContactForm({ id, email }: Props) {
   const [message, setMessage] = useState("");
   const [sendMessage] = useMutation(ANSWER_CONTACT_MESSAGE, {
     onCompleted: () => {
       setMessage("");
+      // odesl
     },
   });
 
@@ -26,6 +28,7 @@ function ContactForm({ email }: Props) {
     if (message.length !== 0) {
       sendMessage({
         variables: {
+          answerContactMessageId: id,
           message: { content: message, email: email },
         },
       });

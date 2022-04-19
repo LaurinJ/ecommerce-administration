@@ -63,7 +63,7 @@ function FileInputField(props: Props) {
         <hr />
         <small>Max velikost obrázku: 1mb</small>
         <br />
-        <label className="inline-block mt-2 py-1 px-2 bg-green-500 rounded-md">
+        <label className="inline-block mt-2 btn">
           Nahrát
           <input
             required={required}

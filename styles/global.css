@@ -6,7 +6,16 @@
   display: none;
 }
 
+/* containers */
+.screen_container{
+  @apply relative min-h-[200px] mt-5
+}
+
 /* btn */
+.btn {
+  @apply p-2 bg-blue-200 hover:bg-blue-300 rounded-sm
+}
+
 .base_btn_form {
   font-size: 1.125rem;
   font-weight: 700;

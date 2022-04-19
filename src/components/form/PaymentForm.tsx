@@ -116,7 +116,6 @@ function PaymentForm({ id }: Props) {
         encType="multipart/form-data"
       >
         {loading && <Loader />}
-        {/* <span>{error && error.graphQLErrors[0].extensions.errors}</span> */}
         <div className="w-full">
           <InputFieldAdm
             required={true}
@@ -146,10 +145,7 @@ function PaymentForm({ id }: Props) {
         </div>
       </form>
       <div className="flex mt-7 mx-auto justify-center">
-        <button
-          onClick={handleSubmit}
-          className="py-1 px-2 bg-green-500 rounded-md"
-        >
+        <button onClick={handleSubmit} className="btn">
           {id ? "Aktualizovat způsob platby" : "Přidat způsob platby"}
         </button>
       </div>

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
@@ -64,7 +63,7 @@ export default function Order() {
             <h1 className="text-2xl">Objednávka č.{order.orderNumber}</h1>
             <div className="space-x-2">
               <button
-                className=" p-2 bg-blue-300 rounded-sm"
+                className="btn"
                 onClick={() => {
                   cancelOrder({ variables: { orderNumber: orderNumber } });
                 }}
@@ -72,7 +71,7 @@ export default function Order() {
                 Stornovat
               </button>
               <button
-                className=" p-2 bg-blue-300 rounded-sm"
+                className="btn"
                 onClick={() => {
                   suspendOrder({ variables: { orderNumber: orderNumber } });
                 }}
@@ -80,7 +79,7 @@ export default function Order() {
                 Pozastavit
               </button>
               <button
-                className=" p-2 bg-blue-300 rounded-sm"
+                className="btn"
                 onClick={() => {
                   sendOrder({ variables: { orderNumber: orderNumber } });
                 }}
@@ -89,7 +88,7 @@ export default function Order() {
               </button>
             </div>
             <Link to={`/edit-order/${order.orderNumber}`}>
-              <span className="p-2 bg-blue-300 rounded-sm">Upravit</span>
+              <span className="btn">Upravit</span>
             </Link>
           </div>
           <div className="mt-5 overflow-hidden">

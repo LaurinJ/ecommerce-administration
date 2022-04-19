@@ -1600,6 +1600,11 @@ video {
   color: rgba(229, 231, 235, var(--tw-text-opacity));
 }
 
+.text-green-600 {
+  --tw-text-opacity: 1;
+  color: rgba(5, 150, 105, var(--tw-text-opacity));
+}
+
 .text-primary {
   --tw-text-opacity: 1;
   color: rgba(0, 80, 170, var(--tw-text-opacity));
@@ -1660,7 +1665,27 @@ video {
   display: none;
 }
 
+/* containers */
+
+.screen_container {
+  position: relative;
+  margin-top: 1.25rem;
+  min-height: 200px;
+}
+
 /* btn */
+
+.btn {
+  border-radius: 0.125rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(191, 219, 254, var(--tw-bg-opacity));
+  padding: 0.5rem;
+}
+
+.btn:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(147, 197, 253, var(--tw-bg-opacity));
+}
 
 .base_btn_form {
   font-size: 1.125rem;
@@ -1951,22 +1976,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .even\:bg-gray-100:nth-child(even) {
   --tw-bg-opacity: 1;
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
-}
-
-.hover\:h-14:hover {
-  height: 3.5rem;
-}
-
-.hover\:h-12:hover {
-  height: 3rem;
-}
-
-.hover\:w-14:hover {
-  width: 3.5rem;
-}
-
-.hover\:w-12:hover {
-  width: 3rem;
 }
 
 .hover\:border-black:hover {

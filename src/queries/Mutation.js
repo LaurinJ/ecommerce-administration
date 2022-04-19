@@ -63,14 +63,12 @@ export const SEND_MESSAGE = gql`
 `;
 
 export const ANSWER_CONTACT_MESSAGE = gql`
-  mutation AnswerContactMessage($message: ContactData) {
-    answerContactMessage(message: $message) {
-      createdAt
-      answer
-      read
-      content
-      email
-      _id
+  mutation AnswerContactMessage(
+    $answerContactMessageId: String!
+    $message: ContactData
+  ) {
+    answerContactMessage(id: $answerContactMessageId, message: $message) {
+      message
     }
   }
 `;
