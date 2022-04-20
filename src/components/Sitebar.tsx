@@ -3,6 +3,7 @@ import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { userName } from "../apollo-client";
+import { isAuth } from "../actions/auth";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
@@ -19,7 +20,7 @@ function Sitebar() {
       <div className="flex mb-2">
         <div className="mx-3">
           <img
-            src="/profile.jpg"
+            src={`http://localhost:4000/${isAuth().profile.profile_image}`}
             alt="Profile photo"
             className="w-12 h-12 rounded-full"
           />
@@ -98,7 +99,7 @@ function Sitebar() {
                   Změna hesla
                 </li>
               </Link>
-              <Link to="/products" className="block">
+              <Link to="/account/profile" className="block">
                 <li className="mt-1 p-1 hover:text-white hover:bg-gray-800">
                   Profil
                 </li>

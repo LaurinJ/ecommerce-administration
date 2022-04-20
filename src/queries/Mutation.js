@@ -8,6 +8,9 @@ export const LOGIN_MUTATION = gql`
       user {
         name
         email
+        profile {
+          profile_image
+        }
       }
     }
   }
@@ -203,6 +206,22 @@ export const CANCEL_ORDER = gql`
 export const SET_READ_CONTACT_MESSAGE = gql`
   mutation Mutation($readContactMessageId: String!) {
     readContactMessage(id: $readContactMessageId) {
+      message
+    }
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation Mutation($passwords: ChangePasswordData) {
+    changePassword(passwords: $passwords) {
+      message
+    }
+  }
+`;
+
+export const EDIT_PROFILE = gql`
+  mutation EditProfile($image: Upload) {
+    editProfile(image: $image) {
       message
     }
   }

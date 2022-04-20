@@ -18,6 +18,8 @@ import Order from "../screens/Order";
 import EditOrder from "../screens/EditOrder";
 import Home from "../screens/Home";
 import ChangePassword from "../screens/ChangePassword";
+import Profile from "../screens/Profile";
+import EditProfile from "../screens/EditProfile";
 
 import { isAuth } from "../actions/auth";
 import { userName } from "../apollo-client";
@@ -60,6 +62,8 @@ function PrivateLayout() {
           <Route path="/contact-message" component={ContactMessage} />
           <Route path="/message/:id" component={Message} />
           <Route path="/account/change-password" component={ChangePassword} />
+          <Route path="/account/profile" component={Profile} />
+          <Route path="/account/edit-profile" component={EditProfile} />
         </Switch>
       </main>
       {/* chats */}
