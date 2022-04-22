@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DeleteButton from "../DeleteButton";
 
 type Category = {
-  _id?: string;
-  name?: string;
-  image?: string;
-  price?: number;
-  hidden?: boolean;
+  _id: string;
+  name: string;
+  image: string;
+  price: number;
+  hidden: boolean;
 };
 
 interface Props {
@@ -14,6 +15,10 @@ interface Props {
 }
 
 export const CategoryTable: React.FC<Props> = ({ categories }) => {
+  const handleDelete = () => {
+    console.log("delete: ");
+  };
+
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
@@ -69,10 +74,7 @@ export const CategoryTable: React.FC<Props> = ({ categories }) => {
                   aria-hidden="true"
                 ></i>
               </Link>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
-                aria-hidden="true"
-              ></i>
+              <DeleteButton id={category._id} handleDelete={handleDelete} />
             </td>
           </tr>
         ))}

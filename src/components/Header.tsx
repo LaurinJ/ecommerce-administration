@@ -44,8 +44,9 @@ function Header() {
             className={`${open ? "" : "hidden"} absolute top-9 -right-4 w-28`}
           >
             <ul className="bg-white border border-gray-300">
-              <li className="pl-3 py-1 hover:text-gray-500">Profile</li>
-              <li className="pl-3 py-1 hover:text-gray-500">Settings</li>
+              <Link to="/account/profile">
+                <li className="pl-3 py-1 hover:text-gray-500">Profile</li>
+              </Link>
 
               <Link to="/account/login">
                 <li className="pl-3 py-1 hover:text-gray-500">

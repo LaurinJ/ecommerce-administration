@@ -84,7 +84,7 @@ function Sitebar() {
           </li>
           <li className="mb-2 px-4 py-3 hover:text-white">
             <span
-              className="w-full"
+              className="w-full block"
               onClick={() => {
                 setMenu(!menu);
               }}
