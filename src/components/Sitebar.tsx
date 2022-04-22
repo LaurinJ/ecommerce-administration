@@ -20,7 +20,7 @@ function Sitebar() {
       <div className="flex mb-2">
         <div className="mx-3">
           <img
-            src={`http://localhost:4000/${isAuth().profile.profile_image}`}
+            src={`http://localhost:4000/${isAuth()?.profile.profile_image}`}
             alt="Profile photo"
             className="w-12 h-12 rounded-full"
           />
