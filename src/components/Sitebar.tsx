@@ -2,12 +2,12 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { userName } from "../apollo-client";
+import { userData } from "../apollo-client";
 import { isAuth } from "../actions/auth";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
-  const name = useReactiveVar(userName);
+  const user = useReactiveVar(userData);
 
   return (
     <div className="w-56 p-0 relative z-40 text-gray-200 bg-gray-700">
@@ -20,14 +20,14 @@ function Sitebar() {
       <div className="flex mb-2">
         <div className="mx-3">
           <img
-            src={`http://localhost:4000/${isAuth()?.profile.profile_image}`}
+            src={`http://localhost:4000/${user?.profile.profile_image}`}
             alt="Profile photo"
             className="w-12 h-12 rounded-full"
           />
         </div>
         <div className="mx-3 font-normal">
           <span className="text-gray-400">Welcome,</span>
-          <h2>{name}</h2>
+          <h2>{user.name}</h2>
         </div>
       </div>
       {/* nav link */}

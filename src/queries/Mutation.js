@@ -24,6 +24,19 @@ export const LOGOUT_MUTATION = gql`
   }
 `;
 
+export const EDIT_PROFILE = gql`
+  mutation EditProfile($image: Upload) {
+    editProfile(image: $image) {
+      ... on Message {
+        message
+      }
+      ... on Profile {
+        profile_image
+      }
+    }
+  }
+`;
+
 export const CREATE_PAYMENT_METHOD = gql`
   mutation Mutation($payment: PaymentData!, $image: Upload) {
     createPayment(payment: $payment, image: $image) {
@@ -214,14 +227,6 @@ export const SET_READ_CONTACT_MESSAGE = gql`
 export const CHANGE_PASSWORD = gql`
   mutation Mutation($passwords: ChangePasswordData) {
     changePassword(passwords: $passwords) {
-      message
-    }
-  }
-`;
-
-export const EDIT_PROFILE = gql`
-  mutation EditProfile($image: Upload) {
-    editProfile(image: $image) {
       message
     }
   }

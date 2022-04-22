@@ -1,21 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
-import { Link, useParams } from "react-router-dom";
-import { GET_ORDERS } from "../queries/Query";
-import Loader from "../components/Loader";
-import Search from "../components/Search";
-import { SEARCH } from "../queries/Query";
-import Pagination from "../components/Pagination";
-import ChangePasswordForm from "../components/form/ChangePasswordForm";
-import { isAuth } from "../actions/auth";
+import React from "react";
+import { useReactiveVar } from "@apollo/client";
+import { Link } from "react-router-dom";
+import { userData } from "../apollo-client";
 
 export default function Profile() {
-  const [user, setUser] = useState({ name: "", email: "" });
-
-  useEffect(() => {
-    setUser(isAuth());
-  }, []);
+  const user = useReactiveVar(userData);
 
   return (
     <div className="">
@@ -26,7 +16,7 @@ export default function Profile() {
         <div className="mx-auto max-w-[300px] shadow-2xl rounded-lg">
           <div className="flex flex-col justify-center items-center">
             <img
-              src="/profile.jpg"
+              src={`http://localhost:4000/${user?.profile.profile_image}`}
               alt="Profile photo."
               className="w-40 h-40 mr-1 rounded-full"
             />

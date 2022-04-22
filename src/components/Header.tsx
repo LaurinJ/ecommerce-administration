@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useReactiveVar, useQuery } from "@apollo/client";
-import { userName } from "../apollo-client";
+import { userData } from "../apollo-client";
 import Logout from "./account/Logout";
 import { GET_CONTACT_MESSAGE_COUNT } from "../queries/Query";
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const name = useReactiveVar(userName);
+  const user = useReactiveVar(userData);
 
   const { data } = useQuery(GET_CONTACT_MESSAGE_COUNT);
 
@@ -34,11 +34,11 @@ function Header() {
           onClick={() => setOpen(!open)}
         >
           <img
-            src="/profile.jpg"
+            src={`http://localhost:4000/${user?.profile.profile_image}`}
             alt="Profile photo."
             className="w-8 h-8 mr-1 rounded-full"
           />
-          {name}
+          {user.name}
           <i className="fa fa-sort-desc ml-1 pb-1" aria-hidden="true"></i>
           <div
             className={`${open ? "" : "hidden"} absolute top-9 -right-4 w-28`}

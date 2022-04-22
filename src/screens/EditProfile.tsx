@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { Link, useParams } from "react-router-dom";
+import { editProfile as editProfileAct } from "../actions/auth";
 import { EDIT_PROFILE } from "../queries/Mutation";
 import { useNotification } from "../context/NotificationProvider";
 import Loader from "../components/Loader";
 import FileInputField from "../components/form/FileInputField";
+import { userData } from "../apollo-client";
+import { User } from "../type/user";
 
 export default function EditProfile() {
   const dispatch = useNotification();
@@ -14,17 +16,24 @@ export default function EditProfile() {
 
   const [editProfile, { loading }] = useMutation(EDIT_PROFILE, {
     onCompleted: (data) => {
-      dispatch({
-        type: "SUCCESS",
-        message: data.editProfile.message,
-        title: "Successful Request",
+      if (data.editProfile.message) {
+        dispatch({
+          type: "BAD",
+          message: data.editProfile.message,
+          title: "Successful Request",
+        });
+        return;
+      }
+      editProfileAct(data.editProfile, (user: User) => {
+        userData(user);
+        dispatch({
+          type: "SUCCESS",
+          message: "Profil byl aktualizován",
+          title: "Successful Request",
+        });
       });
     },
   });
-
-  // useEffect(() => {
-  //   setUser(isAuth());
-  // }, []);
 
   const handleChangeImage = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -34,11 +43,15 @@ export default function EditProfile() {
       return;
     }
     setImg(value);
+    setErr("");
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      if (!img) setErr("Obrázek nebyl nahrán!");
+      if (!img) {
+        setErr("Obrázek nebyl nahrán!");
+        return;
+      }
       if (!err) {
         await editProfile({
           variables: {

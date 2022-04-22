@@ -22,7 +22,7 @@ import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
 
 import { isAuth } from "../actions/auth";
-import { userName } from "../apollo-client";
+import { userData } from "../apollo-client";
 
 function PrivateLayout() {
   const history = useHistory();
@@ -31,7 +31,7 @@ function PrivateLayout() {
     if (!isAuth()) {
       history.push("/account/login");
     } else {
-      userName(isAuth().name);
+      userData(isAuth());
     }
   }, [history]);
 

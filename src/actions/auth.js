@@ -18,10 +18,12 @@ export const removeCookie = (key) => {
     expires: 1,
   });
 };
+
 // get cookie
 export const getCookie = (key) => {
   return cookie.get(key);
 };
+
 // localstorage
 export const getLocalStorage = (key) => {
   return JSON.parse(localStorage.getItem(key));
@@ -40,6 +42,13 @@ export const authenticate = (data, next) => {
   setCookie("refreshToken", data.refreshToken);
   setLocalStorage("user", data.user);
   next();
+};
+
+export const editProfile = (data, next) => {
+  let user = getLocalStorage("user");
+  user.profile = { ...data };
+  setLocalStorage("user", user);
+  next(user);
 };
 
 export const isAuth = () => {
