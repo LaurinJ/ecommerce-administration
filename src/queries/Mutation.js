@@ -53,6 +53,14 @@ export const EDIT_PAYMENT_METHOD = gql`
   }
 `;
 
+export const DELETE_PAYMENT_METHOD = gql`
+  mutation Mutation($payment: PaymentData!, $image: Upload) {
+    editPayment(payment: $payment, image: $image) {
+      name
+    }
+  }
+`;
+
 export const CREATE_DELIVER_METHOD = gql`
   mutation CreateDeliverMethod($delivery: DeliveryData!, $image: Upload) {
     createDeliveryMethod(delivery: $delivery, image: $image) {
@@ -116,6 +124,17 @@ export const EDIT_CATEGORY = gql`
   mutation EditCategory($category: CategoryData!) {
     editCategory(category: $category) {
       name
+    }
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($id: String!) {
+    deleteCategory(id: $id) {
+      _id
+      name
+      slug
+      hidden
     }
   }
 `;

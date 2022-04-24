@@ -3,31 +3,24 @@ import { ApolloError, useMutation, useLazyQuery } from "@apollo/client";
 import InputFieldAdm from "./InputFieldAdm";
 import InputCheckBox from "./InputCheckBox";
 import { CREATE_CATEGORY, EDIT_CATEGORY } from "../../queries/Mutation";
-import { GET_CATEGORY } from "../../queries/Query";
+import { GET_CATEGORIES, GET_CATEGORY } from "../../queries/Query";
 import Loader from "../Loader";
 import { validate } from "../../validators/category";
+import { CategoryErrors, Category } from "../../type/category";
+import { useNotification } from "../../context/NotificationProvider";
 
 interface Props {
   id: string;
 }
 
-export interface Errors {
-  name?: String;
-}
-
-export interface State {
-  _id: string;
-  name: String;
-  hidden: Boolean;
-}
-
 function CategoryForm({ id }: Props) {
-  const [formValues, setFormValues] = useState<State>({
+  const dispatch = useNotification();
+  const [formValues, setFormValues] = useState<Category>({
     _id: "",
     name: "",
     hidden: false,
   });
-  const [err, setErr] = useState<Errors>({});
+  const [err, setErr] = useState<CategoryErrors>({});
 
   const [getCategory] = useLazyQuery(GET_CATEGORY, {
     fetchPolicy: "network-only",
@@ -37,14 +30,20 @@ function CategoryForm({ id }: Props) {
   });
 
   const Mutation = id ? EDIT_CATEGORY : CREATE_CATEGORY;
-  const [createCategory, { loading, error }] = useMutation(Mutation, {
+  const [createCategory, { loading }] = useMutation(Mutation, {
     onCompleted: () => {
       setFormValues({
         _id: "",
         name: "",
         hidden: false,
       });
+      dispatch({
+        type: "SUCCESS",
+        message: "Kategorie byla vytvořena!",
+        title: "Successful Request",
+      });
     },
+    refetchQueries: [GET_CATEGORIES],
   });
 
   useEffect(() => {
@@ -95,15 +94,14 @@ function CategoryForm({ id }: Props) {
         className="flex relative flex-wrap md:flex-nowrap"
         encType="multipart/form-data"
       >
-        {!error && loading && <Loader />}
-        {/* <span>{error && error.graphQLErrors[0].extensions.errors}</span> */}
+        {loading && <Loader />}
         <div className="w-1/3">
           <InputFieldAdm
             required={true}
             type="text"
             name="name"
-            label="Jméno kategorie"
-            prompt="Zadejte Jméno"
+            label="Název kategorie"
+            prompt="Zadejte název"
             error={err?.name}
             value={formValues.name}
             handleChange={handleChange}
@@ -118,10 +116,7 @@ function CategoryForm({ id }: Props) {
         </div>
       </form>
       <div className="flex mt-7 mx-auto justify-center">
-        <button
-          onClick={handleSubmit}
-          className="py-1 px-2 bg-green-500 rounded-md"
-        >
+        <button onClick={handleSubmit} className="btn">
           {id ? "Aktualizovat kategorii" : "Přidat kategorii"}
         </button>
       </div>

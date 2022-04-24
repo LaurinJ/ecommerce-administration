@@ -1,33 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 import DeleteButton from "../DeleteButton";
+import { DELETE_CATEGORY } from "../../queries/Mutation";
+import { GET_CATEGORIES } from "../../queries/Query";
+import Loader from "../Loader";
 
-type Category = {
-  _id: string;
-  name: string;
-  image: string;
-  price: number;
-  hidden: boolean;
-};
+import { Category } from "../../type/category";
 
 interface Props {
   categories: [Category];
 }
 
 export const CategoryTable: React.FC<Props> = ({ categories }) => {
-  const handleDelete = () => {
-    console.log("delete: ");
-  };
+  const [deleteCategory, { loading }] = useMutation(DELETE_CATEGORY, {
+    refetchQueries: [GET_CATEGORIES],
+  });
 
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
         <tr className="border-b border-gray-200">
-          <th className="text-lg w-2/5 py-3">Jmeno</th>
+          <th className="text-lg w-2/5 py-3">Název</th>
           <th className="text-lg w-1/5 py-3">Status</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="relative">
+        {loading && <Loader />}
         {categories.map((category, i) => (
           <tr
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
@@ -74,7 +73,7 @@ export const CategoryTable: React.FC<Props> = ({ categories }) => {
                   aria-hidden="true"
                 ></i>
               </Link>
-              <DeleteButton id={category._id} handleDelete={handleDelete} />
+              <DeleteButton id={category._id} handleDelete={deleteCategory} />
             </td>
           </tr>
         ))}

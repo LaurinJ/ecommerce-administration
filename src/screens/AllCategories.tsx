@@ -9,7 +9,6 @@ import Pagination from "../components/Pagination";
 function AllCategories() {
   const [page, setPage] = useState<number>(1);
   const { loading, data } = useQuery(GET_CATEGORIES, {
-    fetchPolicy: "network-only",
     variables: { skip: page },
   });
 
