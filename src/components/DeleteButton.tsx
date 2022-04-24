@@ -42,6 +42,7 @@ function DeleteButton({ id, handleDelete }: Props) {
         }}
         className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
         aria-hidden="true"
+        title="Odstranit"
       ></i>
     </>
   );

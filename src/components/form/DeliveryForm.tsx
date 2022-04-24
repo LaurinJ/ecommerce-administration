@@ -9,44 +9,38 @@ import {
   CREATE_DELIVER_METHOD,
   EDIT_DELIVER_METHOD,
 } from "../../queries/Mutation";
-import { GET_DELIVERY_METHOD } from "../../queries/Query";
+import { GET_DELIVERY_METHOD, GET_DELIVERY_METHODS } from "../../queries/Query";
 import { validate } from "../../validators/delivery";
+import { useNotification } from "../../context/NotificationProvider";
+
+import { Delivery, DeliveryErrors } from "../../type/delivery";
 
 interface Props {
   id: string;
 }
 
-export interface Errors {
-  name?: String;
-  price?: String;
-  image?: String;
-}
-
-export interface State {
-  _id: string;
-  name: String;
-  price: Number;
-  image: Object | string;
-  hidden: Boolean;
-}
-
 function DeliveryForm({ id }: Props) {
-  const [formValues, setFormValues] = useState<State>({
+  const dispatch = useNotification();
+  const [formValues, setFormValues] = useState<Delivery>({
     _id: "",
     name: "",
     price: 0,
     image: "",
     hidden: false,
   });
-  const [err, setErr] = useState<Errors>({});
+  const [err, setErr] = useState<DeliveryErrors>({});
+
   const [getDelivery] = useLazyQuery(GET_DELIVERY_METHOD, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       setFormValues({ ...data.getDeliveryMethod });
     },
   });
+
   const Mutation = id ? EDIT_DELIVER_METHOD : CREATE_DELIVER_METHOD;
   const [createDeliver, { loading }] = useMutation(Mutation, {
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: [GET_DELIVERY_METHODS],
     onCompleted: () => {
       setFormValues({
         _id: "",
@@ -54,6 +48,11 @@ function DeliveryForm({ id }: Props) {
         price: 0,
         image: "",
         hidden: false,
+      });
+      dispatch({
+        type: "SUCCESS",
+        message: "Způsob dopravy byl vytvořen!",
+        title: "Successful Request",
       });
     },
   });
@@ -71,7 +70,6 @@ function DeliveryForm({ id }: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     if (name === "hidden") {
-      // setFormValues({ ...formValues, [String(name)]: !formValues.hidden });
       setFormValues({ ...formValues, [String(name)]: event.target.checked });
     } else {
       setFormValues({ ...formValues, [String(name)]: value });
@@ -126,8 +124,8 @@ function DeliveryForm({ id }: Props) {
             required={true}
             type="text"
             name="name"
-            label="Jméno dopravy"
-            prompt="Zadejte Jméno"
+            label="Název dopravy"
+            prompt="Zadejte Název"
             error={err?.name}
             value={formValues.name}
             handleChange={handleChange}
@@ -161,10 +159,7 @@ function DeliveryForm({ id }: Props) {
         </div>
       </form>
       <div className="flex mt-7 mx-auto justify-center">
-        <button
-          onClick={handleSubmit}
-          className="py-1 px-2 bg-green-500 rounded-md"
-        >
+        <button onClick={handleSubmit} className="btn">
           {id ? "Aktualizovat způsob dopravy" : "Přidat způsob dopravy"}
         </button>
       </div>

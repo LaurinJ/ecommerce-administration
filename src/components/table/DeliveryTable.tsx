@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import DeleteButton from "../DeleteButton";
+import Loader from "../Loader";
+import { DELETE_DELIVER_METHOD } from "../../queries/Mutation";
+import { GET_DELIVERY_METHODS } from "../../queries/Query";
 
-type Delivery = {
-  _id?: string;
-  name?: string;
-  image?: string;
-  price?: number;
-  hidden?: boolean;
-};
+import { Delivery } from "../../type/delivery";
 
 interface Props {
   deliveries: [Delivery];
 }
 
 export const DeliveryTable: React.FC<Props> = ({ deliveries }) => {
+  const [deleteDelivery, { loading }] = useMutation(DELETE_DELIVER_METHOD, {
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: [GET_DELIVERY_METHODS],
+  });
+
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
@@ -23,7 +27,8 @@ export const DeliveryTable: React.FC<Props> = ({ deliveries }) => {
           <th className="text-lg w-1/5 py-3">Status</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="relative">
+        {loading && <Loader />}
         {deliveries.map((delivery, i) => (
           <tr
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
@@ -69,12 +74,10 @@ export const DeliveryTable: React.FC<Props> = ({ deliveries }) => {
                 <i
                   className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
+                  title="Upravit"
                 ></i>
               </Link>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
-                aria-hidden="true"
-              ></i>
+              <DeleteButton id={delivery._id} handleDelete={deleteDelivery} />
             </td>
           </tr>
         ))}

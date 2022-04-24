@@ -14,6 +14,7 @@ interface Props {
 
 export const PaymentsTable: React.FC<Props> = ({ payments }) => {
   const [deletePayment, { loading }] = useMutation(DELETE_PAYMENT_METHOD, {
+    notifyOnNetworkStatusChange: true,
     refetchQueries: [GET_PAYMENT_METHODS],
   });
 

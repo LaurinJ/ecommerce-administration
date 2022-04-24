@@ -1,6 +1,7 @@
-import { State, Errors } from "../components/form/DeliveryForm";
-export const validate = (values: State) => {
-  const errors: Errors = {};
+import { Delivery, DeliveryErrors } from "../type/delivery";
+
+export const validate = (values: Delivery) => {
+  const errors: DeliveryErrors = {};
   if (!values.name) {
     errors.name = "Toto pole je povinné";
   }

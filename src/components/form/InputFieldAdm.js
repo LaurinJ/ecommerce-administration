@@ -40,7 +40,7 @@ export function InputFieldAdm(props) {
           <input
             required={required}
             type={type}
-            className={`w-full p-3 bg-gray-100 ${
+            className={`w-full p-3 bg-gray-100  ${
               props.error ? "border border-red-600 " : ""
             }`}
             placeholder={props.prompt}

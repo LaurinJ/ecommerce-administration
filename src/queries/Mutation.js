@@ -81,6 +81,17 @@ export const EDIT_DELIVER_METHOD = gql`
   }
 `;
 
+export const DELETE_DELIVER_METHOD = gql`
+  mutation DeleteDeliveryMethod($id: String) {
+    deleteDeliveryMethod(id: $id) {
+      _id
+      name
+      price
+      hidden
+    }
+  }
+`;
+
 export const SEND_MESSAGE = gql`
   mutation Mutation($message: MessageData!) {
     sendMessage(message: $message) {
