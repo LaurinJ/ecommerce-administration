@@ -10,7 +10,9 @@ function Header() {
   const [open, setOpen] = useState(false);
   const user = useReactiveVar(userData);
 
-  const { data } = useQuery(GET_CONTACT_MESSAGE_COUNT);
+  const { data } = useQuery(GET_CONTACT_MESSAGE_COUNT, {
+    pollInterval: 120000,
+  });
 
   return (
     <div className="md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
@@ -21,11 +23,13 @@ function Header() {
         <Link to="/contact-message">
           <li className="relative">
             <i className="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
-            <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-5 h-4 rounded-full">
-              <span className="text-white font-normal">
-                {data?.getContactMessagesCount.messages}
-              </span>
-            </div>
+            {data?.getContactMessagesCount.messages > 0 && (
+              <div className="absolute -top-2 left-2 flex justify-center items-center bg-green-500 w-5 h-4 rounded-full">
+                <span className="text-white font-normal">
+                  {data?.getContactMessagesCount.messages}
+                </span>
+              </div>
+            )}
           </li>
         </Link>
         {/* dropdown */}

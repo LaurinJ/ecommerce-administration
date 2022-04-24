@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_CONTACT_MESSAGE } from "../queries/Query";
+import {
+  GET_CONTACT_MESSAGE,
+  GET_CONTACT_MESSAGE_COUNT,
+} from "../queries/Query";
 import { SET_READ_CONTACT_MESSAGE } from "../queries/Mutation";
 import ContactForm from "../components/form/ContactForm";
 
@@ -12,13 +15,16 @@ interface Params {
 function Message() {
   const { id } = useParams<Params>();
   const history = useHistory();
+
   const { data } = useQuery(GET_CONTACT_MESSAGE, {
     nextFetchPolicy: "network-only",
     variables: {
       getContactMessageId: id,
     },
   });
-  const [setRead] = useMutation(SET_READ_CONTACT_MESSAGE);
+  const [setRead] = useMutation(SET_READ_CONTACT_MESSAGE, {
+    refetchQueries: [GET_CONTACT_MESSAGE_COUNT],
+  });
 
   useEffect(() => {
     if (data && data.getContactMessage.read === false) {

@@ -79,10 +79,6 @@ function Sitebar() {
             </li>
           </Link>
           <li className="mb-2 px-4 py-3 hover:text-white">
-            <i className="fa fa-info fa-lg w-8" aria-hidden="true"></i>
-            <a href="/#">Django info</a>
-          </li>
-          <li className="mb-2 px-4 py-3 hover:text-white">
             <span
               className="w-full block"
               onClick={() => {

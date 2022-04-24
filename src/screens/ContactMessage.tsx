@@ -8,9 +8,13 @@ import Loader from "../components/Loader";
 
 function ContactMessage() {
   const [page, setPage] = useState<number>(1);
+
   const [getContactMessage, { loading, error, data }] = useLazyQuery(
     GET_CONTACT_MESSAGES,
-    { fetchPolicy: "network-only", variables: { skip: page, limit: 10 } }
+    {
+      fetchPolicy: "network-only",
+      variables: { skip: page, limit: 10 },
+    }
   );
 
   const handleClick = (page: number) => {
