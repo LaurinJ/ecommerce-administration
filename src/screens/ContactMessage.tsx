@@ -12,7 +12,6 @@ function ContactMessage() {
   const [getContactMessage, { loading, error, data }] = useLazyQuery(
     GET_CONTACT_MESSAGES,
     {
-      fetchPolicy: "network-only",
       variables: { skip: page, limit: 10 },
     }
   );
@@ -29,9 +28,6 @@ function ContactMessage() {
     <React.Fragment>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl">Zpravy</h1>
-        <Link to="/add-payment">
-          <span className="btn">Odeslat zprávu</span>
-        </Link>
       </div>
       <div className="screen_container">
         {error && <h4>Nebyli nalezeny zprávy</h4>}

@@ -227,6 +227,7 @@ export const GET_CONTACT_MESSAGES = gql`
         _id
         email
         read
+        answer
         createdAt
         content
       }

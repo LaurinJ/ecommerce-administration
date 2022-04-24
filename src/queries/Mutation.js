@@ -100,6 +100,18 @@ export const SEND_MESSAGE = gql`
   }
 `;
 
+export const DELETE_CONTACT_MESSAGE = gql`
+  mutation DeleteContactMessage($id: String!) {
+    deleteContactMessage(id: $id) {
+      _id
+      email
+      content
+      read
+      createdAt
+    }
+  }
+`;
+
 export const ANSWER_CONTACT_MESSAGE = gql`
   mutation AnswerContactMessage(
     $answerContactMessageId: String!
