@@ -14,11 +14,11 @@ let httpLink = createUploadLink({
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  const history = useHistory();
+  // const history = useHistory();
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       if (message.includes("Nejsi přihlášený/ná")) {
-        history.push("/account/login");
+        // history.push("/account/login");
       }
     });
   }

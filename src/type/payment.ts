@@ -1,15 +1,15 @@
-export type Category = {
+export type Payment = {
   _id: string;
   name: string;
   image?: string | object;
   hidden: boolean;
 };
 
-export type CategoriesQuery = {
-  categories: [Category];
+export type PaymentQuery = {
+  methods: [Payment];
   pages: number;
 };
 
-export interface CategoryErrors {
+export interface PaymentErrors {
   name?: String;
 }

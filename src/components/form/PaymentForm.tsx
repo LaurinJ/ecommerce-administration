@@ -7,35 +7,26 @@ import {
   CREATE_PAYMENT_METHOD,
   EDIT_PAYMENT_METHOD,
 } from "../../queries/Mutation";
-import { GET_PAYMENT_METHOD } from "../../queries/Query";
+import { GET_PAYMENT_METHOD, GET_PAYMENT_METHODS } from "../../queries/Query";
 import Loader from "../Loader";
 import { validate } from "../../validators/payment";
+import { useNotification } from "../../context/NotificationProvider";
+
+import { Payment, PaymentErrors } from "../../type/payment";
 
 interface Props {
   id: string;
 }
 
-export interface Errors {
-  name?: String;
-  price?: String;
-  image?: String;
-}
-
-export interface State {
-  _id: string;
-  name: String;
-  image: Object | string;
-  hidden: Boolean;
-}
-
 function PaymentForm({ id }: Props) {
-  const [formValues, setFormValues] = useState<State>({
+  const dispatch = useNotification();
+  const [formValues, setFormValues] = useState<Payment>({
     _id: "",
     name: "",
     image: "",
     hidden: false,
   });
-  const [err, setErr] = useState<Errors>({});
+  const [err, setErr] = useState<PaymentErrors>({});
 
   const [getPayment] = useLazyQuery(GET_PAYMENT_METHOD, {
     fetchPolicy: "network-only",
@@ -46,12 +37,19 @@ function PaymentForm({ id }: Props) {
 
   const Mutation = id ? EDIT_PAYMENT_METHOD : CREATE_PAYMENT_METHOD;
   const [createPayment, { loading }] = useMutation(Mutation, {
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: [GET_PAYMENT_METHODS],
     onCompleted: () => {
       setFormValues({
         _id: "",
         name: "",
         image: "",
         hidden: false,
+      });
+      dispatch({
+        type: "SUCCESS",
+        message: "Způsob platby byl vytvořen!",
+        title: "Successful Request",
       });
     },
   });
@@ -71,7 +69,7 @@ function PaymentForm({ id }: Props) {
     if (name === "hidden") {
       setFormValues({ ...formValues, [String(name)]: event.target.checked });
     } else {
-      setFormValues({ ...formValues, [String(name)]: value });
+      setFormValues({ ...formValues, [name]: value });
     }
   };
 
@@ -121,8 +119,8 @@ function PaymentForm({ id }: Props) {
             required={true}
             type="text"
             name="name"
-            label="Jméno platby"
-            prompt="Zadejte Jméno"
+            label="Název platby"
+            prompt="Zadejte Název"
             error={err?.name}
             value={formValues.name}
             handleChange={handleChange}

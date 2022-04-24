@@ -31,6 +31,7 @@ function CategoryForm({ id }: Props) {
 
   const Mutation = id ? EDIT_CATEGORY : CREATE_CATEGORY;
   const [createCategory, { loading }] = useMutation(Mutation, {
+    notifyOnNetworkStatusChange: true,
     onCompleted: () => {
       setFormValues({
         _id: "",

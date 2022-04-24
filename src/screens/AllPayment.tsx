@@ -8,8 +8,7 @@ import Pagination from "../components/Pagination";
 
 function AllPayment() {
   const [page, setPage] = useState<number>(1);
-  const { loading, error, data } = useQuery(GET_PAYMENT_METHODS, {
-    fetchPolicy: "network-only",
+  const { loading, data } = useQuery(GET_PAYMENT_METHODS, {
     variables: { skip: page },
   });
 
@@ -27,10 +26,12 @@ function AllPayment() {
       </div>
       <div className="screen_container">
         {loading && <Loader />}
-        {error && data?.getPaymentMethods.length === 0 && (
+
+        {data ? (
+          <PaymentsTable payments={data.getAllPaymentMethods.methods} />
+        ) : (
           <h4>Nejsou k dispozici žádné způsoby platby</h4>
         )}
-        {data && <PaymentsTable payments={data.getAllPaymentMethods.methods} />}
       </div>
       {data?.getAllPaymentMethods.pages > 1 && (
         <Pagination

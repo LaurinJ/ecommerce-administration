@@ -54,9 +54,12 @@ export const EDIT_PAYMENT_METHOD = gql`
 `;
 
 export const DELETE_PAYMENT_METHOD = gql`
-  mutation Mutation($payment: PaymentData!, $image: Upload) {
-    editPayment(payment: $payment, image: $image) {
+  mutation DeletePayment($id: String) {
+    deletePayment(id: $id) {
+      _id
       name
+      image
+      hidden
     }
   }
 `;

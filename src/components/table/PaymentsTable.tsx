@@ -1,18 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import DeleteButton from "../DeleteButton";
+import Loader from "../Loader";
+import { DELETE_PAYMENT_METHOD } from "../../queries/Mutation";
+import { GET_PAYMENT_METHODS } from "../../queries/Query";
 
-type Payment = {
-  _id?: string;
-  name?: string;
-  image?: string;
-  hidden?: boolean;
-};
+import { Payment } from "../../type/payment";
 
 interface Props {
   payments: [Payment];
 }
 
 export const PaymentsTable: React.FC<Props> = ({ payments }) => {
+  const [deletePayment, { loading }] = useMutation(DELETE_PAYMENT_METHOD, {
+    refetchQueries: [GET_PAYMENT_METHODS],
+  });
+
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
@@ -21,7 +25,8 @@ export const PaymentsTable: React.FC<Props> = ({ payments }) => {
           <th className="text-lg w-1/5 py-3">Status</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="relative">
+        {loading && <Loader />}
         {payments.map((payment, i) => (
           <tr
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
@@ -68,10 +73,7 @@ export const PaymentsTable: React.FC<Props> = ({ payments }) => {
                   aria-hidden="true"
                 ></i>
               </Link>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400"
-                aria-hidden="true"
-              ></i>
+              <DeleteButton id={payment._id} handleDelete={deletePayment} />
             </td>
           </tr>
         ))}
