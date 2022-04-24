@@ -111,6 +111,7 @@ export const OrdersTable: React.FC<Props> = ({ orders }) => {
                 <i
                   className="fa fa-arrow-circle-right fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
+                  title="Podrobnosti"
                 ></i>
               </Link>
               <i

@@ -82,6 +82,7 @@ export const CategoryTable: React.FC<Props> = ({ categories }) => {
                 <i
                   className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
+                  title="Upravit"
                 ></i>
               </Link>
               <DeleteButton id={category._id} handleDelete={deleteCategory} />

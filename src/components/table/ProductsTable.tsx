@@ -33,6 +33,7 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
                 <i
                   className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
+                  title="Upravit"
                 ></i>
               </Link>
               <i

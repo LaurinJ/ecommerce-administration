@@ -82,6 +82,7 @@ export const PaymentsTable: React.FC<Props> = ({ payments }) => {
                 <i
                   className="fa fa-pencil fa-lg w-8 hover:text-gray-400 cursor-pointer"
                   aria-hidden="true"
+                  title="Upravit"
                 ></i>
               </Link>
               <DeleteButton id={payment._id} handleDelete={deletePayment} />

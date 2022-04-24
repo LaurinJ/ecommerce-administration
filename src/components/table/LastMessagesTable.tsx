@@ -45,6 +45,7 @@ export const LastMessagesTable: React.FC<Props> = ({ messages }) => {
                     <i
                       className="fa fa-arrow-circle-right fa-lg w-8 hover:text-gray-400 cursor-pointer"
                       aria-hidden="true"
+                      title="Přečíst"
                     ></i>
                   </Link>
                   <i

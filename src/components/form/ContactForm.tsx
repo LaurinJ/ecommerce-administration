@@ -11,6 +11,7 @@ interface Props {
 function ContactForm({ id, email }: Props) {
   const dispatch = useNotification();
   const [message, setMessage] = useState("");
+
   const [sendMessage] = useMutation(ANSWER_CONTACT_MESSAGE, {
     onCompleted: () => {
       setMessage("");
