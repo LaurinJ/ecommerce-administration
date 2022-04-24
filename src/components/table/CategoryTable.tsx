@@ -5,6 +5,7 @@ import DeleteButton from "../DeleteButton";
 import { DELETE_CATEGORY } from "../../queries/Mutation";
 import { GET_CATEGORIES } from "../../queries/Query";
 import Loader from "../Loader";
+import { useNotification } from "../../context/NotificationProvider";
 
 import { Category } from "../../type/category";
 
@@ -13,8 +14,18 @@ interface Props {
 }
 
 export const CategoryTable: React.FC<Props> = ({ categories }) => {
+  const dispatch = useNotification();
+
   const [deleteCategory, { loading }] = useMutation(DELETE_CATEGORY, {
+    notifyOnNetworkStatusChange: true,
     refetchQueries: [GET_CATEGORIES],
+    onCompleted: () => {
+      dispatch({
+        type: "SUCCESS",
+        message: "Kategorie byla odstraněná!",
+        title: "Successful Request",
+      });
+    },
   });
 
   return (

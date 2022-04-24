@@ -5,6 +5,7 @@ import DeleteButton from "../DeleteButton";
 import Loader from "../Loader";
 import { DELETE_DELIVER_METHOD } from "../../queries/Mutation";
 import { GET_DELIVERY_METHODS } from "../../queries/Query";
+import { useNotification } from "../../context/NotificationProvider";
 
 import { Delivery } from "../../type/delivery";
 
@@ -13,9 +14,18 @@ interface Props {
 }
 
 export const DeliveryTable: React.FC<Props> = ({ deliveries }) => {
+  const dispatch = useNotification();
+
   const [deleteDelivery, { loading }] = useMutation(DELETE_DELIVER_METHOD, {
     notifyOnNetworkStatusChange: true,
     refetchQueries: [GET_DELIVERY_METHODS],
+    onCompleted: () => {
+      dispatch({
+        type: "SUCCESS",
+        message: "Způsob dopravy byl odstraněn!",
+        title: "Successful Request",
+      });
+    },
   });
 
   return (

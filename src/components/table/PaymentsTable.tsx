@@ -5,6 +5,7 @@ import DeleteButton from "../DeleteButton";
 import Loader from "../Loader";
 import { DELETE_PAYMENT_METHOD } from "../../queries/Mutation";
 import { GET_PAYMENT_METHODS } from "../../queries/Query";
+import { useNotification } from "../../context/NotificationProvider";
 
 import { Payment } from "../../type/payment";
 
@@ -13,9 +14,18 @@ interface Props {
 }
 
 export const PaymentsTable: React.FC<Props> = ({ payments }) => {
+  const dispatch = useNotification();
+
   const [deletePayment, { loading }] = useMutation(DELETE_PAYMENT_METHOD, {
     notifyOnNetworkStatusChange: true,
     refetchQueries: [GET_PAYMENT_METHODS],
+    onCompleted: () => {
+      dispatch({
+        type: "SUCCESS",
+        message: "Způsob platby byl odstraněn!",
+        title: "Successful Request",
+      });
+    },
   });
 
   return (
