@@ -10,6 +10,7 @@ import Pagination from "../components/Pagination";
 function AllProducts() {
   const [page, setPage] = useState<number>(1);
   const [search, { loading, error, data }] = useLazyQuery(SEARCH, {
+    notifyOnNetworkStatusChange: true,
     variables: { skip: page, limit: 10, params: { title: "" } },
   });
 

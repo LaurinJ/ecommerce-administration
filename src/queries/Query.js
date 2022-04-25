@@ -39,6 +39,7 @@ export const SEARCH = gql`
   query GetFilterProducts($params: FilterData, $limit: Int, $skip: Int) {
     getFilterProducts(params: $params, skip: $skip, limit: $limit) {
       products {
+        _id
         title
         slug
         price

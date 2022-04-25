@@ -1,11 +1,32 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
+import { useNotification } from "../../context/NotificationProvider";
+import { Product } from "../../type/product";
+import DeleteButton from "../DeleteButton";
+import Loader from "../Loader";
+import { DELETE_PRODUCT } from "../../queries/Mutation";
+import { SEARCH } from "../../queries/Query";
 
 interface Props {
-  products: any;
+  products: Product[];
 }
 
 export const ProductsTable: React.FC<Props> = ({ products }) => {
+  const dispatch = useNotification();
+
+  const [deleteProduct, { loading }] = useMutation(DELETE_PRODUCT, {
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: [SEARCH],
+    onCompleted: () => {
+      dispatch({
+        type: "SUCCESS",
+        message: "Produkt byl odstraněn!",
+        title: "Successful Request",
+      });
+    },
+  });
+
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
@@ -16,8 +37,9 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
           <th className="text-lg w-1/5 py-3"></th>
         </tr>
       </thead>
-      <tbody>
-        {products.map((product: any, i: KeyType) => (
+      <tbody className="relative">
+        {loading && <Loader />}
+        {products.map((product, i) => (
           <tr
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
             key={i}
@@ -36,10 +58,7 @@ export const ProductsTable: React.FC<Props> = ({ products }) => {
                   title="Upravit"
                 ></i>
               </Link>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
-                aria-hidden="true"
-              ></i>
+              <DeleteButton id={product._id} handleDelete={deleteProduct} />
             </td>
           </tr>
         ))}

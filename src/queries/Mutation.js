@@ -207,6 +207,19 @@ export const EDIT_PRODUCT = gql`
   }
 `;
 
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: String) {
+    deleteProduct(id: $id) {
+      _id
+      title
+      slug
+      short_description
+      countInStock
+      price
+    }
+  }
+`;
+
 export const CREATE_ORDER = gql`
   mutation Mutation(
     $token: OrderTokenData

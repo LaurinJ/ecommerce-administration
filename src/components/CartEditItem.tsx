@@ -1,8 +1,13 @@
 import React, { useContext, useState } from "react";
 import Counter from "./form/Counter";
 import { deleteItem } from "../actions/cart";
-import { PropsProducts } from "../type/product";
-function CartEditItem({ product }: PropsProducts) {
+import { ProductCart } from "../type/product";
+
+interface Props {
+  product: ProductCart;
+}
+
+function CartEditItem({ product }: Props) {
   return (
     <>
       <div className="flex flex-wrap justify-between">

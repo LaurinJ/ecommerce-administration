@@ -5,7 +5,7 @@ import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getCookie, getLocalStorage } from "./actions/auth";
-import { Product } from "./type/product";
+import { ProductCart } from "./type/product";
 import { onError } from "@apollo/client/link/error";
 import { User } from "./type/user";
 
@@ -100,4 +100,4 @@ export const userData = makeVar<User>({
   name: "",
   profile: { profile_image: "" },
 });
-export const orderCart = makeVar<Product[]>([]);
+export const orderCart = makeVar<ProductCart[]>([]);

@@ -17,32 +17,11 @@ import InputPriceField from "./InputPriceField";
 import InputSelectField from "./InputSelectField";
 import { getLocalStorage, setLocalStorage } from "../../actions/auth";
 
+import { Product, ProductErrors } from "../../type/product";
+import { Category } from "../../type/category";
+
 interface Props {
   slug: string;
-}
-
-export interface Errors {
-  title?: string;
-  price?: string;
-  image?: string;
-  code?: string;
-  short_description?: string;
-  countInStock?: string;
-  categories?: string;
-}
-
-export interface State {
-  _id: string;
-  title: string;
-  slug: string;
-  short_description: string;
-  price: number;
-  old_price: number;
-  categories: string[];
-  code: string;
-  countInStock: number;
-  hidden: boolean;
-  images: any;
 }
 
 function ProductForm({ slug }: Props) {
@@ -72,14 +51,15 @@ function ProductForm({ slug }: Props) {
     images: [],
   };
 
-  const [formValues, setFormValues] = useState<State>(initialState);
+  const [formValues, setFormValues] = useState<Product>(initialState);
   const [description, setDescription] = useState("");
-  const [err, setErr] = useState<Errors>({});
+  const [err, setErr] = useState<ProductErrors>({});
 
   const [getCategory, { data: categories, loading: categoriesLoading }] =
-    useLazyQuery(GET_CATEGORIES);
+    useLazyQuery(GET_CATEGORIES, { notifyOnNetworkStatusChange: true });
 
   const [getProduct, { loading: productLoading }] = useLazyQuery(GET_PRODUCT, {
+    notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       const product = data.getProduct;
@@ -90,7 +70,7 @@ function ProductForm({ slug }: Props) {
         short_description: product.short_description,
         price: product.price,
         old_price: product.old_price,
-        categories: product.categories.map((cat: any) => cat._id),
+        categories: product.categories.map((cat: Category) => cat._id),
         code: product.code,
         countInStock: product.countInStock,
         hidden: product?.hidden || false,
@@ -99,11 +79,13 @@ function ProductForm({ slug }: Props) {
 
       setFormValues(state);
       setDescription(product.description);
+      setLocalStorage("description", product.description);
     },
   });
 
   const Mutation = slug ? EDIT_PRODUCT : CREATE_PRODUCT;
   const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
+    notifyOnNetworkStatusChange: true,
     onCompleted: () => {
       setLocalStorage("description", "");
       setErr({});
@@ -114,6 +96,7 @@ function ProductForm({ slug }: Props) {
 
   useEffect(() => {
     getCategory();
+    setDescription(productFromLs());
     if (slug) {
       getProduct({ variables: { slug: slug } });
     }
@@ -177,7 +160,6 @@ function ProductForm({ slug }: Props) {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.files;
-    console.log(value);
     if (value && value[0]) {
       let i = Array.from(value);
       setFormValues({ ...formValues, images: i });
@@ -260,15 +242,6 @@ function ProductForm({ slug }: Props) {
             <h4 className="mb-2 text-base font-semibold text-gray-700 xl:text-lg">
               Popis produktu
             </h4>
-            {/* <ReactQuill
-              modules={QuillModules}
-              formats={QuillFormats}
-              theme="snow"
-              value={formValues.description}
-              placeholder="Dlouhý popis produktu..."
-              className="mt-4 bg-gray-100"
-              onChange={handleBody}
-            /> */}
             <EditorToolbar toolbarId={"t1"} />
             <ReactQuill
               theme="snow"
@@ -334,10 +307,7 @@ function ProductForm({ slug }: Props) {
         </div>
       </form>
       <div className="flex mt-7 mx-auto justify-center">
-        <button
-          onClick={publishProduct}
-          className="py-1 px-2 bg-green-500 rounded-md"
-        >
+        <button onClick={publishProduct} className="btn">
           {slug ? "Aktualizovat produkt" : "Přidat produkt"}
         </button>
       </div>

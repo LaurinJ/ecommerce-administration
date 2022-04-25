@@ -6,20 +6,11 @@ import { SEND_ORDER, SUSPEND_ORDER, CANCEL_ORDER } from "../queries/Mutation";
 import Loader from "../components/Loader";
 import { dateStringFormatter } from "../helpers/dateFormater";
 import CartItem from "../components/CartItem";
+import { ProductCart } from "../type/product";
 
 interface Params {
   orderNumber: string;
 }
-
-type Product = {
-  _id?: string;
-  title: string;
-  short_description: string;
-  price: number;
-  old_price: number;
-  count: number;
-  img: string;
-};
 
 export default function Order() {
   const { orderNumber } = useParams<Params>();
@@ -161,7 +152,7 @@ export default function Order() {
             </div>
             {/* products list */}
             <div className="m-4">
-              {order.items.map((product: Product, i: KeyType) => {
+              {order.items.map((product: ProductCart, i: KeyType) => {
                 return <CartItem key={i} product={product} />;
               })}
             </div>

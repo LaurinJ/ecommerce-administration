@@ -1,17 +1,8 @@
 import React from "react";
-
-type Product = {
-  _id?: string;
-  title: string;
-  short_description: string;
-  price: number;
-  old_price: number;
-  count: number;
-  img: string;
-};
+import { ProductCart } from "../type/product";
 
 interface Props {
-  product: Product;
+  product: ProductCart;
 }
 
 function CartItem({ product }: Props) {

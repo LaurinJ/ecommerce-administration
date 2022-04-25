@@ -1,7 +1,7 @@
-import { State, Errors } from "../components/form/ProductForm";
+import { Product, ProductErrors } from "../type/product";
 
-export const validate = (values: State) => {
-  const errors: Errors = {};
+export const validate = (values: Product) => {
+  const errors: ProductErrors = {};
   if (!values.title) {
     errors.title = "Toto pole je povinné";
   }
