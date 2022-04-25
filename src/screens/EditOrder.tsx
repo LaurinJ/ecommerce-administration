@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useQuery,
   useMutation,
@@ -16,14 +16,20 @@ import { Address } from "../type/address";
 import { validate } from "../validators/address";
 import { EDIT_ORDER } from "../queries/Mutation";
 import { getTotalPrice, removeCart } from "../actions/cart";
+import { useNotification } from "../context/NotificationProvider";
+
+import { ProductCart } from "../type/product";
 
 interface Params {
   orderNumber: string;
 }
 
 export default function EditOrder() {
+  const dispatch = useNotification();
+  const { orderNumber } = useParams<Params>();
   const cart = useReactiveVar(orderCart);
   const history = useHistory();
+
   const [methods, setMethods] = useState({ payment: "", delivery: "" });
   const [formValues, setFormValues] = useState<Address>({
     email: "",
@@ -37,8 +43,8 @@ export default function EditOrder() {
   });
   const [err, setErr] = useState({});
 
-  const { orderNumber } = useParams<Params>();
   const { loading, data } = useQuery(GET_ORDER, {
+    notifyOnNetworkStatusChange: true,
     variables: { orderNumber: orderNumber },
     onCompleted: (data) => {
       const order = data.getOrder;
@@ -51,8 +57,14 @@ export default function EditOrder() {
     },
   });
   const [editOrder, { loading: editLoading }] = useMutation(EDIT_ORDER, {
+    notifyOnNetworkStatusChange: true,
     onCompleted: () => {
       removeCart();
+      dispatch({
+        type: "SUCCESS",
+        message: "Objednávka byla upravena!",
+        title: "Successful Request",
+      });
       history.push(`/order/${orderNumber}`);
     },
   });
@@ -120,10 +132,7 @@ export default function EditOrder() {
           <div className="flex flex-wrap items-center justify-between">
             <h1 className="text-2xl">Objednávka č.{order.orderNumber}</h1>
 
-            <button
-              className="p-2 bg-blue-300 rounded-sm"
-              onClick={handleSubmit}
-            >
+            <button className="btn" onClick={handleSubmit}>
               Uložit
             </button>
           </div>
@@ -146,7 +155,7 @@ export default function EditOrder() {
             </div>
             {/* products list */}
             <div className="m-4">
-              {cart.map((product: any, i) => {
+              {cart.map((product: ProductCart, i) => {
                 return <CartEditItem key={i} product={product} />;
               })}
             </div>

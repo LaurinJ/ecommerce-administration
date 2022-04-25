@@ -208,6 +208,7 @@ export const GET_ORDERS = gql`
   query GetOrders($params: FilterOrderData, $limit: Int, $skip: Int) {
     getOrders(params: $params, limit: $limit, skip: $skip) {
       orders {
+        _id
         total_price
         state
         is_paid

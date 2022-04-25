@@ -1,20 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 import { dateStringFormatter } from "../../helpers/dateFormater";
-type Order = {
-  orderNumber: number;
-  is_paid: boolean;
-  is_deliver: boolean;
-  state: string;
-  total_price: number;
-  createdAt: Date;
-};
+import Loader from "../Loader";
+import { useNotification } from "../../context/NotificationProvider";
+import { DELETE_ORDER } from "../../queries/Mutation";
+import { GET_ORDERS } from "../../queries/Query";
+
+import { Order } from "../../type/orders";
+import DeleteButton from "../DeleteButton";
 
 interface Props {
-  orders: [Order];
+  orders: Order[];
 }
 
 export const OrdersTable: React.FC<Props> = ({ orders }) => {
+  const dispatch = useNotification();
+
+  const [deleteOrder, { loading }] = useMutation(DELETE_ORDER, {
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: [GET_ORDERS],
+    onCompleted: () => {
+      dispatch({
+        type: "SUCCESS",
+        message: "Objednávka byla odstraněna!",
+        title: "Successful Request",
+      });
+    },
+  });
+
   return (
     <table className="w-full table-fixed border-collapse border-gray-200 border">
       <thead>
@@ -28,7 +42,8 @@ export const OrdersTable: React.FC<Props> = ({ orders }) => {
           <th className="text-lg w-1/5 py-3"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="relative">
+        {loading && <Loader />}
         {orders.map((order, i) => (
           <tr
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-200"
@@ -114,10 +129,7 @@ export const OrdersTable: React.FC<Props> = ({ orders }) => {
                   title="Podrobnosti"
                 ></i>
               </Link>
-              <i
-                className="fa fa-trash fa-lg w-8 hover:text-gray-400 cursor-pointer"
-                aria-hidden="true"
-              ></i>
+              <DeleteButton id={order._id} handleDelete={deleteOrder} />
             </td>
           </tr>
         ))}

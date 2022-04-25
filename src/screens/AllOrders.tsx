@@ -25,7 +25,7 @@ export default function AllOrders() {
     <div className="">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="w-56 text-2xl">Seznam objednávek</h1>
-        <Search searchFunc={search} page={page} />
+        <Search searchFunc={search} />
         <button
           onClick={() => {
             refetch();
@@ -36,10 +36,9 @@ export default function AllOrders() {
       </div>
       <div className="screen_container">
         {loading && <Loader />}
-        {error ||
-          (data?.getOrders.orders.length === 0 && (
-            <h4 className="mb-3">Nejsou žádné objednávky</h4>
-          ))}
+        {data?.getOrders.orders.length === 0 && (
+          <h4 className="mb-3">Nejsou žádné objednávky</h4>
+        )}
         {data && <OrdersTable orders={data.getOrders.orders} />}
       </div>
       {data?.getOrders.pages > 1 && (

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
 import { GET_ORDER } from "../queries/Query";
@@ -7,12 +7,14 @@ import Loader from "../components/Loader";
 import { dateStringFormatter } from "../helpers/dateFormater";
 import CartItem from "../components/CartItem";
 import { ProductCart } from "../type/product";
+import { useNotification } from "../context/NotificationProvider";
 
 interface Params {
   orderNumber: string;
 }
 
 export default function Order() {
+  const dispatch = useNotification();
   const { orderNumber } = useParams<Params>();
   const { loading, data, refetch } = useQuery(GET_ORDER, {
     fetchPolicy: "network-only",
@@ -23,6 +25,11 @@ export default function Order() {
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
       refetch();
+      dispatch({
+        type: "SUCCESS",
+        message: data.sendOrder.message,
+        title: "Successful Request",
+      });
     },
   });
   const [suspendOrder, { loading: suspendLoading }] = useMutation(
@@ -31,6 +38,11 @@ export default function Order() {
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
         refetch();
+        dispatch({
+          type: "SUCCESS",
+          message: data.suspendOrder.message,
+          title: "Successful Request",
+        });
       },
     }
   );
@@ -38,6 +50,11 @@ export default function Order() {
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
       refetch();
+      dispatch({
+        type: "SUCCESS",
+        message: data.cancelOrder.message,
+        title: "Successful Request",
+      });
     },
   });
 

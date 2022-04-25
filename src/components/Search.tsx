@@ -2,10 +2,9 @@ import React, { useState } from "react";
 
 interface Props {
   searchFunc: (options: any) => {};
-  page: number;
 }
 
-function Search({ searchFunc, page }: Props) {
+function Search({ searchFunc }: Props) {
   const [search, setSearch] = useState<string>();
 
   const handleChange = (
@@ -16,7 +15,14 @@ function Search({ searchFunc, page }: Props) {
     if (value.length > 2) {
       searchFunc({
         variables: {
-          skip: page,
+          limit: 10,
+          params: { numberOrder: value },
+        },
+      });
+    }
+    if (value.length === 0) {
+      searchFunc({
+        variables: {
           limit: 10,
           params: { numberOrder: value },
         },

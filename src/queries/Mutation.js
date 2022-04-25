@@ -250,6 +250,15 @@ export const EDIT_ORDER = gql`
   }
 `;
 
+export const DELETE_ORDER = gql`
+  mutation DeleteOrder($id: String) {
+    deleteOrder(id: $id) {
+      _id
+      state
+    }
+  }
+`;
+
 export const SEND_ORDER = gql`
   mutation Mutation($orderNumber: String) {
     sendOrder(orderNumber: $orderNumber) {
