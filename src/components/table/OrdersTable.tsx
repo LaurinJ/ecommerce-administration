@@ -5,7 +5,7 @@ import { dateStringFormatter } from "../../helpers/dateFormater";
 import Loader from "../Loader";
 import { useNotification } from "../../context/NotificationProvider";
 import { DELETE_ORDER } from "../../queries/Mutation";
-import { GET_ORDERS } from "../../queries/Query";
+import { GET_ORDERS, GET_DASHBOARD_INFO } from "../../queries/Query";
 
 import { Order } from "../../type/orders";
 import DeleteButton from "../DeleteButton";
@@ -19,7 +19,7 @@ export const OrdersTable: React.FC<Props> = ({ orders }) => {
 
   const [deleteOrder, { loading }] = useMutation(DELETE_ORDER, {
     notifyOnNetworkStatusChange: true,
-    refetchQueries: [GET_ORDERS],
+    refetchQueries: [GET_ORDERS, GET_DASHBOARD_INFO],
     onCompleted: () => {
       dispatch({
         type: "SUCCESS",
