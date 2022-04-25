@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-function Search({ searchFunc, page }: any) {
+interface Props {
+  searchFunc: (options: any) => {};
+  page: number;
+}
+
+function Search({ searchFunc, page }: Props) {
   const [search, setSearch] = useState<string>();
 
   const handleChange = (
@@ -20,7 +25,12 @@ function Search({ searchFunc, page }: any) {
   };
 
   return (
-    <form className="relative">
+    <form
+      className="relative"
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <input
         type="number"
         className="p-4 rounded-sm lg:text-lg max-h-12 bg-gray-100 w-96 outline-none border border-gray-400"

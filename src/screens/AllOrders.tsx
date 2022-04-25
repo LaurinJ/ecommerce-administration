@@ -27,9 +27,7 @@ export default function AllOrders() {
     <div className="">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="w-56 text-2xl">Seznam objednávek</h1>
-        <div>
-          <Search searchFunc={search} />
-        </div>
+        <Search searchFunc={search} page={page} />
         <button
           onClick={() => {
             refetch();

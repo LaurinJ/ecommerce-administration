@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
+import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
 import { LastMessagesTable } from "../components/table/LastMessagesTable";
-import { Link } from "react-router-dom";
 import { GET_CONTACT_MESSAGES } from "../queries/Query";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
@@ -9,20 +8,13 @@ import Loader from "../components/Loader";
 function ContactMessage() {
   const [page, setPage] = useState<number>(1);
 
-  const [getContactMessage, { loading, error, data }] = useLazyQuery(
-    GET_CONTACT_MESSAGES,
-    {
-      variables: { skip: page, limit: 10 },
-    }
-  );
+  const { loading, error, data } = useQuery(GET_CONTACT_MESSAGES, {
+    variables: { skip: page, limit: 10 },
+  });
 
   const handleClick = (page: number) => {
     setPage(page);
   };
-
-  useEffect(() => {
-    getContactMessage();
-  }, []);
 
   return (
     <React.Fragment>
@@ -30,7 +22,7 @@ function ContactMessage() {
         <h1 className="text-2xl">Zpravy</h1>
       </div>
       <div className="screen_container">
-        {error && <h4>Nebyli nalezeny zprávy</h4>}
+        {error && <h4>Nebyly nalezeny žádné zprávy</h4>}
         {loading && <Loader />}
         {data && (
           <LastMessagesTable messages={data.getContactMessages.messages} />
