@@ -34,10 +34,8 @@ export const Chat: React.FC<Props> = ({ open, user, adminToken }) => {
         document: MESSAGES_SUBSCRIPTION,
         variables: { getMessagesId: user },
         updateQuery: (prev, { subscriptionData }) => {
-          console.log("sub to more");
-
           if (!subscriptionData.data) return prev;
-          if (subscriptionData.data.shareMessage.from !== user) return;
+          // if (subscriptionData.data.shareMessage.from !== user) return;
 
           const newMessage = subscriptionData.data.shareMessage;
           setTimeout(updateScroll, 100);
