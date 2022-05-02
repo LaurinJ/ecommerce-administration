@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-css": "tailwindcss build -i ./styles/global.css -o ./src/style.css"
+    "build-css": "tailwindcss build -i ./styles/global.css -o ./src/style.css --minify"
   },
   "eslintConfig": {
     "extends": [

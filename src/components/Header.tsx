@@ -5,6 +5,7 @@ import { useReactiveVar, useQuery } from "@apollo/client";
 import { userData } from "../apollo-client";
 import Logout from "./account/Logout";
 import { GET_CONTACT_MESSAGE_COUNT } from "../queries/Query";
+import { config } from "../config";
 
 function Header() {
   const [open, setOpen] = useState(false);
@@ -18,7 +19,7 @@ function Header() {
     <div className="md:fixed top-0 w-full max-w-[1400px] z-20 pr-5 flex justify-end items-center h-14 border-b border-gray-300 bg-gray-100">
       <ul className="flex space-x-4 mr-3 items-center text-gray-800 text-sm font-light cursor-pointer">
         <li>
-          <a href="http://localhost:3000/">Zobrazit eshop</a>
+          <a href={config.FRONTEND_LINK}>Zobrazit eshop</a>
         </li>
         <Link to="/contact-message">
           <li className="relative">
@@ -38,7 +39,7 @@ function Header() {
           onClick={() => setOpen(!open)}
         >
           <img
-            src={`http://localhost:4000/${user?.profile.profile_image}`}
+            src={`${config.image_LINK}${user?.profile.profile_image}`}
             alt="Profile photo."
             className="w-8 h-8 mr-1 rounded-full"
           />

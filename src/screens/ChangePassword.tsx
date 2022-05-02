@@ -1,11 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
-import { Link, useParams } from "react-router-dom";
-import { GET_ORDERS } from "../queries/Query";
-import Loader from "../components/Loader";
-import Search from "../components/Search";
-import { SEARCH } from "../queries/Query";
-import Pagination from "../components/Pagination";
+import React from "react";
 import ChangePasswordForm from "../components/form/ChangePasswordForm";
 
 export default function ChangePassword() {

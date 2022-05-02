@@ -8,9 +8,10 @@ import { getCookie, getLocalStorage } from "./actions/auth";
 import { ProductCart } from "./type/product";
 import { onError } from "@apollo/client/link/error";
 import { User } from "./type/user";
+import { config } from "./config";
 
 let httpLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri: `${config.BACKEND_LINK}graphql`,
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -40,7 +41,7 @@ const authLink = setContext((_, { headers }) => {
 httpLink = errorLink.concat(authLink.concat(httpLink));
 
 const wsLink = new WebSocketLink({
-  uri: "ws://localhost:4000/graphql",
+  uri: `${config.BACKEND_WS_LINK}graphql`,
   options: {
     reconnect: true,
     connectionParams: {

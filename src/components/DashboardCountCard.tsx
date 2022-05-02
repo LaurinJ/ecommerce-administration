@@ -16,14 +16,18 @@ function DashboardCountCard() {
           <i className="fa fa-user mr-1"></i>
           Počet uživatelů
         </span>
-        <div className="text-4xl font-bold">{data?.getUsersCount.users}</div>
+        <div className="text-4xl font-bold">
+          {data?.getUsersCount.users || 0}
+        </div>
       </div>
       <div className="px-3 mb-2 sm:mb-0 relative tile_stats_count">
         <span className="text-sm">
           <i className="fa fa-shopping-bag mr-1"></i>
           Počet objednávek
         </span>
-        <div className="text-4xl font-bold">{data?.getOrdersCount.orders}</div>
+        <div className="text-4xl font-bold">
+          {data?.getOrdersCount.orders || 0}
+        </div>
       </div>
       <div className="px-3 mb-2 sm:mb-0 relative tile_stats_count">
         <span className="text-sm">
@@ -31,7 +35,7 @@ function DashboardCountCard() {
           Výdělek za měsíc
         </span>
         <div className="text-4xl font-bold">
-          {data?.getOrdersTotal.total} KČ
+          {data?.getOrdersTotal.total || 0} KČ
         </div>
       </div>
       <div className="ml-auto">

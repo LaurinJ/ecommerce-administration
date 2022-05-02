@@ -3,7 +3,7 @@ import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { userData } from "../apollo-client";
-import { isAuth } from "../actions/auth";
+import { config } from "../config";
 
 function Sitebar() {
   const [menu, setMenu] = useState(false);
@@ -20,7 +20,7 @@ function Sitebar() {
       <div className="flex mb-2">
         <div className="mx-3">
           <img
-            src={`http://localhost:4000/${user?.profile.profile_image}`}
+            src={`${config.image_LINK}${user?.profile.profile_image}`}
             alt="Profile photo"
             className="w-12 h-12 rounded-full"
           />

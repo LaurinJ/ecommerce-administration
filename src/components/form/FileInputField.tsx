@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { config } from "../../config";
 
 interface Props {
   img?: any;
@@ -42,13 +43,13 @@ function FileInputField(props: Props) {
   useEffect(() => {
     if (props.img && props.img.length !== 0) {
       if (typeof props.img === "string") {
-        setImg([`http://localhost:4000/${props.img}`]);
+        setImg([`${config.image_LINK}${props.img}`]);
         return;
       }
       if (!(props.img instanceof File)) {
         setImg(
           props.img.map((image: string) => {
-            return `http://localhost:4000/${image}`;
+            return `${config.image_LINK}${image}`;
           })
         );
       }

@@ -3,6 +3,7 @@ import React from "react";
 import { useReactiveVar } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { userData } from "../apollo-client";
+import { config } from "../config";
 
 export default function Profile() {
   const user = useReactiveVar(userData);
@@ -16,7 +17,7 @@ export default function Profile() {
         <div className="mx-auto max-w-[300px] shadow-2xl rounded-lg">
           <div className="flex flex-col justify-center items-center">
             <img
-              src={`http://localhost:4000/${user?.profile.profile_image}`}
+              src={`${config.image_LINK}${user?.profile.profile_image}`}
               alt="Profile photo."
               className="w-40 h-40 mr-1 rounded-full"
             />
