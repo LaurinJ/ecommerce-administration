@@ -3,7 +3,7 @@ FROM node:17.2.0-alpine3.14 AS builder
 # Set working directory
 WORKDIR /app
 # Copy all files from current directory to working dir in image
-COPY ./package*.json /app
+COPY ./package*.json /app/
 # install node modules and build assets
 RUN npm install 
 COPY . /app
