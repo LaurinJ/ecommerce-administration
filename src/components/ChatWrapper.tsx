@@ -85,7 +85,7 @@ function ChatWrapper() {
       <div
         className={`${
           open ? "" : "hidden"
-        } w-[350px] h-[600px] mb-3 flex flex-col bg-white shadow-2xl rounded-2xl`}
+        } h-[450px] max-w-[300px] esm:max-w-none lg:w-[300px] lg:h-[500px] mb-3 flex flex-col bg-white shadow-2xl rounded-2xl`}
       >
         <div className=" bg-gray-800 rounded-t-2xl">
           <h2 className="flex text-white text-xl font-semibold py-3 pl-7">
