@@ -1,5 +1,6 @@
 import React from "react";
 import { ProductCart } from "../type/product";
+import { config } from "../config";
 
 interface Props {
   product: ProductCart;
@@ -12,7 +13,7 @@ function CartItem({ product }: Props) {
         {/* image section */}
         <div className="w-20 relative sm:w-[7.5rem] sm:h-[5.6rem] mr-5 mb-5 h-auto">
           <img
-            src={`http://localhost:4000/${product.img}`}
+            src={`${config.image_LINK}${product.img}`}
             alt={product.title}
             width={140}
             height={185}

@@ -37,8 +37,8 @@ function PaymentForm({ id }: Props) {
 
   const Mutation = id ? EDIT_PAYMENT_METHOD : CREATE_PAYMENT_METHOD;
   const [createPayment, { loading }] = useMutation(Mutation, {
-    notifyOnNetworkStatusChange: true,
     refetchQueries: [GET_PAYMENT_METHODS],
+    notifyOnNetworkStatusChange: true,
     onCompleted: () => {
       setFormValues({
         _id: "",
