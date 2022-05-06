@@ -7,7 +7,7 @@ function Home() {
     <div className="relative h-screen">
       <DashboardCountCard />
 
-      <div className="w-full h-96 bg-green-200 p-4 text-lg"></div>
+      <div className="w-full h-96 bg-gray-50 p-4 text-lg"></div>
       <div className="flex flex-wrap w-full text-lg">
         <DashboardOrderCard />
         <DashboardMessageCard />
