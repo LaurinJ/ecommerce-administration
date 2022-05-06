@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import EditorToolbar, { modules, formats } from "../../helpers/quill";
 // import { QuillModules, QuillFormats } from "../../helpers/quill";
 import { useLazyQuery, useMutation, ApolloError } from "@apollo/client";
-import { GET_CATEGORIES, GET_PRODUCT } from "../../queries/Query";
+import { GET_CATEGORIES, GET_PRODUCT, SEARCH } from "../../queries/Query";
 import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../queries/Mutation";
 import slugify from "slugify";
 import Loader from "../Loader";
@@ -86,6 +86,7 @@ function ProductForm({ slug }: Props) {
   const Mutation = slug ? EDIT_PRODUCT : CREATE_PRODUCT;
   const [createProduct, { loading: loadingMutation }] = useMutation(Mutation, {
     notifyOnNetworkStatusChange: true,
+    refetchQueries: [SEARCH],
     onCompleted: () => {
       setLocalStorage("description", "");
       setErr({});
