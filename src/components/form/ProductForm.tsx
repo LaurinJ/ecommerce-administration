@@ -19,12 +19,15 @@ import { getLocalStorage, setLocalStorage } from "../../actions/auth";
 
 import { Product, ProductErrors } from "../../type/product";
 import { Category } from "../../type/category";
+import { useNotification } from "../../context/NotificationProvider";
 
 interface Props {
   slug: string;
 }
 
 function ProductForm({ slug }: Props) {
+  const dispatch = useNotification();
+
   const productFromLs = () => {
     if (typeof window === "undefined") {
       return false;
@@ -92,6 +95,12 @@ function ProductForm({ slug }: Props) {
       setErr({});
       setFormValues(initialState);
       setDescription("");
+
+      dispatch({
+        type: "SUCCESS",
+        message: slug ? "Produkt byl aktualizovaný!" : "Produkt byl vytvořen!",
+        title: "Successful Request",
+      });
     },
   });
 
